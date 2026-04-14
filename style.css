@@ -169,6 +169,7 @@ section + section { padding-top: 0; }
   margin-bottom: 14px;
   font-size: 22px;
 }
+
 .feature-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
 .feature-card p { font-size: 14px; color: var(--secondary); }
 
@@ -184,6 +185,14 @@ section + section { padding-top: 0; }
   border-radius: 16px;
   padding: 30px;
   transition: transform 0.2s;
+}
+
+.project-card .app-logo {
+  width: 60px;          /* Adjust this to make the logo bigger or smaller */
+  height: 60px;
+  border-radius: 14px;  /* Gives it that classic iOS rounded-corner look */
+  margin-bottom: 16px;
+  object-fit: contain;  /* Ensures the whole logo fits inside the box */
 }
 .project-card:hover { transform: translateY(-4px); }
 .project-card .icon {

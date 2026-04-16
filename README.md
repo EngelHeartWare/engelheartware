@@ -2,7 +2,7 @@
 
 This repository contains the source code for the official website of **EngelHeartWare**, the indie development studio behind **Swipe In** and **Skyline Explorer**. 
 
-Check out the live site here: [https://www.engelheartware.de](https://engelheartware.de)]
+Check out the live site here: [https://www.engelheartware.de](https://engelheartware.de)
 
 ## 🏢 About the Site
 This site serves as the main portfolio and landing page for all company projects. It includes:

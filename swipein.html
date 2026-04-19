@@ -5,133 +5,745 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Swipe In — Time Tracker</title>
   <meta name="description" content="Swipe In is the simplest way to track your time. Swipe right to start, swipe left to stop." />
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    @font-face {
+      font-family: "Nunito";
+      src: url("fonts/nunito-v26-latin-regular.woff2") format("woff2");
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Nunito";
+      src: url("fonts/nunito-v26-latin-600.woff2") format("woff2");
+      font-weight: 600; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Nunito";
+      src: url("fonts/nunito-v26-latin-700.woff2") format("woff2");
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Nunito";
+      src: url("fonts/nunito-v26-latin-700italic.woff2") format("woff2");
+      font-weight: 700; font-style: italic; font-display: swap;
+    }
+    @font-face {
+      font-family: "Nunito";
+      src: url("fonts/nunito-v26-latin-800.woff2") format("woff2");
+      font-weight: 800; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "DM Mono";
+      src: url("fonts/dm-mono-v14-latin-regular.woff2") format("woff2");
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "DM Mono";
+      src: url("fonts/dm-mono-v14-latin-500.woff2") format("woff2");
+      font-weight: 500; font-style: normal; font-display: swap;
+    }
+  </style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #f5f4f0;
+      --white:    #ffffff;
+      --mint:     #00C7BE;
+      --mint-lt:  #e0faf8;
+      --mint-mid: #99e5e2;
+      --ink:      #1a1a1a;
+      --muted:    #6b7280;
+      --border:   #e4e2dc;
+      --radius:   14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(245,244,240,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.18s;
+    }
+    .logo:hover { color: var(--ink); }
+    .logo .arrow { color: var(--mint); }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 24px;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: color 0.18s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    .lang-toggle {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1.5px solid var(--border);
+      padding: 3px 9px;
+      border-radius: 6px;
+      transition: all 0.18s;
+      font-weight: 500;
+    }
+    .lang-toggle:hover { color: var(--ink); border-color: #bbb; }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 52px 48px 48px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--mint);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--mint-lt);
+      border: 1px solid var(--mint-mid);
+      padding: 5px 12px;
+      border-radius: 100px;
+      margin-bottom: 18px;
+      opacity: 0;
+      animation: fadeUp 0.5s ease forwards 0.05s;
+    }
+    .badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--mint);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      max-width: 600px;
+      opacity: 0;
+      animation: fadeUp 0.55s ease forwards 0.15s;
+    }
+    .hero h1 span { color: var(--mint); font-style: italic; }
+
+    .hero p {
+      margin-top: 16px;
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 480px;
+      opacity: 0;
+      animation: fadeUp 0.55s ease forwards 0.28s;
+    }
+
+    .hero-cta {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      opacity: 0;
+      animation: fadeUp 0.55s ease forwards 0.4s;
+    }
+
+    .appstore-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--ink);
+      color: #fff;
+      text-decoration: none;
+      padding: 13px 22px;
+      border-radius: 100px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .appstore-btn:hover {
+      background: #333;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+    .appstore-btn svg {
+      width: 18px; height: 18px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+    .appstore-btn .btn-text { display: flex; flex-direction: column; line-height: 1.2; }
+    .appstore-btn .sub { font-size: 0.62rem; font-weight: 400; opacity: 0.7; }
+    .appstore-btn .main { font-size: 0.9rem; font-weight: 700; }
+
+    .free-note {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    .free-note span { color: var(--mint); font-weight: 500; }
+
+    /* ── SHARED ── */
+    hr { border: none; border-top: 1px solid var(--border); }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--mint);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 40px;
+      max-width: 480px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 13px 24px;
+      border-radius: 100px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.18s;
+      font-family: 'Nunito', sans-serif;
+    }
+    .btn-primary { background: var(--mint); color: #fff; }
+    .btn-primary:hover { background: #009E96; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,199,190,0.3); }
+
+    /* ── FEATURES ── */
+    #features {
+      padding: 80px 48px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .feature-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .feature-card:hover {
+      border-color: var(--mint-mid);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,199,190,0.08);
+    }
+
+    .feature-card.coming-soon {
+      background: var(--bg);
+      opacity: 0.75;
+    }
+    .feature-card.coming-soon::after {
+      content: 'Coming soon';
+      position: absolute;
+      top: 14px; right: 14px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--mint);
+      background: var(--mint-lt);
+      border: 1px solid var(--mint-mid);
+      padding: 2px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .icon { font-size: 1.5rem; margin-bottom: 14px; }
+    .feature-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+    .feature-card p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── PRIVACY ── */
+    #privacy {
+      padding: 80px 48px;
+      background: var(--white);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .privacy-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .privacy-inner h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .privacy-inner > div > p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 20px;
+    }
+
+    .checklist {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .checklist li::before {
+      content: '✓';
+      color: var(--mint);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      margin-top: 3px;
+      flex-shrink: 0;
+      font-weight: 500;
+    }
+
+    .prose-box {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .prose-box h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+    .prose h4 {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-top: 18px;
+      margin-bottom: 5px;
+    }
+    .prose p, .prose li {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .prose ul { padding-left: 14px; margin-top: 4px; }
+    .prose li { margin-bottom: 3px; }
+    .prose a { color: var(--mint); font-weight: 600; text-decoration: none; }
+    .prose a:hover { text-decoration: underline; }
+    .prose .updated {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.66rem;
+      color: #bbb;
+      margin-bottom: 14px;
+    }
+
+    /* ── SUPPORT ── */
+    #support {
+      padding: 80px 48px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .support-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .support-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      transition: all 0.18s;
+    }
+    .support-card:hover { border-color: var(--mint-mid); transform: translateY(-2px); }
+    .support-card .icon { font-size: 1.3rem; margin-bottom: 12px; }
+    .support-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+    .support-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+    .support-card a { color: var(--mint); text-decoration: none; font-weight: 600; }
+    .support-card a:hover { text-decoration: underline; }
+
+    /* ── FAQ ── */
+    .faq-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .faq-item {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+    }
+    .faq-item h4 { font-size: 0.88rem; font-weight: 700; margin-bottom: 6px; }
+    .faq-item p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+    .faq-item a { color: var(--mint); font-weight: 600; text-decoration: none; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 40px 48px;
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    footer p { font-size: 0.82rem; color: var(--muted); }
+    footer .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    footer .footer-links a {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.18s;
+    }
+    footer .footer-links a:hover { color: var(--ink); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 60px 20px 48px; }
+      #features { padding: 56px 20px; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      #privacy { padding: 56px 20px; }
+      .privacy-inner { grid-template-columns: 1fr; gap: 36px; }
+      #support { padding: 56px 20px; }
+      .support-grid { grid-template-columns: 1fr; }
+      .faq-grid { grid-template-columns: 1fr; }
+      footer { padding: 28px 20px; flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 520px) {
+      .features-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
-  <a href="index.html" class="logo">&larr; EngelHeartWare.</a>
-  <ul class="nav-links">
-    <li><a href="#features">Features</a></li>
-    <li><a href="#privacy">Privacy</a></li>
-    <li><a href="#support">Support</a></li>
-    <a href="swipein-de.html">DE</a
-  </ul>
+  <a href="index.html" class="logo"><span class="arrow">←</span> EngelHeartWare.</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#privacy">Privacy</a></li>
+      <li><a href="#support">Support</a></li>
+    </ul>
+    <a href="swipein-de.html" class="lang-toggle">DE</a>
+  </div>
 </nav>
 
+<!-- HERO -->
 <div class="hero">
   <div class="badge">Available on the App Store</div>
   <h1>Time tracking,<br/><span>as simple as a swipe.</span></h1>
-  <p>Check in with a swipe right. Check out with a swipe left. That's it - no complicated setup, no distractions.</p>
-  <a href="https://apps.apple.com/de/app/swipe-in-time-tracker/id6762211686?l=en-GB" class="cta">
-    <svg viewBox="0 0 814 1000"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-37.3-155.5-127.2c-46.9-83.1-78.2-210.4-78.2-331.2 0-199 129.6-304.5 257-304.5 67.9 0 124.4 44.6 167.1 44.6 41.1 0 105.8-47 183.8-47 29.5 0 133 2.6 198.3 99.2zm-234-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/></svg>
-    Download on the App Store
-  </a>
+  <p>Check in with a swipe right. Check out with a swipe left. That's it — no complicated setup, no distractions.</p>
+  <div class="hero-cta">
+    <a href="https://apps.apple.com/de/app/swipe-in-time-tracker/id6762211686?l=en-GB" target="_blank" rel="noopener" class="appstore-btn">
+      <svg viewBox="0 0 814 1000"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-37.3-155.5-127.2C59.6 750.5 28.3 623.2 28.3 502.4c0-199 129.6-304.5 257-304.5 67.9 0 124.4 44.6 167.1 44.6 41.1 0 105.8-47 183.8-47 29.5 0 133 2.6 198.3 99.2zm-234-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/></svg>
+      <div class="btn-text">
+        <span class="sub">Download on the</span>
+        <span class="main">App Store</span>
+      </div>
+    </a>
+    <span class="free-note">Free · <span>No ads, no tracking</span></span>
+  </div>
 </div>
 
 <hr />
 
+<!-- FEATURES -->
 <section id="features">
-  <div class="section-label">Features</div>
-  <h2 class="section-title">Everything you need, nothing you don't.</h2>
-  <p class="section-sub">Swipe In is built around simplicity — so you can focus on doing, not on managing a time tracker.</p>
+  <div class="reveal">
+    <div class="section-label">Features</div>
+    <h2 class="section-title">Everything you need, nothing you don't.</h2>
+    <p class="section-sub">Swipe In is built around simplicity — so you can focus on doing, not on managing a time tracker.</p>
+  </div>
 
-  <div class="features">
-    <div class="feature-card">
-      <div class="icon">➡</div>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="icon">➡️</div>
       <h3>Swipe to track</h3>
       <p>Swipe right to check in, swipe left to check out. No buttons, no menus.</p>
     </div>
-    <div class="feature-card">
+    <div class="feature-card reveal">
       <div class="icon">⏸️</div>
       <h3>Pause & resume</h3>
       <p>Tap the timer while checked in to pause it. Tap again to resume exactly where you left off.</p>
     </div>
-    <div class="feature-card">
+    <div class="feature-card reveal">
       <div class="icon">🏷️</div>
       <h3>Activities & places</h3>
       <p>Tag each entry with a custom activity and location. Pin your most-used ones to the top.</p>
     </div>
-    <div class="feature-card">
+    <div class="feature-card reveal">
       <div class="icon">📊</div>
       <h3>Insights</h3>
-      <p>See how your time breaks down by activity and location - today, this week, this month, or overall.</p>
+      <p>See how your time breaks down by activity and location — today, this week, this month, or overall.</p>
     </div>
-    <div class="feature-card">
+    <div class="feature-card reveal">
       <div class="icon">📤</div>
       <h3>CSV export</h3>
       <p>Export all your entries as a CSV file with one tap and take your data anywhere.</p>
     </div>
+    <div class="feature-card reveal">
+      <div class="icon">🎨</div>
+      <h3>Customization</h3>
+      <p>Pick your accent colour, app icon, and appearance mode. Make it feel like yours.</p>
+    </div>
+
+    <!-- Coming soon -->
+    <div class="feature-card coming-soon reveal">
+      <div class="icon">📱</div>
+      <h3>Home Screen Widgets</h3>
+      <p>Start and stop tracking from your home screen — no need to open the app.</p>
+    </div>
+    <div class="feature-card coming-soon reveal">
+      <div class="icon">☁️</div>
+      <h3>iCloud Sync</h3>
+      <p>Keep your entries in sync across all your Apple devices, automatically.</p>
+    </div>
+    <div class="feature-card coming-soon reveal">
+      <div class="icon">⌚</div>
+      <h3>Apple Watch</h3>
+      <p>Check in and out directly from your wrist.</p>
+    </div>
+    <div class="feature-card coming-soon reveal">
+      <div class="icon">📈</div>
+      <h3>Statistics & Charts</h3>
+      <p>Visual breakdowns of where your time goes, with charts and trends over time.</p>
+    </div>
   </div>
 </section>
 
 <hr />
 
-<section id="support">
-  <div class="section-label">Support</div>
-  <h2 class="section-title">Need help?</h2>
-  <p class="section-sub">Swipe In is built and maintained by a solo developer. I'm happy to help with any questions or feedback.</p>
-
-  <div class="support-box">
-    <h3>📬 Get in touch</h3>
-    <p>Send me an <a href="mailto:support@engelheartware.de">email</a>. I aim to respond within a few days.</p>
-  </div>
-
-  <div class="support-box">
-    <h3>🐛 Report a bug</h3>
-    <p>Found something that doesn't work right? Please describe what happened, what you expected, and your iOS version when getting in touch - it helps a lot.</p>
-  </div>
-
-  <div class="support-box">
-    <h3>💡 Feature requests</h3>
-    <p>Have an idea? I'd love to hear it.</p>
-  </div>
-</section>
-
-
+<!-- PRIVACY -->
 <section id="privacy">
-  <div class="section-label">Privacy Policy</div>
-  <h2 class="section-title">Your data stays on your device.</h2>
-  <p class="section-sub">Last updated: April 2026</p>
+  <div class="privacy-inner">
+    <div class="reveal">
+      <div class="section-label">Privacy</div>
+      <h2 class="section-title">Your data stays on your device.</h2>
+      <p>Swipe In does not collect, transmit, or share any personal data. Everything lives on your phone — always.</p>
+      <ul class="checklist">
+        <li>No analytics or tracking SDKs</li>
+        <li>No advertising networks</li>
+        <li>No account required — ever</li>
+        <li>Stored using Apple's Core Data framework</li>
+        <li>Works fully offline</li>
+        <li>Data only leaves your device if you export it yourself</li>
+      </ul>
+    </div>
 
-  <div class="prose">
-    <h2>What data does Swipe In collect?</h2>
-    <p>Swipe In does not collect, transmit, or share any personal data. All information you enter — time entries, activities, places, and preferences — is stored exclusively on your device using Apple's Core Data framework and UserDefaults.</p>
+    <div class="prose-box reveal">
+      <h3>Privacy Policy</h3>
+      <div class="prose">
+        <p class="updated">Last updated: April 2026</p>
 
-    <h2>Does the app share data with third parties?</h2>
-    <p>No. Swipe In does not include any advertising SDKs, analytics frameworks, or third-party tracking libraries. No data ever leaves your device unless you explicitly export it yourself using the CSV export feature.</p>
+        <h4>What data does Swipe In collect?</h4>
+        <p>Swipe In does not collect, transmit, or share any personal data. All information you enter — time entries, activities, places, and preferences — is stored exclusively on your device using Apple's Core Data framework and UserDefaults.</p>
 
-    <h2>What data is stored locally?</h2>
-    <ul>
-      <li>Your time entries (start time, end time, activity label, place label)</li>
-      <li>Your custom activity and place lists</li>
-      <li>App preferences (accent color, appearance mode, selected icon)</li>
-      <li>Tutorial completion state</li>
-    </ul>
+        <h4>Does the app share data with third parties?</h4>
+        <p>No. Swipe In does not include any advertising SDKs, analytics frameworks, or third-party tracking libraries. No data ever leaves your device unless you explicitly export it yourself using the CSV export feature.</p>
 
-    <h2>CSV Export</h2>
-    <p>When you use the export feature, a CSV file is generated on your device and shared via the iOS share sheet. It is your responsibility to decide where you send or save that file. The app has no involvement after you make that choice.</p>
+        <h4>What data is stored locally?</h4>
+        <ul>
+          <li>Your time entries (start time, end time, activity label, place label)</li>
+          <li>Your custom activity and place lists</li>
+          <li>App preferences (accent color, appearance mode, selected icon)</li>
+          <li>Tutorial completion state</li>
+        </ul>
 
-    <h2>Children's privacy</h2>
-    <p>Swipe In does not collect any data from any user, including children under 13.</p>
+        <h4>CSV Export</h4>
+        <p>When you use the export feature, a CSV file is generated on your device and shared via the iOS share sheet. It is your responsibility to decide where you send or save that file. The app has no involvement after you make that choice.</p>
 
-    <h2>Changes to this policy</h2>
-    <p>If this policy changes in a future update, the updated version will be posted here with a new date.</p>
+        <h4>Children's privacy</h4>
+        <p>Swipe In does not collect any data from any user, including children under 13.</p>
 
-    <h2>Contact</h2>
-    <p>If you have any questions about privacy, please reach out via the support link below.</p>
+        <h4>Changes to this policy</h4>
+        <p>If this policy changes in a future update, the updated version will be posted here with a new date.</p>
+
+        <h4>Contact</h4>
+        <p>Questions? <a href="mailto:support@engelheartware.de">support@engelheartware.de</a></p>
+      </div>
+    </div>
   </div>
 </section>
 
 <hr />
 
+<!-- SUPPORT -->
+<section id="support">
+  <div class="reveal">
+    <div class="section-label">Support</div>
+    <h2 class="section-title">Need help?</h2>
+    <p class="section-sub">Happy to help with any questions or feedback — I aim to reply within a few days.</p>
+  </div>
+
+  <div class="support-grid">
+    <div class="support-card reveal">
+      <div class="icon">📬</div>
+      <h3>Get in touch</h3>
+      <p>Send me an <a href="mailto:support@engelheartware.de">email</a>. I aim to respond within a few days.</p>
+    </div>
+    <div class="support-card reveal">
+      <div class="icon">🐛</div>
+      <h3>Report a bug</h3>
+      <p>Found something that doesn't work right? Please describe what happened, what you expected, and your iOS version — it helps a lot. <a href="mailto:support@engelheartware.de?subject=Swipe In Bug Report">Send report →</a></p>
+    </div>
+    <div class="support-card reveal">
+      <div class="icon">💡</div>
+      <h3>Feature requests</h3>
+      <p>Have an idea? I'd love to hear it. Open a <a href="https://github.com/EngelHeartWare" target="_blank" rel="noopener">GitHub issue</a> or drop me an email.</p>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="reveal">
+    <h3 class="faq-title">Common questions</h3>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h4>Is Swipe In really free?</h4>
+        <p>Yes — no ads, no premium tier. If it saves you time, consider <a href="https://ko-fi.com/engelheartware" target="_blank" rel="noopener">supporting development</a> via Ko-Fi.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Does it work offline?</h4>
+        <p>Fully. Everything is stored locally on your device. No internet connection needed at any point.</p>
+      </div>
+      <div class="faq-item">
+        <h4>How do I export my data?</h4>
+        <p>Go to History → tap the export icon. A CSV file is generated on-device and shared via the iOS share sheet.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Can I edit a past entry?</h4>
+        <p>Yes — tap any entry in your history to edit the start time, end time, activity, or location.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Will there be an Android version?</h4>
+        <p>Not currently planned — iOS is the focus for now as a solo developer.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Where is my data backed up?</h4>
+        <p>Your data is included in your iPhone's standard iCloud backup automatically. Dedicated iCloud sync is coming soon.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr />
+
+<!-- FOOTER -->
 <footer>
   <p>© 2026 Moritz Engelhardt</p>
-  <p style="margin-top: 8px;">
-    <a href="impressum.html">Legal Notice</a> · 
+  <div class="footer-links">
+    <a href="swipein-de.html">Deutsch</a>
+    <a href="impressum.html">Legal Notice</a>
     <a href="datenschutz.html">Privacy Policy</a>
-  </p>
+    <a href="mailto:support@engelheartware.de">Contact</a>
+  </div>
 </footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 70);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 
 </body>
 </html>

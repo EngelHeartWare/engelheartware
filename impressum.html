@@ -1,36 +1,199 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Impressum — EngelHeartWare</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impressum — EngelHeartWare</title>
+  <style>
+    @font-face {
+      font-family: "Nunito";
+      src: url("fonts/nunito-v26-latin-regular.woff2") format("woff2");
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Nunito";
+      src: url("fonts/nunito-v26-latin-600.woff2") format("woff2");
+      font-weight: 600; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Nunito";
+      src: url("fonts/nunito-v26-latin-700.woff2") format("woff2");
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Nunito";
+      src: url("fonts/nunito-v26-latin-800.woff2") format("woff2");
+      font-weight: 800; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "DM Mono";
+      src: url("fonts/dm-mono-v14-latin-regular.woff2") format("woff2");
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "DM Mono";
+      src: url("fonts/dm-mono-v14-latin-500.woff2") format("woff2");
+      font-weight: 500; font-style: normal; font-display: swap;
+    }
+  </style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:     #f5f5f5;
+      --white:  #ffffff;
+      --mint:   #00C7BE;
+      --ink:    #1a1a1a;
+      --muted:  #666666;
+      --border: #e0e0e0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(245,245,245,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--ink);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.18s;
+    }
+    .logo:hover { opacity: 0.75; }
+    .logo .arrow { color: var(--mint); }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 24px;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: color 0.18s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    .page-content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 64px 24px 80px;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: #bbb;
+      margin-bottom: 48px;
+    }
+
+    .prose h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-top: 36px;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .prose p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+      line-height: 1.75;
+    }
+
+    .prose strong { color: var(--ink); font-weight: 700; }
+
+    .prose a {
+      color: var(--mint);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .prose a:hover { text-decoration: underline; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    footer p { font-size: 0.82rem; color: var(--muted); }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.18s;
+    }
+    .footer-links a:hover { color: var(--ink); }
+
+    @media (max-width: 600px) {
+      nav { padding: 14px 20px; }
+      .page-content { padding: 40px 20px 60px; }
+      footer { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
 </head>
 <body>
 
 <nav>
-    <a href="index.html" class="logo">EngelHeartWare.</a>
-    <ul class="nav-links">
-        <li><a href="index.html#projects">Projects</a></li>
-        <li><a href="https://github.com/EngelHeartWare" target="_blank">GitHub</a></li>
-    </ul>
+  <a href="index.html" class="logo"><span class="arrow">←</span> EngelHeartWare.</a>
+  <ul class="nav-links">
+    <li><a href="index.html#projects">Projekte</a></li>
+    <li><a href="https://github.com/EngelHeartWare" target="_blank" rel="noopener">GitHub</a></li>
+  </ul>
 </nav>
 
-<section class="prose" style="max-width: 720px; margin: 0 auto; padding: 64px 24px;">
-    <h1 style="font-size: clamp(24px, 4vw, 34px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 24px;">Impressum</h1>
-    <p>Angaben gemäß § 5 TMG</p>
+<div class="page-content">
+  <h1>Impressum</h1>
+  <p class="subtitle">Angaben gemäß § 5 TMG</p>
 
+  <div class="prose">
     <p>
-        <strong>Moritz Engelhardt</strong><br>
-        Schachtstrasse 10<br>
-        04155 Leipzig<br>
-        Deutschland
+      <strong>Moritz Engelhardt</strong><br>
+      Schachtstrasse 10<br>
+      04155 Leipzig<br>
+      Deutschland
     </p>
 
     <h2>Kontakt</h2>
     <p>
-        E-Mail: mail@engelheartware.de<br>
-        Telefon: 015678 305322
+      E-Mail: mail@engelheartware.de<br>
+      Telefon: 015678 305322
     </p>
 
     <h2>Umsatzsteuer</h2>
@@ -38,10 +201,10 @@
 
     <h2>Redaktionell Verantwortlicher</h2>
     <p>
-        Moritz Engelhardt<br>
-        Schachtstrasse 10<br>
-        04155 Leipzig<br>
-        (§ 18 Abs. 2 MStV)
+      Moritz Engelhardt<br>
+      Schachtstrasse 10<br>
+      04155 Leipzig<br>
+      (§ 18 Abs. 2 MStV)
     </p>
 
     <h2>EU-Streitschlichtung</h2>
@@ -49,14 +212,15 @@
 
     <h2>Verbraucher­streit­beilegung / Universal­schlichtungs­stelle</h2>
     <p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
-</section>
+  </div>
+</div>
 
 <footer>
-    <p>© 2026 Moritz Engelhardt (EngelHeartWare)</p>
-    <p style="margin-top: 8px;">
-        <a href="impressum.html">Impressum</a> · 
-        <a href="datenschutz.html">Datenschutzerklärung</a>
-    </p>
+  <p>© 2026 Moritz Engelhardt (EngelHeartWare)</p>
+  <div class="footer-links">
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutzerklärung</a>
+  </div>
 </footer>
 
 </body>

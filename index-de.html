@@ -1,65 +1,640 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EngelHeartware — Mobile & Web Apps</title>
-  <meta name="description" content="Portfolio von EngelHeartware, minimalistische und nützliche Apps." />
-  <link rel="stylesheet" href="style.css" />
+  <title>EngelHeartWare — Mobile & Web Apps</title>
+  <meta name="description" content="Portfolio von EngelHeartware – minimalistische und nützliche Apps." />
+  <style>
+    @font-face {
+      font-family: "Nunito";
+      src: url("fonts/nunito-v26-latin-regular.woff2") format("woff2");
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Nunito";
+      src: url("fonts/nunito-v26-latin-600.woff2") format("woff2");
+      font-weight: 600; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Nunito";
+      src: url("fonts/nunito-v26-latin-700.woff2") format("woff2");
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Nunito";
+      src: url("fonts/nunito-v26-latin-700italic.woff2") format("woff2");
+      font-weight: 700; font-style: italic; font-display: swap;
+    }
+    @font-face {
+      font-family: "Nunito";
+      src: url("fonts/nunito-v26-latin-800.woff2") format("woff2");
+      font-weight: 800; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "DM Mono";
+      src: url("fonts/dm-mono-v14-latin-regular.woff2") format("woff2");
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "DM Mono";
+      src: url("fonts/dm-mono-v14-latin-500.woff2") format("woff2");
+      font-weight: 500; font-style: normal; font-display: swap;
+    }
+  </style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #f5f4f0;
+      --white:    #ffffff;
+      --mint:     #00C7BE;
+      --mint-lt:  #e0faf8;
+      --mint-mid: #99e5e2;
+      --ink:      #1a1a1a;
+      --muted:    #6b7280;
+      --border:   #e4e2dc;
+      --radius:   14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(245,244,240,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .logo span { color: var(--mint); }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 24px;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: color 0.18s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    .lang-toggle {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1.5px solid var(--border);
+      padding: 3px 9px;
+      border-radius: 6px;
+      transition: all 0.18s;
+      font-weight: 500;
+    }
+    .lang-toggle:hover { color: var(--ink); border-color: #bbb; }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 52px 48px 48px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--mint);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--mint-lt);
+      border: 1px solid var(--mint-mid);
+      padding: 5px 12px;
+      border-radius: 100px;
+      margin-bottom: 18px;
+      opacity: 0;
+      animation: fadeUp 0.5s ease forwards 0.05s;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      max-width: 600px;
+      opacity: 0;
+      animation: fadeUp 0.55s ease forwards 0.15s;
+    }
+    .hero h1 span {
+      color: var(--mint);
+      font-style: italic;
+    }
+
+    .hero p {
+      margin-top: 16px;
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 460px;
+      font-weight: 400;
+      opacity: 0;
+      animation: fadeUp 0.55s ease forwards 0.28s;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.55s ease forwards 0.4s;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 13px 24px;
+      border-radius: 100px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.18s;
+      cursor: pointer;
+      font-family: 'Nunito', sans-serif;
+    }
+    .btn-primary {
+      background: var(--mint);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: #009E96;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0,199,190,0.3);
+    }
+    .btn-ghost {
+      background: var(--white);
+      color: var(--muted);
+      border: 1.5px solid var(--border);
+    }
+    .btn-ghost:hover {
+      color: var(--ink);
+      border-color: #c5c3bb;
+      transform: translateY(-1px);
+    }
+
+    /* ── DIVIDER ── */
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      padding: 80px 48px;
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--mint);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .about-text h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 14px;
+    }
+    .about-text p strong { color: var(--ink); font-weight: 700; }
+
+    .about-links {
+      display: flex;
+      gap: 10px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+    }
+    .stat-card .num {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--mint);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+    .stat-card .desc {
+      margin-top: 5px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    /* ── PROJECTS ── */
+    #projects {
+      padding: 80px 48px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 40px;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .project-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 18px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.2s;
+    }
+    .project-card:hover {
+      border-color: var(--mint-mid);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,199,190,0.1);
+    }
+
+    .app-logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      object-fit: cover;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    .project-card h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+    }
+
+    .project-card p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      flex: 1;
+      line-height: 1.65;
+    }
+
+    .project-tags {
+      display: flex;
+      gap: 6px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      padding: 3px 9px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .tag-default { background: var(--bg); color: var(--muted); border: 1px solid var(--border); }
+    .tag-mint { background: var(--mint-lt); color: var(--mint); border: 1px solid var(--mint-mid); }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 22px;
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--mint);
+      text-decoration: none;
+      transition: gap 0.18s;
+    }
+    .project-link:hover { gap: 8px; }
+
+    /* ── SUPPORT ── */
+    #support {
+      background: var(--white);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 48px;
+    }
+    .support-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+    .support-inner h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .support-inner > div > p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 28px;
+    }
+
+    .support-cards { display: flex; flex-direction: column; gap: 12px; }
+
+    .support-card {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      transition: border-color 0.18s;
+    }
+    .support-card:hover { border-color: var(--mint-mid); }
+    .support-card .icon { font-size: 1.1rem; margin-top: 1px; }
+    .support-card h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 3px; }
+    .support-card p { font-size: 0.82rem; color: var(--muted); }
+    .support-card a { color: var(--mint); text-decoration: none; font-weight: 600; }
+    .support-card a:hover { text-decoration: underline; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 40px 48px;
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    footer p { font-size: 0.82rem; color: var(--muted); }
+    footer .footer-links { display: flex; gap: 20px; }
+    footer .footer-links a {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.18s;
+    }
+    footer .footer-links a:hover { color: var(--ink); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 60px 20px 48px; }
+      #about { grid-template-columns: 1fr; padding: 56px 20px; gap: 36px; }
+      #projects { padding: 56px 20px; }
+      .project-grid { grid-template-columns: 1fr; }
+      #support { padding: 56px 20px; }
+      .support-inner { grid-template-columns: 1fr; gap: 36px; }
+      footer { padding: 28px 20px; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
-  <a href="index.html" class="logo">EngelHeartWare.</a>
-  <ul class="nav-links">
-    <li><a href="#projects">Projekte</a></li>
-    <li><a href="https://github.com/EngelHeartWare" target="_blank">GitHub</a></li>
-    <a href="index.html">ENG</a
-  </ul>
+  <a href="index.html" class="logo">Engel<span>Heart</span>Ware.</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#about">Über mich</a></li>
+      <li><a href="#projects">Projekte</a></li>
+      <li><a href="#support">Kontakt</a></li>
+      <li><a href="https://github.com/EngelHeartWare" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+    <a href="index.html" class="lang-toggle">EN</a>
+  </div>
 </nav>
 
+<!-- HERO -->
 <div class="hero">
+  <p class="hero-eyebrow">Indie-Entwickler · Privacy-first</p>
   <h1>Minimalistische Apps für<br/><span>maximale Produktivität.</span></h1>
-  <p>Hallo, ich bin Moritz. Ich entwickle Software, die den Alltag erleichtet und Neugier weckt. </p>
+  <p>Hallo, ich bin Moritz. Ich entwickle Software, die den Alltag erleichtert und Neugier weckt.</p>
   <div class="hero-actions">
-    <a href="#projects" class="btn">Projekte anschauen</a>
-    <a href="https://ko-fi.com/engelheartware" target="_blank" class="btn kofi-btn">☕ Unterstützte mich</a>
+    <a href="#projects" class="btn btn-primary">Projekte ansehen →</a>
+    <a href="https://github.com/EngelHeartWare" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
+    <a href="https://ko-fi.com/engelheartware" target="_blank" rel="noopener" class="btn btn-ghost">☕ Unterstütze mich</a>
   </div>
 </div>
 
 <hr />
 
-<section id="projects">
-  <div class="section-label">Portfolio</div>
-  <h2 class="section-title">Apps</h2>
-  <p class="section-sub">Tools, die auf Einfachheit und Datenschutz ausgelegt sind.</p>
-
-  <div class="project-grid">
-    
-    <div class="project-card">
-      <img src="SwipeIn_logo_light_mint.png" alt="Swipe In App Logo" class="app-logo">
-      <h3>Swipe In</h3>
-      <p>Eine minimalistische App zur Zeit- und Aktivitätserfassung. Nach rechts wischen, um zu starten, nach links wischen, um zu stoppen. Keine komplizierte Einrichtung erforderlich.</p>
-      <a href="swipein-de.html" class="project-link">Zur App &rarr;</a>
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-text reveal">
+    <div class="section-label">Über mich</div>
+    <h2>Hallo, ich bin Moritz.</h2>
+    <p>Ich entwickle kleine, fokussierte Apps, die <strong>nicht im Weg stehen</strong>. Privacy-first von Anfang an — deine Daten bleiben auf deinem Gerät, nicht auf meinen Servern.</p>
+    <p>Wenn ich keine neuen Features baue, suche ich nach dem nächsten Problem, das es wert ist, gelöst zu werden.</p>
+    <div class="about-links">
+      <a href="https://github.com/EngelHeartWare" target="_blank" rel="noopener" class="btn btn-ghost" style="padding:10px 18px;font-size:0.82rem;">GitHub →</a>
+      <a href="https://ko-fi.com/engelheartware" target="_blank" rel="noopener" class="btn btn-ghost" style="padding:10px 18px;font-size:0.82rem;">☕ Entwicklung unterstützen</a>
     </div>
-
-    <div class="project-card">
-      <img src="logo_skyline.png" alt="Skyline App Logo" class="app-logo">
-      <h3>Skyline Explorer</h3>
-      <p>Entdecke die Skylines der Welt und halte die höchsten Gebäude fest, die du besucht hast.</p>
-      <a href="https://cheerful-palmier-d8355a.netlify.app" class="project-link">Zur App &rarr;</a>
+  </div>
+  <div class="stat-grid reveal">
+    <div class="stat-card">
+      <div class="num">2</div>
+      <div class="desc">Apps veröffentlicht</div>
     </div>
-
+    <div class="stat-card">
+      <div class="num">0</div>
+      <div class="desc">Tracker oder Werbung</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">100%</div>
+      <div class="desc">Lokale Datenspeicherung</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">∞</div>
+      <div class="desc">Ideen auf der Liste</div>
+    </div>
   </div>
 </section>
 
+<hr />
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="reveal">
+    <div class="section-label">Portfolio</div>
+    <h2 class="section-title">Meine Apps</h2>
+    <p class="section-sub">Tools, die auf Einfachheit und Datenschutz ausgelegt sind.</p>
+  </div>
+
+  <div class="project-grid">
+    <div class="project-card reveal">
+      <img src="SwipeIn_logo_light_mint.png" alt="Swipe In App Logo" class="app-logo" onerror="this.style.display='none'">
+      <h3>Swipe In</h3>
+      <p>Eine minimalistische App zur Zeit- und Aktivitätserfassung. Nach rechts wischen zum Starten, nach links wischen zum Stoppen. Keine komplizierte Einrichtung erforderlich.</p>
+      <div class="project-tags">
+        <span class="tag tag-mint">App Store</span>
+        <span class="tag tag-default">iOS</span>
+        <span class="tag tag-default">Kostenlos</span>
+      </div>
+      <a href="swipein-de.html" class="project-link">Zur App →</a>
+    </div>
+
+    <div class="project-card reveal">
+      <img src="logo_skyline.png" alt="Skyline App Logo" class="app-logo" onerror="this.style.display='none'">
+      <h3>Skyline Explorer</h3>
+      <p>Entdecke die Skylines der Welt und halte die höchsten Gebäude fest, die du besucht hast.</p>
+      <div class="project-tags">
+        <span class="tag tag-default">Web App</span>
+        <span class="tag tag-default">Interaktiv</span>
+      </div>
+      <a href="https://cheerful-palmier-d8355a.netlify.app" target="_blank" rel="noopener" class="project-link">Zur App →</a>
+    </div>
+  </div>
+</section>
+
+<hr />
+
+<!-- SUPPORT -->
+<section id="support">
+  <div class="support-inner">
+    <div class="reveal">
+      <div class="section-label">Kontakt</div>
+      <h2>Fragen oder Feedback?</h2>
+      <p>Ob Bug, Idee oder einfach Hallo — ich lese jede Nachricht und antworte in der Regel innerhalb weniger Tage.</p>
+      <a href="mailto:support@engelheartware.de" class="btn btn-primary">E-Mail schreiben →</a>
+    </div>
+    <div class="support-cards reveal">
+      <div class="support-card">
+        <div class="icon">🐛</div>
+        <div>
+          <h4>Fehler melden</h4>
+          <p>Beschreibe, was passiert ist, was du erwartet hast, und deine iOS-Version. Das hilft sehr. <a href="mailto:support@engelheartware.de">Bericht senden →</a></p>
+        </div>
+      </div>
+      <div class="support-card">
+        <div class="icon">💡</div>
+        <div>
+          <h4>Funktionswünsche</h4>
+          <p>Hast du eine Idee? Ich freue mich darüber. Eröffne ein <a href="https://github.com/EngelHeartWare" target="_blank" rel="noopener">GitHub-Issue</a> oder schreib mir eine E-Mail.</p>
+        </div>
+      </div>
+      <div class="support-card">
+        <div class="icon">☕</div>
+        <div>
+          <h4>Entwicklung unterstützen</h4>
+          <p>Alle Apps sind kostenlos. Wenn sie dir Zeit sparen, freue ich mich über einen Kaffee via <a href="https://ko-fi.com/engelheartware" target="_blank" rel="noopener">Ko-Fi</a> — er fließt direkt in neue Features.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
   <p>© 2026 Moritz Engelhardt (EngelHeartWare)</p>
-  <p style="margin-top: 8px;">
-    <a href="impressum.html">Impressum</a> · 
+  <div class="footer-links">
+    <a href="index.html">English</a>
+    <a href="impressum.html">Impressum</a>
     <a href="datenschutz.html">Datenschutzerklärung</a>
-  </p>
+  </div>
 </footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 
 </body>
 </html>

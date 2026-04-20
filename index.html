@@ -68,7 +68,7 @@
       overflow-x: hidden;
     }
 
-    /* ── NAV ── */
+    /* NAV */
     nav {
       position: sticky;
       top: 0;
@@ -125,7 +125,7 @@
     }
     .lang-toggle:hover { color: var(--ink); border-color: #bbb; }
 
-    /* ── HERO ── */
+    /* HERO */
     .hero {
       padding: 52px 48px 48px;
       max-width: 1000px;
@@ -218,13 +218,12 @@
       transform: translateY(-1px);
     }
 
-    /* ── DIVIDER ── */
     hr {
       border: none;
       border-top: 1px solid var(--border);
     }
 
-    /* ── ABOUT ── */
+    /* ABOUT */
     #about {
       padding: 80px 48px;
       max-width: 1000px;
@@ -260,40 +259,71 @@
     }
     .about-text p strong { color: var(--ink); font-weight: 700; }
 
-    .about-links {
+    .focus-grid {
       display: flex;
+      flex-direction: column;
       gap: 10px;
-      margin-top: 24px;
-      flex-wrap: wrap;
     }
 
-    .stat-grid {
+    .focus-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      transition: border-color 0.18s;
+    }
+    .focus-card:hover { border-color: var(--mint-mid); }
+
+    .focus-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+    .focus-card h4 { font-size: 0.88rem; font-weight: 700; margin-bottom: 2px; }
+    .focus-card p { font-size: 0.8rem; color: var(--muted); margin: 0; line-height: 1.5; }
+
+    /* WEB PROJECTS */
+    .web-projects {
+      margin-top: 32px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+    .web-projects-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 14px;
+    }
+    .web-project-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
     }
-
-    .stat-card {
-      background: var(--white);
-      border: 1.5px solid var(--border);
+    .web-project-card {
+      background: var(--bg);
+      border: 1.5px dashed var(--border);
       border-radius: var(--radius);
-      padding: 22px;
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
     }
-    .stat-card .num {
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: var(--mint);
-      line-height: 1;
-      letter-spacing: -0.03em;
-    }
-    .stat-card .desc {
-      margin-top: 5px;
-      font-size: 0.78rem;
+    .web-project-card h4 { font-size: 0.88rem; font-weight: 700; color: var(--muted); }
+    .web-project-card p { font-size: 0.78rem; color: var(--muted); opacity: 0.7; line-height: 1.5; }
+    .placeholder-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
       color: var(--muted);
-      font-weight: 600;
+      background: var(--border);
+      padding: 2px 8px;
+      border-radius: 4px;
+      width: fit-content;
+      margin-top: 4px;
     }
 
-    /* ── PROJECTS ── */
+    /* PROJECTS */
     #projects {
       padding: 80px 48px;
       max-width: 1000px;
@@ -312,9 +342,32 @@
       margin-bottom: 40px;
     }
 
+    .project-card.in-dev {
+      opacity: 0.82;
+      border-style: dashed;
+      position: relative;
+    }
+    .project-card.in-dev:hover { opacity: 1; }
+
+    .dev-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 500;
+      color: #b45309;
+      background: #fff8e6;
+      border: 1px solid #fcd98a;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
     .project-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
     }
 
@@ -350,10 +403,9 @@
       margin-bottom: 8px;
     }
 
-    .project-card p {
+    .project-card > p {
       color: var(--muted);
       font-size: 0.88rem;
-      flex: 1;
       line-height: 1.65;
     }
 
@@ -371,7 +423,64 @@
       font-weight: 500;
     }
     .tag-default { background: var(--bg); color: var(--muted); border: 1px solid var(--border); }
-    .tag-mint { background: var(--mint-lt); color: var(--mint); border: 1px solid var(--mint-mid); }
+    .tag-mint    { background: var(--mint-lt); color: var(--mint); border: 1px solid var(--mint-mid); }
+
+    /* Launch tag — small dot + text */
+    .tag-launch {
+      background: var(--bg);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .tag-launch::before {
+      content: '';
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--mint);
+      flex-shrink: 0;
+    }
+
+    /* Screenshot strip */
+    .screenshot-strip {
+      display: flex;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    /* Mobile portrait placeholder (9:19.5 ≈ iPhone aspect) */
+    .screenshot-ph {
+      flex: 1;
+      min-width: 0;
+      aspect-ratio: 9 / 19.5;
+      background: var(--bg);
+      border: 1.5px dashed var(--border);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: border-color 0.18s;
+    }
+    .screenshot-ph:hover { border-color: var(--mint-mid); }
+
+    /* Web landscape placeholder */
+    .screenshot-ph.web {
+      aspect-ratio: 16 / 10;
+    }
+
+    .screenshot-ph .ph-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--muted);
+      opacity: 0.55;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
 
     .project-link {
       display: inline-flex;
@@ -386,7 +495,7 @@
     }
     .project-link:hover { gap: 8px; }
 
-    /* ── SUPPORT ── */
+    /* SUPPORT */
     #support {
       background: var(--white);
       border-top: 1px solid var(--border);
@@ -432,7 +541,7 @@
     .support-card a { color: var(--mint); text-decoration: none; font-weight: 600; }
     .support-card a:hover { text-decoration: underline; }
 
-    /* ── FOOTER ── */
+    /* FOOTER */
     footer {
       padding: 40px 48px;
       max-width: 1000px;
@@ -453,7 +562,7 @@
     }
     footer .footer-links a:hover { color: var(--ink); }
 
-    /* ── ANIMATIONS ── */
+    /* ANIMATIONS */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(18px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -465,17 +574,118 @@
     }
     .reveal.visible { opacity: 1; transform: none; }
 
+    /* ── HAMBURGER BUTTON ── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 8px;
+      transition: background 0.18s;
+    }
+    .nav-hamburger:hover { background: var(--border); }
+    .nav-hamburger span {
+      display: block;
+      height: 2px;
+      background: var(--ink);
+      border-radius: 2px;
+      transition: all 0.25s ease;
+      transform-origin: center;
+    }
+    /* open state */
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── MOBILE DRAWER ── */
+    .mobile-nav-drawer {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 99;
+      background: rgba(245,244,240,0.98);
+      backdrop-filter: blur(12px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 80px 32px 40px;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      pointer-events: none;
+    }
+    .mobile-nav-drawer.open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+    .mobile-nav-drawer a {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      width: 100%;
+      text-align: center;
+      transition: color 0.18s;
+    }
+    .mobile-nav-drawer a:last-child { border-bottom: none; }
+    .mobile-nav-drawer a:hover { color: var(--mint); }
+    .mobile-nav-drawer .drawer-lang {
+      margin-top: 24px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      border: 1.5px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+
     /* ── MOBILE ── */
     @media (max-width: 768px) {
       nav { padding: 14px 20px; }
       .nav-links { display: none; }
-      .hero { padding: 60px 20px 48px; }
-      #about { grid-template-columns: 1fr; padding: 56px 20px; gap: 36px; }
-      #projects { padding: 56px 20px; }
+      .nav-hamburger { display: flex; }
+      .mobile-nav-drawer { display: flex; }
+
+      .hero { padding: 48px 20px 40px; }
+      .hero h1 { font-size: clamp(2rem, 8vw, 2.8rem); }
+      .hero-actions { gap: 10px; }
+      .hero-actions .btn { padding: 13px 20px; font-size: 0.88rem; }
+
+      #about { grid-template-columns: 1fr; padding: 48px 20px; gap: 32px; }
+      .about-text h2 { font-size: 1.7rem; }
+
+      #projects { padding: 48px 20px; }
+      .section-title { font-size: 1.7rem; }
       .project-grid { grid-template-columns: 1fr; }
-      #support { padding: 56px 20px; }
-      .support-inner { grid-template-columns: 1fr; gap: 36px; }
+      .project-card { padding: 24px; }
+      .web-project-row { grid-template-columns: 1fr; }
+
+      #support { padding: 48px 20px; }
+      .support-inner { grid-template-columns: 1fr; gap: 32px; }
+      .support-inner h2 { font-size: 1.7rem; }
+
       footer { padding: 28px 20px; flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 2rem; }
+      .hero-actions { flex-direction: column; align-items: flex-start; }
+      .hero-actions .btn { width: 100%; justify-content: center; }
+      .focus-card { padding: 14px 16px; }
+      .screenshot-strip { gap: 6px; }
+      .project-card { padding: 20px; }
     }
   </style>
 </head>
@@ -492,18 +702,30 @@
       <li><a href="https://github.com/EngelHeartWare" target="_blank" rel="noopener">GitHub</a></li>
     </ul>
     <a href="index-de.html" class="lang-toggle">DE</a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
+<!-- MOBILE DRAWER -->
+<div class="mobile-nav-drawer" id="mobileDrawer">
+  <a href="#about" class="drawer-link">About</a>
+  <a href="#projects" class="drawer-link">Projects</a>
+  <a href="#support" class="drawer-link">Contact</a>
+  <a href="https://github.com/EngelHeartWare" target="_blank" rel="noopener" class="drawer-link">GitHub</a>
+  <a href="index-de.html" class="drawer-lang">DE</a>
+</div>
+
 <!-- HERO -->
 <div class="hero">
-  <p class="hero-eyebrow">Solo indie developer · Privacy-first</p>
-  <h1>Building minimal apps for<br/><span>maximum productivity.</span></h1>
-  <p>Hi, I'm Moritz. I create software designed to make everyday life easier and spark curiosity.</p>
+  <p class="hero-eyebrow">Apps · Health · Productivity · Data</p>
+  <h1>Software built around<br/><span>things worth caring about.</span></h1>
+  <p>Hi, I'm Moritz. I build apps for health, productivity, and curiosity — things I actually use and want to exist.</p>
   <div class="hero-actions">
     <a href="#projects" class="btn btn-primary">View Projects →</a>
     <a href="https://github.com/EngelHeartWare" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
-    <a href="https://ko-fi.com/engelheartware" target="_blank" rel="noopener" class="btn btn-ghost">☕ Support on Ko-Fi</a>
+    <a href="https://ko-fi.com/engelheartware" target="_blank" rel="noopener" class="btn btn-ghost">☕ Ko-Fi</a>
   </div>
 </div>
 
@@ -516,27 +738,28 @@
     <h2>Hi, I'm Moritz.</h2>
     <p>I make small, focused apps designed to <strong>get out of your way</strong>. Privacy-first by default — your data lives on your device, not on my servers.</p>
     <p>When I'm not shipping features, I'm looking for the next friction point worth solving.</p>
-    <div class="about-links">
-      <a href="https://github.com/EngelHeartWare" target="_blank" rel="noopener" class="btn btn-ghost" style="padding:10px 18px;font-size:0.82rem;">GitHub →</a>
-      <a href="https://ko-fi.com/engelheartware" target="_blank" rel="noopener" class="btn btn-ghost" style="padding:10px 18px;font-size:0.82rem;">☕ Support development</a>
-    </div>
   </div>
-  <div class="stat-grid reveal">
-    <div class="stat-card">
-      <div class="num">2</div>
-      <div class="desc">Apps shipped</div>
+  <div class="focus-grid reveal">
+    <div class="focus-card">
+      <div class="focus-icon">🫁</div>
+      <div>
+        <h4>Health & Wellbeing</h4>
+        <p>Apps that support habits, recovery, and body awareness — designed to stay out of your way.</p>
+      </div>
     </div>
-    <div class="stat-card">
-      <div class="num">0</div>
-      <div class="desc">Trackers or ads</div>
+    <div class="focus-card">
+      <div class="focus-icon">⚡</div>
+      <div>
+        <h4>Productivity</h4>
+        <p>Minimal tools for tracking time, tasks, and focus. No clutter, no subscriptions.</p>
+      </div>
     </div>
-    <div class="stat-card">
-      <div class="num">100%</div>
-      <div class="desc">On-device storage</div>
-    </div>
-    <div class="stat-card">
-      <div class="num">∞</div>
-      <div class="desc">Ideas on the list</div>
+    <div class="focus-card">
+      <div class="focus-icon">🗂️</div>
+      <div>
+        <h4>Data Exploration</h4>
+        <p>Turning interesting datasets into browsable, filterable, personal experiences.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -547,32 +770,87 @@
 <section id="projects">
   <div class="reveal">
     <div class="section-label">Portfolio</div>
-    <h2 class="section-title">My Apps</h2>
-    <p class="section-sub">Tools designed with simplicity and privacy in mind.</p>
+    <h2 class="section-title">Apps</h2>
+    <p class="section-sub">Each app is built around a single clear purpose.</p>
   </div>
 
   <div class="project-grid">
+
+    <!-- SWIPE IN -->
     <div class="project-card reveal">
       <img src="SwipeIn_logo_light_mint.png" alt="Swipe In App Logo" class="app-logo" onerror="this.style.display='none'">
       <h3>Swipe In</h3>
-      <p>A minimalist time and activity tracking app. Swipe right to start, swipe left to stop. No complicated setup required.</p>
+      <p>A minimalist time and activity tracker. Swipe right to start, swipe left to stop. No complicated setup required.</p>
       <div class="project-tags">
         <span class="tag tag-mint">App Store</span>
         <span class="tag tag-default">iOS</span>
-        <span class="tag tag-default">Free</span>
+        <span class="tag tag-default">Productivity</span>
+        <span class="tag tag-launch">Launched April 2026</span>
+      </div>
+      <!-- Screenshot strip — replace these divs with <img> tags when ready -->
+      <div class="screenshot-strip">
+        <div class="screenshot-ph">
+          <span class="ph-label">Screenshot 1</span>
+        </div>
+        <div class="screenshot-ph">
+          <span class="ph-label">Screenshot 2</span>
+        </div>
+        <div class="screenshot-ph">
+          <span class="ph-label">Screenshot 3</span>
+        </div>
       </div>
       <a href="swipein.html" class="project-link">View App →</a>
     </div>
 
+    <!-- SKYLINE EXPLORER -->
     <div class="project-card reveal">
       <img src="logo_skyline.png" alt="Skyline App Logo" class="app-logo" onerror="this.style.display='none'">
       <h3>Skyline Explorer</h3>
-      <p>Explore the skylines of the world and track the highest buildings you visited.</p>
+      <p>Explore the skylines of the world and track the highest buildings you've visited. A database of skyscrapers, made personal.</p>
       <div class="project-tags">
         <span class="tag tag-default">Web App</span>
-        <span class="tag tag-default">Interactive</span>
+        <span class="tag tag-default">Data Exploration</span>
+        <span class="tag tag-launch">Launched April 2026</span>
       </div>
-      <a href="https://cheerful-palmier-d8355a.netlify.app" target="_blank" rel="noopener" class="project-link">View App →</a>
+      <!-- Screenshot strip — replace these divs with <img> tags when ready -->
+      <div class="screenshot-strip">
+        <div class="screenshot-ph web">
+          <span class="ph-label">Screenshot 1</span>
+        </div>
+        <div class="screenshot-ph web">
+          <span class="ph-label">Screenshot 2</span>
+        </div>
+      </div>
+      <a href="https://cheerful-palmier-d8355a.netlify.app" target="_blank" rel="noopener" class="project-link">Open App →</a>
+    </div>
+
+    <!-- SMELL TRAINER -->
+    <div class="project-card in-dev reveal">
+      <div class="app-logo" style="display:flex;align-items:center;justify-content:center;font-size:1.6rem;">🫁</div>
+      <h3>Smell Trainer</h3>
+      <span class="dev-badge">In Development</span>
+      <p>A guided smell training app to support olfactory recovery and awareness. Structured sessions, gentle reminders, personal progress tracking.</p>
+      <div class="project-tags">
+        <span class="tag tag-default">iOS</span>
+        <span class="tag tag-default">Health</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="web-projects reveal">
+    <div class="web-projects-label">Web Projects — Contract Work</div>
+    <div class="web-project-row">
+      <div class="web-project-card">
+        <h4>Project Name</h4>
+        <p>Short description of the project and what it does.</p>
+        <span class="placeholder-tag">coming soon</span>
+      </div>
+      <div class="web-project-card">
+        <h4>Project Name</h4>
+        <p>Short description of the project and what it does.</p>
+        <span class="placeholder-tag">coming soon</span>
+      </div>
     </div>
   </div>
 </section>
@@ -634,6 +912,19 @@
     });
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const drawer = document.getElementById('mobileDrawer');
+  function toggleMenu(open) {
+    hamburger.classList.toggle('open', open);
+    drawer.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  hamburger.addEventListener('click', () => toggleMenu(!drawer.classList.contains('open')));
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleMenu(false); });
 </script>
 
 </body>

@@ -465,17 +465,117 @@
     }
     .reveal.visible { opacity: 1; transform: none; }
 
+    /* ── HAMBURGER BUTTON ── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 8px;
+      transition: background 0.18s;
+    }
+    .nav-hamburger:hover { background: var(--border); }
+    .nav-hamburger span {
+      display: block;
+      height: 2px;
+      background: var(--ink);
+      border-radius: 2px;
+      transition: all 0.25s ease;
+      transform-origin: center;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── MOBILE DRAWER ── */
+    .mobile-nav-drawer {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 99;
+      background: rgba(245,244,240,0.98);
+      backdrop-filter: blur(12px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 80px 32px 40px;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      pointer-events: none;
+    }
+    .mobile-nav-drawer.open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+    .mobile-nav-drawer a {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      width: 100%;
+      text-align: center;
+      transition: color 0.18s;
+    }
+    .mobile-nav-drawer a:last-child { border-bottom: none; }
+    .mobile-nav-drawer a:hover { color: var(--mint); }
+    .mobile-nav-drawer .drawer-lang {
+      margin-top: 24px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      border: 1.5px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+
     /* ── MOBILE ── */
     @media (max-width: 768px) {
       nav { padding: 14px 20px; }
       .nav-links { display: none; }
-      .hero { padding: 60px 20px 48px; }
-      #about { grid-template-columns: 1fr; padding: 56px 20px; gap: 36px; }
-      #projects { padding: 56px 20px; }
+      .nav-hamburger { display: flex; }
+      .mobile-nav-drawer { display: flex; }
+
+      .hero { padding: 48px 20px 40px; }
+      .hero h1 { font-size: clamp(2rem, 8vw, 2.8rem); }
+      .hero-actions { gap: 10px; }
+      .hero-actions .btn { padding: 13px 20px; font-size: 0.88rem; }
+
+      #about { grid-template-columns: 1fr; padding: 48px 20px; gap: 32px; }
+      .about-text h2 { font-size: 1.7rem; }
+
+      #projects { padding: 48px 20px; }
+      .section-title { font-size: 1.7rem; }
       .project-grid { grid-template-columns: 1fr; }
-      #support { padding: 56px 20px; }
-      .support-inner { grid-template-columns: 1fr; gap: 36px; }
+      .project-card { padding: 24px; }
+      .web-project-row { grid-template-columns: 1fr; }
+
+      #support { padding: 48px 20px; }
+      .support-inner { grid-template-columns: 1fr; gap: 32px; }
+      .support-inner h2 { font-size: 1.7rem; }
+
       footer { padding: 28px 20px; flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 2rem; }
+      .hero-actions { flex-direction: column; align-items: flex-start; }
+      .hero-actions .btn { width: 100%; justify-content: center; }
+      .focus-card { padding: 14px 16px; }
+      .screenshot-strip { gap: 6px; }
+      .project-card { padding: 20px; }
     }
   </style>
 </head>
@@ -492,8 +592,20 @@
       <li><a href="https://github.com/EngelHeartWare" target="_blank" rel="noopener">GitHub</a></li>
     </ul>
     <a href="index.html" class="lang-toggle">EN</a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menü öffnen" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-nav-drawer" id="mobileDrawer">
+  <a href="#about" class="drawer-link">Über mich</a>
+  <a href="#projects" class="drawer-link">Projekte</a>
+  <a href="#support" class="drawer-link">Kontakt</a>
+  <a href="https://github.com/EngelHeartWare" target="_blank" rel="noopener" class="drawer-link">GitHub</a>
+  <a href="index.html" class="drawer-lang">EN</a>
+</div>
 
 <!-- HERO -->
 <div class="hero">
@@ -634,6 +746,19 @@
     });
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Hamburger-Menü
+  const hamburger = document.getElementById('hamburger');
+  const drawer = document.getElementById('mobileDrawer');
+  function toggleMenu(open) {
+    hamburger.classList.toggle('open', open);
+    drawer.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  hamburger.addEventListener('click', () => toggleMenu(!drawer.classList.contains('open')));
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleMenu(false); });
 </script>
 
 </body>

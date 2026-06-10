@@ -207,6 +207,33 @@
     .feature-card h3 { font-size: 0.95rem; font-weight: 800; margin-bottom: 6px; padding-right: 56px; }
     .feature-card p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
 
+    /* ── FEATURE EXPLORER (compact titles + hover/tap description) ── */
+    .feature-explorer { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 22px; align-items: start; margin-top: 8px; }
+    .feature-chips { display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; }
+    .feature-chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--white); border: 1.5px solid var(--border); border-radius: 100px;
+      padding: 8px 14px 8px 11px; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 700;
+      color: var(--ink); cursor: pointer; transition: all 0.16s; line-height: 1.1;
+    }
+    .feature-chip .chip-icon { font-size: 1rem; }
+    .feature-chip .chip-pro { width: 6px; height: 6px; border-radius: 50%; background: var(--purple); flex-shrink: 0; }
+    .feature-chip:hover { border-color: var(--pink-mid); transform: translateY(-1px); }
+    .feature-chip:focus-visible { outline: 2px solid var(--pink); outline-offset: 2px; }
+    .feature-chip.active { border-color: var(--pink); background: var(--pink-lt); color: var(--ink); box-shadow: 0 4px 14px rgba(248,53,231,0.12); }
+
+    .feature-detail {
+      position: sticky; top: 84px;
+      background: var(--white); border: 1.5px solid var(--border); border-radius: 18px;
+      padding: 26px; min-height: 180px; display: flex; gap: 16px; align-items: flex-start;
+    }
+    .fd-icon { font-size: 2rem; line-height: 1; flex-shrink: 0; }
+    .fd-title { font-size: 1.05rem; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .fd-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
+    .fd-body { animation: fdFade 0.25s ease; }
+    @keyframes fdFade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+    .feature-hint { font-family: 'DM Mono', monospace; font-size: 0.66rem; color: var(--muted); margin-top: 14px; opacity: 0.8; }
+
     /* ── COMPANION ── */
     #companion { padding: 80px 48px; background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
     .companion-inner { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 56px; align-items: center; }
@@ -328,6 +355,8 @@
       .section-sub { margin-bottom: 28px; }
       .steps { grid-template-columns: 1fr; }
       .features-grid { grid-template-columns: 1fr 1fr; }
+      .feature-explorer { grid-template-columns: 1fr; gap: 16px; }
+      .feature-detail { position: static; top: auto; min-height: 0; }
       .tiers { grid-template-columns: 1fr; }
       .stat-row { grid-template-columns: 1fr 1fr; }
       .privacy-inner { grid-template-columns: 1fr; gap: 32px; }
@@ -476,81 +505,62 @@
       <p class="section-sub">Gebaut für einen klaren Zweck, mit genau so viel Verspieltheit, dass du wiederkommst.</p>
     </div>
 
-    <div class="features-grid">
-      <div class="feature-card reveal">
-        <div class="icon">👃</div>
-        <h3>Geruchstraining</h3>
-        <p>Wähle dein Duftset, mache getaktete Sessions und bewerte jeden Duft von 0-10. Die bewährte, strukturierte Routine im Kern der Geruchsregeneration.</p>
+    <div class="feature-explorer reveal">
+      <div class="feature-chips" id="featureChips">
+        <button class="feature-chip active" data-icon="👃" data-title="Geruchstraining" data-desc="Wähle dein Duftset, mache getaktete Sessions und bewerte jeden Duft von 0-10. Die bewährte, strukturierte Routine im Kern der Geruchsregeneration.">
+          <span class="chip-icon">👃</span><span class="chip-title">Geruchstraining</span>
+        </button>
+        <button class="feature-chip" data-icon="🧘" data-title="Achtsamkeitsmomente" data-desc="Geführte Atmung gepaart mit Geruchswahrnehmung. Ein ruhiger Weg, dich wieder mit dem Riechen zu verbinden und herunterzukommen.">
+          <span class="chip-icon">🧘</span><span class="chip-title">Achtsamkeitsmomente</span>
+        </button>
+        <button class="feature-chip" data-icon="📖" data-title="Geruchstagebuch" data-desc="Jedes Training und jeder Achtsamkeitsmoment landet in einer Timeline und einem Kalender - so kannst du auf deine Reise zurückblicken.">
+          <span class="chip-icon">📖</span><span class="chip-title">Geruchstagebuch</span>
+        </button>
+        <button class="feature-chip" data-icon="📈" data-title="Smell Index" data-desc="Ein einzelner Wert aus all deinen Bewertungen, über die Zeit dargestellt - die aussagekräftigste Zahl für deinen Fortschritt.">
+          <span class="chip-icon">📈</span><span class="chip-title">Smell Index</span>
+        </button>
+        <button class="feature-chip" data-icon="🐌" data-title="Sniffy, dein Begleiter" data-desc="Eine anpassbare Schnecke, die mit dir wächst. Tägliche Berichte, Ermutigung und ein Grund, morgen wiederzukommen.">
+          <span class="chip-icon">🐌</span><span class="chip-title">Sniffy, dein Begleiter</span>
+        </button>
+        <button class="feature-chip" data-icon="🎮" data-title="Spielerische Gewohnheit" data-desc="Erledige tägliche Aufgaben, sammle Münzen und XP, steige Level auf und schalte Häuser und Accessoires für Sniffy im Shop frei.">
+          <span class="chip-icon">🎮</span><span class="chip-title">Spielerische Gewohnheit</span>
+        </button>
+        <button class="feature-chip" data-icon="🔥" data-title="Streaks &amp; Erinnerungen" data-desc="Halte deinen Streak am Leben - mit optionalen Erinnerungen morgens, abends und &quot;brich ihn nicht&quot;, die deinen Tag respektieren.">
+          <span class="chip-icon">🔥</span><span class="chip-title">Streaks &amp; Erinnerungen</span>
+        </button>
+        <button class="feature-chip" data-icon="💡" data-title="Tägliche Fakten &amp; Wissen" data-desc="Entdecke jeden Tag einen neuen Fakt sowie kuratiertes Hintergrundwissen zur Wissenschaft des Riechens - unserem unterschätztesten Sinn.">
+          <span class="chip-icon">💡</span><span class="chip-title">Tägliche Fakten &amp; Wissen</span>
+        </button>
+        <button class="feature-chip" data-icon="🏷️" data-title="Duft-Tags &amp; Notizen" data-pro="1" data-desc="Beschreibe, was du riechst, mit Tags für Intensität, Typ und Emotion - oder lege eigene an.">
+          <span class="chip-icon">🏷️</span><span class="chip-title">Duft-Tags &amp; Notizen</span><span class="chip-pro" title="Pro"></span>
+        </button>
+        <button class="feature-chip" data-icon="📊" data-title="Statistiken &amp; Einblicke" data-desc="Session-Zahlen, Trends und Sniffys persönliche Beobachtungen helfen dir, deinen Fortschritt auf einen Blick zu verstehen.">
+          <span class="chip-icon">📊</span><span class="chip-title">Statistiken &amp; Einblicke</span>
+        </button>
+        <button class="feature-chip" data-icon="❤️" data-title="Apple Health" data-desc="Logge Trainings optional als &quot;Mind &amp; Body&quot;-Workouts und Achtsamkeitsminuten in der Health-App. Nur schreibend - Sniff It liest deine Gesundheitsdaten nie.">
+          <span class="chip-icon">❤️</span><span class="chip-title">Apple Health</span>
+        </button>
+        <button class="feature-chip" data-icon="☁️" data-title="Private iCloud-Sync" data-desc="Deine Daten synchronisieren sicher über Apple CloudKit in deiner persönlichen iCloud. Kein Konto, kein Server von mir.">
+          <span class="chip-icon">☁️</span><span class="chip-title">Private iCloud-Sync</span>
+        </button>
+        <button class="feature-chip" data-icon="🎨" data-title="Mach sie zu deiner" data-pro="1" data-desc="Hell oder dunkel, eigene Akzentfarben und alternative App-Icons.">
+          <span class="chip-icon">🎨</span><span class="chip-title">Mach sie zu deiner</span><span class="chip-pro" title="Pro"></span>
+        </button>
+        <button class="feature-chip" data-icon="📱" data-title="Home-Screen-Widgets" data-desc="Starte eine Session oder prüfe deinen Smell Index direkt vom Home-Screen.">
+          <span class="chip-icon">📱</span><span class="chip-title">Home-Screen-Widgets</span>
+        </button>
+        <button class="feature-chip" data-icon="🏆" data-title="Errungenschaften" data-desc="Sammle Trophäen, die mit deinen Trainings-Streaks und Gesamtwerten aufsteigen.">
+          <span class="chip-icon">🏆</span><span class="chip-title">Errungenschaften</span>
+        </button>
       </div>
-      <div class="feature-card reveal">
-        <div class="icon">🧘</div>
-        <h3>Achtsamkeitsmomente</h3>
-        <p>Geführte Atmung gepaart mit Geruchswahrnehmung. Ein ruhiger Weg, dich wieder mit dem Riechen zu verbinden und herunterzukommen.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="icon">📖</div>
-        <h3>Geruchstagebuch</h3>
-        <p>Jedes Training und jeder Achtsamkeitsmoment landet in einer Timeline und einem Kalender - so kannst du auf deine Reise zurückblicken.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="icon">📈</div>
-        <h3>Smell Index</h3>
-        <p>Ein einzelner Wert aus all deinen Bewertungen, über die Zeit dargestellt - die aussagekräftigste Zahl für deinen Fortschritt.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="icon">🐌</div>
-        <h3>Sniffy, dein Begleiter</h3>
-        <p>Eine anpassbare Schnecke, die mit dir wächst. Tägliche Berichte, Ermutigung und ein Grund, morgen wiederzukommen.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="icon">🎮</div>
-        <h3>Spielerische Gewohnheit</h3>
-        <p>Erledige tägliche Aufgaben, sammle Münzen und XP, steige Level auf und schalte Häuser und Accessoires für Sniffy im Shop frei.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="icon">🔥</div>
-        <h3>Streaks &amp; Erinnerungen</h3>
-        <p>Halte deinen Streak am Leben - mit optionalen Erinnerungen morgens, abends und „brich ihn nicht", die deinen Tag respektieren.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="icon">💡</div>
-        <h3>Tägliche Fakten &amp; Wissen</h3>
-        <p>Entdecke jeden Tag einen neuen Fakt sowie kuratiertes Hintergrundwissen zur Wissenschaft des Riechens - unserem unterschätztesten Sinn.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="icon">🏷️</div>
-        <h3>Duft-Tags &amp; Notizen</h3>
-        <p>Beschreibe, was du riechst, mit Tags für Intensität, Typ und Emotion - oder lege eigene an. <span class="pro-tag">Pro</span></p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="icon">📊</div>
-        <h3>Statistiken &amp; Einblicke</h3>
-        <p>Session-Zahlen, Trends und Sniffys persönliche Beobachtungen helfen dir, deinen Fortschritt auf einen Blick zu verstehen.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="icon">❤️</div>
-        <h3>Apple Health</h3>
-        <p>Logge Trainings optional als „Mind &amp; Body"-Workouts und Achtsamkeitsminuten in der Health-App. Nur schreibend - Sniff It liest deine Gesundheitsdaten nie.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="icon">☁️</div>
-        <h3>Private iCloud-Sync</h3>
-        <p>Deine Daten synchronisieren sicher über Apple CloudKit in deiner persönlichen iCloud. Kein Konto, kein Server von mir.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="icon">🎨</div>
-        <h3>Mach sie zu deiner</h3>
-        <p>Hell oder dunkel, eigene Akzentfarben und alternative App-Icons. <span class="pro-tag">Pro</span></p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="icon">📱</div>
-        <h3>Home-Screen-Widgets</h3>
-        <p>Starte eine Session oder prüfe deinen Smell Index direkt vom Home-Screen.</p>
-      </div>
-      <div class="feature-card reveal">
-        <div class="icon">🏆</div>
-        <h3>Errungenschaften</h3>
-        <p>Sammle Trophäen, die mit deinen Trainings-Streaks und Gesamtwerten aufsteigen.</p>
+
+      <div class="feature-detail">
+        <div class="fd-icon" id="fdIcon">👃</div>
+        <div class="fd-body" id="fdBody">
+          <h3 class="fd-title" id="fdTitle">Geruchstraining</h3>
+          <p class="fd-desc" id="fdDesc">Wähle dein Duftset, mache getaktete Sessions und bewerte jeden Duft von 0-10. Die bewährte, strukturierte Routine im Kern der Geruchsregeneration.</p>
+          <p class="feature-hint" id="fdHint">Fahre über eine Funktion oder tippe sie an, um mehr zu lesen</p>
+        </div>
       </div>
     </div>
   </div>
@@ -771,6 +781,30 @@
     });
   }, { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Feature-Explorer: kompakte Titel-Chips + eine Beschreibungskarte
+  (function () {
+    const chips = document.querySelectorAll('#featureChips .feature-chip');
+    const fdIcon = document.getElementById('fdIcon');
+    const fdTitle = document.getElementById('fdTitle');
+    const fdDesc = document.getElementById('fdDesc');
+    const fdBody = document.getElementById('fdBody');
+    const fdHint = document.getElementById('fdHint');
+    if (!chips.length || !fdTitle) return;
+    function activate(chip) {
+      chips.forEach(c => c.classList.toggle('active', c === chip));
+      fdIcon.textContent = chip.dataset.icon || '';
+      fdTitle.innerHTML = chip.dataset.title + (chip.dataset.pro ? ' <span class="pro-tag">Pro</span>' : '');
+      fdDesc.textContent = chip.dataset.desc || '';
+      if (fdHint && fdHint.parentNode) fdHint.parentNode.removeChild(fdHint);
+      fdBody.style.animation = 'none'; void fdBody.offsetWidth; fdBody.style.animation = '';
+    }
+    chips.forEach(chip => {
+      chip.addEventListener('mouseenter', () => activate(chip));
+      chip.addEventListener('focus', () => activate(chip));
+      chip.addEventListener('click', () => activate(chip));
+    });
+  })();
 
   const hamburger = document.getElementById('hamburger');
   const drawer = document.getElementById('mobileDrawer');

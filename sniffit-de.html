@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sniff It - App für Geruchstraining &amp; Achtsamkeit für iOS</title>
+  <meta name="description" content="Sniff It ist eine App für Geruchstraining und Riechachtsamkeit für iOS. Trainiere deinen Geruchssinn nach Riechverlust, halte Alltagsgerüche fest, verfolge deinen Fortschritt mit dem Smell Index und bleib dran - mit Sniffy der Schnecke." />
+  <meta name="theme-color" content="#f5f4f0" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Sniff It - Geruchstraining &amp; Achtsamkeit für iOS" />
+  <meta property="og:description" content="Trainiere deinen Geruchssinn, baue eine tägliche Riech-Gewohnheit auf und verfolge deinen Fortschritt. Privat by design. Keine Werbung, kein Tracking." />
+  <meta property="og:locale" content="de" />
+  <meta property="og:locale:alternate" content="en" />
+
+  <style>
+    @font-face { font-family: "Nunito"; src: url("fonts/nunito-v32-latin-regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: "Nunito"; src: url("fonts/nunito-v32-latin-600.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: "Nunito"; src: url("fonts/nunito-v32-latin-700.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+    @font-face { font-family: "Nunito"; src: url("fonts/nunito-v32-latin-700italic.woff2") format("woff2"); font-weight: 700; font-style: italic; font-display: swap; }
+    @font-face { font-family: "Nunito"; src: url("fonts/nunito-v32-latin-800.woff2") format("woff2"); font-weight: 800; font-style: normal; font-display: swap; }
+    @font-face { font-family: "DM Mono"; src: url("fonts/dm-mono-v16-latin-regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: "DM Mono"; src: url("fonts/dm-mono-v16-latin-500.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+  </style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #f5f4f0;
+      --white:    #ffffff;
+      --pink:     #F835E7;
+      --pink-lt:  #FEE6FC;
+      --pink-mid: #FDBAF7;
+      --purple:   #7c3aed;
+      --ink:      #1a1a1a;
+      --muted:    #6b7280;
+      --border:   #e4e2dc;
+      --radius:   14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(245,244,240,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1.1rem;
+      color: var(--ink); text-decoration: none; letter-spacing: -0.01em;
+      display: flex; align-items: center; gap: 8px; transition: opacity 0.18s;
+    }
+    .logo:hover { opacity: 0.7; }
+    .logo-img { width: 26px; height: 26px; object-fit: contain; }
+
+    .nav-right { display: flex; align-items: center; gap: 28px; }
+    .nav-links { list-style: none; display: flex; gap: 24px; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: color 0.18s; }
+    .nav-links a:hover { color: var(--ink); }
+
+    .lang-toggle {
+      font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--muted);
+      text-decoration: none; border: 1.5px solid var(--border); padding: 3px 9px;
+      border-radius: 6px; transition: all 0.18s; font-weight: 500;
+    }
+    .lang-toggle:hover { color: var(--ink); border-color: #bbb; }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 60px 48px 52px; max-width: 1000px; margin: 0 auto;
+      display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center;
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'DM Mono', monospace; font-size: 0.72rem; font-weight: 500;
+      color: var(--pink); letter-spacing: 0.08em; text-transform: uppercase;
+      background: var(--pink-lt); border: 1px solid var(--pink-mid);
+      padding: 5px 12px; border-radius: 100px; margin-bottom: 18px;
+      opacity: 0; animation: fadeUp 0.5s ease forwards 0.05s;
+    }
+    .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--pink); }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 4.5vw, 3.3rem); font-weight: 800; line-height: 1.12;
+      letter-spacing: -0.03em; max-width: 560px;
+      opacity: 0; animation: fadeUp 0.55s ease forwards 0.15s;
+    }
+    .hero h1 span { color: var(--pink); font-style: italic; }
+    .hero .lede {
+      margin-top: 18px; font-size: 1.05rem; color: var(--muted); max-width: 480px;
+      opacity: 0; animation: fadeUp 0.55s ease forwards 0.28s;
+    }
+    .hero-cta {
+      margin-top: 28px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+      opacity: 0; animation: fadeUp 0.55s ease forwards 0.4s;
+    }
+
+    .appstore-btn {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: var(--ink); color: #fff; text-decoration: none;
+      padding: 13px 22px; border-radius: 100px; font-weight: 700; font-size: 0.9rem;
+      transition: all 0.2s; border: none; cursor: default;
+    }
+    .appstore-btn.live { cursor: pointer; }
+    .appstore-btn.live:hover { background: #333; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+    .appstore-btn.soon { background: var(--ink); opacity: 0.9; }
+    .appstore-btn svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
+    .appstore-btn .btn-text { display: flex; flex-direction: column; line-height: 1.2; text-align: left; }
+    .appstore-btn .sub { font-size: 0.62rem; font-weight: 400; opacity: 0.7; }
+    .appstore-btn .main { font-size: 0.9rem; font-weight: 700; }
+
+    .free-note { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--muted); }
+    .free-note span { color: var(--pink); font-weight: 500; }
+    .beta-line { margin-top: 14px; font-size: 0.78rem; color: var(--muted); opacity: 0; animation: fadeUp 0.55s ease forwards 0.5s; }
+
+    /* Beta band */
+    .beta-band { padding: 28px 48px; background: linear-gradient(90deg, var(--pink-lt), #fff6fd); border-bottom: 1px solid var(--border); }
+    .beta-inner { display: flex; align-items: center; justify-content: space-between; gap: 28px; flex-wrap: wrap; }
+    .beta-text { flex: 1 1 380px; }
+    .beta-text h2 { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.01em; margin-bottom: 6px; }
+    .beta-text p { font-size: 0.88rem; color: var(--muted); max-width: 560px; }
+    .beta-cta { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-beta { display: inline-flex; align-items: center; gap: 6px; background: var(--pink); color: #fff; text-decoration: none; padding: 11px 18px; border-radius: 100px; font-weight: 700; font-size: 0.85rem; transition: all 0.18s; white-space: nowrap; }
+    .btn-beta:hover { background: #9D0691; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(248,53,231,0.28); }
+    .btn-beta-ghost { display: inline-flex; align-items: center; gap: 6px; background: var(--white); color: var(--ink); text-decoration: none; padding: 11px 18px; border-radius: 100px; font-weight: 700; font-size: 0.85rem; border: 1.5px solid var(--border); transition: all 0.18s; white-space: nowrap; }
+    .btn-beta-ghost:hover { border-color: var(--pink-mid); transform: translateY(-1px); }
+
+    /* About the developer */
+    .dev-strip { padding: 40px 48px; background: var(--white); border-top: 1px solid var(--border); }
+    .dev-inner { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+    .dev-snail { width: 56px; height: 56px; object-fit: contain; flex-shrink: 0; }
+    .dev-inner > div { flex: 1 1 320px; }
+    .dev-inner h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 4px; }
+    .dev-inner p { font-size: 0.88rem; color: var(--muted); max-width: 540px; }
+
+    /* Hero visual */
+    .hero-visual { position: relative; display: flex; align-items: center; justify-content: center; opacity: 0; animation: fadeUp 0.6s ease forwards 0.5s; }
+    .snail-stage {
+      width: 100%; max-width: 320px; aspect-ratio: 1 / 1; border-radius: 28px; border: 1.5px solid var(--border);
+      background: radial-gradient(120% 120% at 30% 20%, var(--pink-lt) 0%, var(--white) 55%);
+      box-shadow: 0 18px 50px rgba(248,53,231,0.12); display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .snail-stage .snail { width: 66%; height: auto; filter: drop-shadow(0 12px 18px rgba(0,0,0,0.14)); animation: bob 4s ease-in-out infinite; }
+    .snail-stage .spark { position: absolute; font-size: 1.4rem; opacity: 0.85; }
+    .snail-stage .spark.s1 { top: 18%; left: 20%; animation: twinkle 3s ease-in-out infinite; }
+    .snail-stage .spark.s2 { top: 26%; right: 18%; animation: twinkle 3s ease-in-out infinite 0.8s; }
+    .snail-stage .spark.s3 { bottom: 22%; left: 26%; animation: twinkle 3s ease-in-out infinite 1.5s; }
+    .stage-chip {
+      position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+      background: rgba(255,255,255,0.85); backdrop-filter: blur(6px); border: 1px solid var(--border);
+      border-radius: 100px; padding: 6px 14px; font-size: 0.72rem; font-weight: 700; white-space: nowrap;
+    }
+    .stage-chip b { color: var(--pink); }
+    @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes twinkle { 0%,100% { opacity: 0.25; transform: scale(0.85); } 50% { opacity: 1; transform: scale(1.1); } }
+
+    /* ── SHARED ── */
+    hr { border: none; border-top: 1px solid var(--border); }
+    .section-label { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--pink); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; margin-bottom: 10px; }
+    .section-title { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .section-sub { color: var(--muted); font-size: 0.95rem; margin-bottom: 40px; max-width: 520px; }
+    .wrap { max-width: 1000px; margin: 0 auto; }
+
+    /* ── WHY ── */
+    #why { padding: 76px 48px; background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+    .why-copy h2 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 14px; }
+    .why-copy p { color: var(--muted); font-size: 0.95rem; margin-bottom: 14px; }
+    .why-copy p strong { color: var(--ink); }
+    .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .stat { background: var(--bg); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 22px; }
+    .stat .num { font-size: 1.9rem; font-weight: 800; color: var(--pink); letter-spacing: -0.02em; line-height: 1.1; }
+    .stat .lab { font-size: 0.8rem; color: var(--muted); margin-top: 6px; }
+
+    /* ── HOW ── */
+    #how { padding: 80px 48px; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .step { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 28px; position: relative; }
+    .step .num { font-family: 'DM Mono', monospace; font-size: 0.72rem; font-weight: 500; color: var(--pink); background: var(--pink-lt); border: 1px solid var(--pink-mid); width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+    .step h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 6px; }
+    .step p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+    .pillar-icon { font-size: 1.8rem; margin-bottom: 14px; line-height: 1; }
+
+    /* ── FEATURES ── */
+    #features { padding: 80px 48px; }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .feature-card { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 28px; transition: all 0.2s; position: relative; }
+    .feature-card:hover { border-color: var(--pink-mid); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(248,53,231,0.08); }
+    .feature-card.coming-soon { background: var(--bg); opacity: 0.78; }
+    .feature-card.coming-soon::after { content: 'Demnächst'; position: absolute; top: 14px; right: 14px; font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--pink); background: var(--pink-lt); border: 1px solid var(--pink-mid); padding: 2px 8px; border-radius: 4px; letter-spacing: 0.06em; text-transform: uppercase; }
+    .feature-card .pro-tag { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--purple); background: #f1ebff; border: 1px solid #d9c8ff; padding: 2px 8px; border-radius: 4px; letter-spacing: 0.06em; text-transform: uppercase; }
+    .icon { font-size: 1.5rem; margin-bottom: 14px; }
+    .feature-card h3 { font-size: 0.95rem; font-weight: 800; margin-bottom: 6px; padding-right: 56px; }
+    .feature-card p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── COMPANION ── */
+    #companion { padding: 80px 48px; background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .companion-inner { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 56px; align-items: center; }
+    .companion-art { border-radius: 24px; border: 1.5px solid var(--border); background: radial-gradient(120% 120% at 70% 20%, var(--pink-lt) 0%, var(--bg) 60%); aspect-ratio: 4 / 3; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .companion-art .big { width: 46%; height: auto; filter: drop-shadow(0 10px 16px rgba(0,0,0,0.14)); animation: bob 4.5s ease-in-out infinite; }
+    .companion-art .coin { position: absolute; font-size: 1.5rem; }
+    .companion-art .coin.c1 { top: 20%; left: 16%; animation: twinkle 2.6s infinite; }
+    .companion-art .coin.c2 { bottom: 24%; right: 18%; animation: twinkle 2.6s infinite 0.9s; }
+    .companion-copy h2 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 12px; }
+    .companion-copy > p { color: var(--muted); font-size: 0.95rem; margin-bottom: 20px; }
+    .loop-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .loop-list li { display: flex; gap: 12px; align-items: flex-start; font-size: 0.88rem; }
+    .loop-list .e { font-size: 1.1rem; flex-shrink: 0; }
+    .loop-list b { font-weight: 800; }
+
+    /* ── PRICING ── */
+    #pricing { padding: 80px 48px; }
+    .tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: stretch; }
+    .tier { background: var(--white); border: 1.5px solid var(--border); border-radius: 18px; padding: 28px; display: flex; flex-direction: column; }
+    .tier.highlight { border-color: var(--pink-mid); box-shadow: 0 10px 30px rgba(248,53,231,0.08); }
+    .tier .tier-name { font-size: 1.1rem; font-weight: 800; margin-bottom: 2px; display: flex; align-items: center; gap: 8px; }
+    .tier .tier-price { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--muted); margin-bottom: 16px; }
+    .tier ul { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-top: 4px; }
+    .tier li { display: flex; gap: 9px; align-items: flex-start; font-size: 0.84rem; color: var(--muted); }
+    .tier li::before { content: '✓'; color: var(--pink); font-family: 'DM Mono', monospace; font-size: 0.78rem; margin-top: 3px; flex-shrink: 0; }
+    .tier-pill { font-family: 'DM Mono', monospace; font-size: 0.58rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 8px; border-radius: 5px; }
+    .tier-pill.pink { color: var(--pink); background: var(--pink-lt); border: 1px solid var(--pink-mid); }
+    .tier-pill.purple { color: var(--purple); background: #f1ebff; border: 1px solid #d9c8ff; }
+    .pricing-note { font-size: 0.8rem; color: var(--muted); margin-top: 22px; text-align: center; }
+
+    /* ── PRIVACY ── */
+    #privacy { padding: 80px 48px; background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .privacy-inner { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.3fr; gap: 64px; align-items: start; }
+    .privacy-inner h2 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .privacy-inner > div > p { color: var(--muted); font-size: 0.92rem; margin-bottom: 20px; }
+    .checklist { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+    .checklist li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem; color: var(--muted); }
+    .checklist li::before { content: '✓'; color: var(--pink); font-family: 'DM Mono', monospace; font-size: 0.78rem; margin-top: 3px; flex-shrink: 0; font-weight: 500; }
+    .prose-box { background: var(--bg); border: 1.5px solid var(--border); border-radius: 16px; padding: 32px; }
+    .prose-box h3 { font-size: 1.25rem; font-weight: 800; margin-bottom: 20px; }
+    .prose h4 { font-size: 0.82rem; font-weight: 700; color: var(--ink); margin-top: 18px; margin-bottom: 5px; }
+    .prose p, .prose li { font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
+    .prose ul { padding-left: 14px; margin-top: 4px; }
+    .prose li { margin-bottom: 3px; }
+    .prose a { color: var(--pink); font-weight: 600; text-decoration: none; }
+    .prose a:hover { text-decoration: underline; }
+    .prose .updated { font-family: 'DM Mono', monospace; font-size: 0.66rem; color: #bbb; margin-bottom: 14px; }
+
+    /* ── SUPPORT ── */
+    #support { padding: 80px 48px; max-width: 1000px; margin: 0 auto; }
+    .support-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 48px; }
+    .support-card { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 26px; transition: all 0.18s; }
+    .support-card:hover { border-color: var(--pink-mid); transform: translateY(-2px); }
+    .support-card .icon { font-size: 1.3rem; margin-bottom: 12px; }
+    .support-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+    .support-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+    .support-card a { color: var(--pink); text-decoration: none; font-weight: 600; }
+    .support-card a:hover { text-decoration: underline; }
+
+    /* ── FAQ ── */
+    .faq-title { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 20px; }
+    .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .faq-item { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 22px; }
+    .faq-item h4 { font-size: 0.88rem; font-weight: 700; margin-bottom: 6px; }
+    .faq-item p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+    .faq-item a { color: var(--pink); font-weight: 600; text-decoration: none; }
+
+    /* ── FOOTER ── */
+    footer { padding: 40px 48px; max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    footer p { font-size: 0.82rem; color: var(--muted); }
+    footer .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    footer .footer-links a { font-size: 0.82rem; color: var(--muted); text-decoration: none; transition: color 0.18s; }
+    footer .footer-links a:hover { color: var(--ink); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+
+    /* ── HAMBURGER ── */
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: none; border: none; cursor: pointer; padding: 4px; border-radius: 8px; transition: background 0.18s; }
+    .nav-hamburger:hover { background: var(--border); }
+    .nav-hamburger span { display: block; height: 2px; background: var(--ink); border-radius: 2px; transition: all 0.25s ease; transform-origin: center; }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── MOBILE DRAWER ── */
+    .mobile-nav-drawer { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 99; background: rgba(245,244,240,0.98); backdrop-filter: blur(12px); flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 80px 32px 40px; opacity: 0; transform: translateY(-8px); transition: opacity 0.25s ease, transform 0.25s ease; pointer-events: none; }
+    .mobile-nav-drawer.open { opacity: 1; transform: translateY(0); pointer-events: all; }
+    .mobile-nav-drawer a { font-size: 1.4rem; font-weight: 800; color: var(--ink); text-decoration: none; letter-spacing: -0.02em; padding: 10px 0; border-bottom: 1px solid var(--border); width: 100%; text-align: center; transition: color 0.18s; }
+    .mobile-nav-drawer a:last-child { border-bottom: none; }
+    .mobile-nav-drawer a:hover { color: var(--pink); }
+    .mobile-nav-drawer .drawer-lang { margin-top: 24px; font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--muted); border: 1.5px solid var(--border); padding: 6px 14px; border-radius: 8px; font-weight: 500; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; gap: 28px; }
+      .hero-visual { order: -1; }
+      .snail-stage { max-width: 260px; }
+      .why-grid { grid-template-columns: 1fr; gap: 32px; }
+      .companion-inner { grid-template-columns: 1fr; gap: 32px; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .mobile-nav-drawer { display: flex; }
+      .hero { padding: 40px 20px 36px; }
+      .hero h1 { font-size: clamp(2rem, 8vw, 2.6rem); }
+      .hero-cta { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .appstore-btn { width: 100%; justify-content: center; }
+      #why, #how, #features, #companion, #pricing, #privacy, #support { padding: 48px 20px; }
+      .section-title { font-size: 1.7rem; }
+      .section-sub { margin-bottom: 28px; }
+      .steps { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .tiers { grid-template-columns: 1fr; }
+      .stat-row { grid-template-columns: 1fr 1fr; }
+      .privacy-inner { grid-template-columns: 1fr; gap: 32px; }
+      .privacy-inner h2 { font-size: 1.7rem; }
+      .prose-box { padding: 24px; }
+      .support-grid { grid-template-columns: 1fr; }
+      .faq-grid { grid-template-columns: 1fr; }
+      footer { padding: 28px 20px; flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 480px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2rem; }
+      .feature-card { padding: 22px; }
+      .faq-item { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="sniffit-de.html" class="logo"><img class="logo-img" src="images/sniffy_bluepurple.png" alt="" /> Sniff It</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#why">Warum</a></li>
+      <li><a href="#pillars">Die App</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#pricing">Preise</a></li>
+      <li><a href="#support">Support</a></li>
+    </ul>
+    <a href="sniffit.html" class="lang-toggle" aria-label="View in English">EN</a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menü öffnen" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-nav-drawer" id="mobileDrawer">
+  <a href="#why" class="drawer-link">Warum</a>
+  <a href="#pillars" class="drawer-link">Die App</a>
+  <a href="#features" class="drawer-link">Features</a>
+  <a href="#pricing" class="drawer-link">Preise</a>
+  <a href="#support" class="drawer-link">Support</a>
+  <a href="sniffit.html" class="drawer-lang">EN</a>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div>
+    <div class="badge">Jetzt in der öffentlichen Beta · TestFlight</div>
+    <h1>Entdecke deinen<br/><span>Geruchssinn.</span></h1>
+    <p class="lede">Sniff It vereint drei Dinge: strukturiertes Geruchstraining, um deine Nase neu zu trainieren, achtsame Riechwahrnehmung, um dich wieder mit alltäglichen Düften zu verbinden, und ein Geruchstagebuch, um sie festzuhalten. Mit Sniffy der Schnecke, die dich am Ball hält.</p>
+    <div class="hero-cta">
+      <a href="https://testflight.apple.com/join/nNVJXDa7" target="_blank" rel="noopener" class="appstore-btn live" aria-label="Sniff It Beta über TestFlight beitreten">
+        <svg viewBox="0 0 814 1000"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-37.3-155.5-127.2C59.6 750.5 28.3 623.2 28.3 502.4c0-199 129.6-304.5 257-304.5 67.9 0 124.4 44.6 167.1 44.6 41.1 0 105.8-47 183.8-47 29.5 0 133 2.6 198.3 99.2zm-234-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/></svg>
+        <span class="btn-text">
+          <span class="sub">Beitreten über</span>
+          <span class="main">TestFlight</span>
+        </span>
+      </a>
+      <span class="free-note">Kostenlos · <span>Keine Werbung, kein Tracking</span></span>
+    </div>
+    <p class="beta-line">Kostenlos während der Beta · iPhone, iOS 17+ · App-Store-Start folgt bald</p>
+  </div>
+  <div class="hero-visual">
+    <div class="snail-stage">
+      <span class="spark s1">✨</span>
+      <span class="spark s2">🌸</span>
+      <span class="spark s3">☕</span>
+      <img class="snail" src="images/sniffy_bluepurple.png" alt="Sniffy, das Maskottchen von Sniff It" />
+      <span class="stage-chip">Das ist <b>Sniffy</b> · dein Trainingsbegleiter</span>
+    </div>
+  </div>
+</header>
+
+<!-- BETA BAND -->
+<section class="beta-band">
+  <div class="wrap beta-inner">
+    <div class="beta-text">
+      <div class="section-label">Öffentliche Beta</div>
+      <h2>Sniff It ist in der aktiven Beta - gestalte sie mit.</h2>
+      <p>Die App ist funktionsvollständig und über TestFlight kostenlos, während ich sie für den App Store finalisiere. Dein Feedback entscheidet, was als Nächstes behoben und ergänzt wird - ich lese jede Nachricht.</p>
+    </div>
+    <div class="beta-cta">
+      <a href="https://testflight.apple.com/join/nNVJXDa7" target="_blank" rel="noopener" class="btn-beta">Beta beitreten →</a>
+      <a href="mailto:support@engelheartware.de?subject=Sniff%20It%20Beta%20Feedback" class="btn-beta-ghost">Feedback senden</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="wrap why-grid">
+    <div class="why-copy reveal">
+      <div class="section-label">Warum Sniff It</div>
+      <h2>Riechverlust ist häufiger, als man denkt.</h2>
+      <p>Millionen Menschen leben mit einem reduzierten oder fehlenden Geruchssinn, oft nach einem viralen Infekt wie COVID-19. Es steht selten in den Schlagzeilen, kann aber unbemerkt verändern, wie Essen schmeckt, wie sicher du dich fühlst und wie verbunden du mit Orten und Erinnerungen bist.</p>
+      <p>Das Ermutigende: Riechen lässt sich trainieren. Schon ein paar achtsame Minuten am Tag, in denen du an einer kleinen Auswahl vertrauter Düfte riechst, sind eine klinisch anerkannte Methode zur Unterstützung der Regeneration - und Sniff It macht diese Routine leicht durchhaltbar.</p>
+    </div>
+    <div class="stat-row reveal">
+      <div class="stat"><div class="num">Millionen</div><div class="lab">Menschen leben mit reduziertem oder verlorenem Geruchssinn, oft nach einem viralen Infekt.</div></div>
+      <div class="stat"><div class="num">Alltag</div><div class="lab">Riechen prägt Geschmack, Appetit, Sicherheit, Stimmung und Erinnerung.</div></div>
+      <div class="stat"><div class="num">~5 Min</div><div class="lab">am Tag achtsames Riechen können deinen Geruchssinn mit der Zeit verbessern.</div></div>
+      <div class="stat"><div class="num">Anerkannt</div><div class="lab">Geruchstraining ist eine klinisch anerkannte Methode zur Unterstützung der Regeneration.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- DREI SÄULEN -->
+<section id="pillars">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="section-label">Die App</div>
+      <h2 class="section-title">Drei Wege, dich wieder mit dem Riechen zu verbinden.</h2>
+      <p class="section-sub">Sniff It verbindet die bewährte Trainingsmethode mit zwei Alltagspraktiken, damit Riechen ein echter Teil deines Tages wird - nicht nur eine Übung.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="pillar-icon">👃</div>
+        <h3>Geruchstraining</h3>
+        <p>Mache kurze, strukturierte Sessions mit deinem eigenen Set vertrauter Düfte, um deine Nase neu zu trainieren. Die klinisch anerkannte Methode zur Unterstützung der Regeneration, als Gewohnheit, die du durchhältst.</p>
+      </div>
+      <div class="step reveal">
+        <div class="pillar-icon">🌬️</div>
+        <h3>Riechachtsamkeit</h3>
+        <p>Geführte Atmung und achtsames Riechen helfen dir, langsamer zu werden und dich wieder auf die Düfte um dich herum einzustimmen - vom Morgenkaffee bis zum Regen auf dem Asphalt. Beruhigend, erdend und für alle geeignet.</p>
+      </div>
+      <div class="step reveal">
+        <div class="pillar-icon">📖</div>
+        <h3>Geruchstagebuch</h3>
+        <p>Halte die Düfte fest, die dir auffallen - mit Titel, Notizen, Tags und optional Foto oder Ort. Mit der Zeit wird dein Tagebuch zu einer persönlichen Karte der Gerüche in deinem Leben und deines Fortschritts.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr />
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="section-label">Features</div>
+      <h2 class="section-title">Alles, was du brauchst - und genug Freude, um dranzubleiben.</h2>
+      <p class="section-sub">Gebaut für einen klaren Zweck, mit genau so viel Verspieltheit, dass du wiederkommst.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="icon">👃</div>
+        <h3>Geruchstraining</h3>
+        <p>Wähle dein Duftset, mache getaktete Sessions und bewerte jeden Duft von 0-10. Die bewährte, strukturierte Routine im Kern der Geruchsregeneration.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🧘</div>
+        <h3>Achtsamkeitsmomente</h3>
+        <p>Geführte Atmung gepaart mit Geruchswahrnehmung. Ein ruhiger Weg, dich wieder mit dem Riechen zu verbinden und herunterzukommen.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">📖</div>
+        <h3>Geruchstagebuch</h3>
+        <p>Jedes Training und jeder Achtsamkeitsmoment landet in einer Timeline und einem Kalender - so kannst du auf deine Reise zurückblicken.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">📈</div>
+        <h3>Smell Index</h3>
+        <p>Ein einzelner Wert aus all deinen Bewertungen, über die Zeit dargestellt - die aussagekräftigste Zahl für deinen Fortschritt.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🐌</div>
+        <h3>Sniffy, dein Begleiter</h3>
+        <p>Eine anpassbare Schnecke, die mit dir wächst. Tägliche Berichte, Ermutigung und ein Grund, morgen wiederzukommen.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🎮</div>
+        <h3>Spielerische Gewohnheit</h3>
+        <p>Erledige tägliche Aufgaben, sammle Münzen und XP, steige Level auf und schalte Häuser und Accessoires für Sniffy im Shop frei.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🔥</div>
+        <h3>Streaks &amp; Erinnerungen</h3>
+        <p>Halte deinen Streak am Leben - mit optionalen Erinnerungen morgens, abends und „brich ihn nicht", die deinen Tag respektieren.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">💡</div>
+        <h3>Tägliche Fakten &amp; Wissen</h3>
+        <p>Entdecke jeden Tag einen neuen Fakt sowie kuratiertes Hintergrundwissen zur Wissenschaft des Riechens - unserem unterschätztesten Sinn.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🏷️</div>
+        <h3>Duft-Tags &amp; Notizen</h3>
+        <p>Beschreibe, was du riechst, mit Tags für Intensität, Typ und Emotion - oder lege eigene an. <span class="pro-tag">Pro</span></p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">📊</div>
+        <h3>Statistiken &amp; Einblicke</h3>
+        <p>Session-Zahlen, Trends und Sniffys persönliche Beobachtungen helfen dir, deinen Fortschritt auf einen Blick zu verstehen.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">❤️</div>
+        <h3>Apple Health</h3>
+        <p>Logge Trainings optional als „Mind &amp; Body"-Workouts und Achtsamkeitsminuten in der Health-App. Nur schreibend - Sniff It liest deine Gesundheitsdaten nie.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">☁️</div>
+        <h3>Private iCloud-Sync</h3>
+        <p>Deine Daten synchronisieren sicher über Apple CloudKit in deiner persönlichen iCloud. Kein Konto, kein Server von mir.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🎨</div>
+        <h3>Mach sie zu deiner</h3>
+        <p>Hell oder dunkel, eigene Akzentfarben und alternative App-Icons. <span class="pro-tag">Pro</span></p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">📱</div>
+        <h3>Home-Screen-Widgets</h3>
+        <p>Starte eine Session oder prüfe deinen Smell Index direkt vom Home-Screen.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🏆</div>
+        <h3>Errungenschaften</h3>
+        <p>Sammle Trophäen, die mit deinen Trainings-Streaks und Gesamtwerten aufsteigen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPANION -->
+<section id="companion">
+  <div class="wrap companion-inner">
+    <div class="companion-art reveal">
+      <span class="coin c1">🪙</span>
+      <span class="coin c2">⭐</span>
+      <img class="big" src="images/sniffy_bluepurple.png" alt="Sniffy die Schnecke" />
+    </div>
+    <div class="companion-copy reveal">
+      <div class="section-label">Bleib dran</div>
+      <h2>Regeneration braucht Wiederholung. Sniffy hilft dir dabei.</h2>
+      <p>Geruchstraining wirkt nur, wenn du dranbleibst. Deshalb übernimmt Sniff It das Beste aus Gewohnheits-Apps: kleine Tagesziele, sichtbare Streaks und einen Begleiter, um den du dich gerne kümmerst.</p>
+      <ul class="loop-list">
+        <li><span class="e">➡️</span><span><b>Trainieren &amp; innehalten</b> → sammle XP für dein nächstes Level.</span></li>
+        <li><span class="e">✅</span><span><b>Tagesaufgaben erledigen</b> → kassiere Münzen und eine Belohnungsanimation.</span></li>
+        <li><span class="e">🏠</span><span><b>Münzen im Shop ausgeben</b> → schalte Häuser und Accessoires für Sniffy frei.</span></li>
+        <li><span class="e">📈</span><span><b>Morgen wiederkommen</b> → halte deinen Streak und lass deinen Smell Index wachsen.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="section-label">Preise</div>
+      <h2 class="section-title">Kostenlos nutzbar. Upgrade nur, wenn du willst.</h2>
+      <p class="section-sub">Die komplette Trainingsroutine ist für immer kostenlos. Pro und Supporter sind einmalige Käufe - keine Abos - die Personalisierung hinzufügen und einen Einzelentwickler unterstützen.</p>
+    </div>
+    <div class="tiers">
+      <div class="tier reveal">
+        <div class="tier-name">Free</div>
+        <div class="tier-price">€0 · für immer</div>
+        <ul>
+          <li>Komplettes Geruchstraining &amp; Smell Index</li>
+          <li>Achtsamkeitsmomente &amp; Geruchstagebuch</li>
+          <li>Tägliche Aufgaben, Streaks &amp; Münzen</li>
+          <li>Tägliche Fakten &amp; Wissen</li>
+          <li>Sniffy-Begleiter &amp; Shop-Grundlagen</li>
+          <li>Private iCloud-Sync &amp; Apple Health</li>
+        </ul>
+      </div>
+      <div class="tier highlight reveal">
+        <div class="tier-name">Pro <span class="tier-pill pink">Einmalig</span></div>
+        <div class="tier-price">Einmaliger Kauf</div>
+        <ul>
+          <li>Sniffys tiefere Analysen &amp; Einblicke</li>
+          <li>Smell-Index-Widget für den Home-Screen</li>
+          <li>Fotos &amp; Standort in Tagebucheinträgen</li>
+          <li>Eigene Duft-Tags</li>
+          <li>Alternative App-Icons &amp; Akzentfarben</li>
+          <li>Pro-Shop-Items &amp; Pro-Abzeichen</li>
+        </ul>
+      </div>
+      <div class="tier reveal">
+        <div class="tier-name">Supporter <span class="tier-pill purple">Einmalig</span></div>
+        <div class="tier-price">Einmaliger Kauf</div>
+        <ul>
+          <li>Alles aus Pro</li>
+          <li>Exklusives Regenbogen-App-Icon</li>
+          <li>Exklusives Regenbogen-Haus für Sniffy</li>
+          <li>Supporter-Abzeichen</li>
+          <li>Dein Dank finanziert neue Features 💜</li>
+        </ul>
+      </div>
+    </div>
+    <p class="pricing-note">Preise werden beim Kauf in deiner Landeswährung angezeigt. Käufe stellen sich auf all deinen Geräten wieder her.</p>
+  </div>
+</section>
+
+<hr />
+
+<!-- PRIVACY -->
+<section id="privacy">
+  <div class="privacy-inner">
+    <div class="reveal">
+      <div class="section-label">Datenschutz</div>
+      <h2 class="section-title">Deine Daten gehören dir.</h2>
+      <p>Sniff It hat keine Analyse, keine Werbung und kein Konto. Alles, was du festhältst, bleibt auf deinem Gerät und synchronisiert nur über deine eigene private iCloud via Apple CloudKit. Weder ich noch Dritte können es einsehen.</p>
+      <ul class="checklist">
+        <li>Keine Analyse- oder Tracking-SDKs</li>
+        <li>Keine Werbenetzwerke</li>
+        <li>Kein Konto erforderlich - niemals</li>
+        <li>Privat synchronisiert über deine eigene Apple CloudKit</li>
+        <li>Apple Health ist rein schreibend und optional</li>
+        <li>Standort &amp; Fotos sind optional und bleiben bei deinen Daten</li>
+        <li>Lösche alles jederzeit direkt in der App</li>
+      </ul>
+    </div>
+
+    <div class="prose-box reveal">
+      <h3>Datenschutz auf einen Blick</h3>
+      <div class="prose">
+        <p class="updated">Stand: Juni 2026</p>
+
+        <h4>Welche Daten erfasst Sniff It?</h4>
+        <p>Für mich keine. Sniff It überträgt deine Daten an keinen Server von mir und enthält keine Werbe- oder Analyse-Frameworks. Deine Einträge - Trainings-Protokolle, Tagebuchnotizen, Achtsamkeitssessions, Spielfortschritt und Einstellungen - werden auf deinem Gerät gespeichert und über Apples CloudKit in dein persönliches iCloud-Konto synchronisiert.</p>
+
+        <h4>Optionale Daten unter deiner Kontrolle</h4>
+        <ul>
+          <li><strong>Apple Health:</strong> wenn du es aktivierst, werden abgeschlossene Sessions als „Mind &amp; Body"-Workouts und Achtsamkeitsminuten in Health geschrieben. Sniff It schreibt nur - es liest deine Gesundheitsdaten nie.</li>
+          <li><strong>Standort:</strong> wenn du einem Tagebucheintrag einen Ort hinzufügst, wird ein ungefährer Standort mit diesem Eintrag auf deinem Gerät/in deiner iCloud gespeichert. Nur zur Beschriftung deines Moments.</li>
+          <li><strong>Fotos:</strong> wenn du einem Eintrag ein Foto anhängst, wird es mit diesem Eintrag gespeichert. Es wird keine Fotomediathek irgendwohin hochgeladen.</li>
+        </ul>
+
+        <h4>Apple CloudKit</h4>
+        <p>Die Synchronisation läuft über dein persönliches iCloud-Konto (Apple Inc., One Apple Park Way, Cupertino, CA 95014, USA). Ich habe zu keinem Zeitpunkt Zugriff darauf. Siehe <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Apples Datenschutzrichtlinie</a>.</p>
+
+        <h4>Datenschutz für Kinder</h4>
+        <p>Sniff It erfasst von niemandem personenbezogene Daten, auch nicht von Kindern unter 16 Jahren.</p>
+
+        <h4>Vollständige Erklärung &amp; Impressum</h4>
+        <p>Lies die komplette <a href="datenschutz.html">Datenschutzerklärung</a> und das <a href="impressum.html">Impressum</a>. Fragen? <a href="mailto:support@engelheartware.de">support@engelheartware.de</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr />
+
+<!-- SUPPORT -->
+<section id="support">
+  <div class="reveal">
+    <div class="section-label">Support</div>
+    <h2 class="section-title">Brauchst du Hilfe?</h2>
+    <p class="section-sub">Ich helfe gerne bei Fragen und Feedback - ich antworte in der Regel innerhalb weniger Tage.</p>
+  </div>
+
+  <div class="support-grid">
+    <div class="support-card reveal">
+      <div class="icon">📬</div>
+      <h3>Kontakt aufnehmen</h3>
+      <p>Schreib mir eine <a href="mailto:support@engelheartware.de">E-Mail</a>. Ich antworte in der Regel innerhalb weniger Tage.</p>
+    </div>
+    <div class="support-card reveal">
+      <div class="icon">🐛</div>
+      <h3>Fehler melden</h3>
+      <p>Etwas funktioniert nicht? Beschreibe, was passiert ist, was du erwartet hast, und deine iOS-Version. <a href="mailto:support@engelheartware.de?subject=Sniff%20It%20Fehlerbericht">Bericht senden →</a></p>
+    </div>
+    <div class="support-card reveal">
+      <div class="icon">💡</div>
+      <h3>Feature-Wünsche</h3>
+      <p>Hast du eine Idee? Ich freue mich darüber! Öffne ein <a href="https://github.com/EngelHeartWare" target="_blank" rel="noopener">GitHub Issue</a> oder schreib mir eine E-Mail.</p>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="reveal">
+    <h3 class="faq-title">Häufige Fragen</h3>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h4>Ist Sniff It wirklich kostenlos?</h4>
+        <p>Ja. Die komplette Trainingsroutine ist werbefrei und ohne Kauf nutzbar. Optionale, einmalige Pro- und Supporter-Upgrades fügen Personalisierung hinzu und finanzieren die Entwicklung - oder <a href="https://ko-fi.com/engelheartware" target="_blank" rel="noopener">kauf mir einen Kaffee</a> auf Ko-Fi.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Wirkt Geruchstraining wirklich?</h4>
+        <p>Geruchstraining ist ein klinisch anerkannter Ansatz zur Unterstützung der Regeneration bei Riechverlust. Ergebnisse variieren und brauchen Zeit - Sniff It hilft dir, dranzubleiben, ist aber kein Medizinprodukt und kein Ersatz für ärztlichen Rat.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Wo werden meine Daten gespeichert?</h4>
+        <p>Auf deinem Gerät und in deiner persönlichen iCloud über Apple CloudKit. Der Entwickler hat zu keinem Zeitpunkt Zugriff darauf.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Kann ich meine Daten löschen?</h4>
+        <p>Ja - lösche alles jederzeit direkt in der App. Beim Deinstallieren werden auch alle lokal gespeicherten Daten entfernt.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Brauche ich Health oder Standort?</h4>
+        <p>Nein. Apple Health, Standort und Fotos sind komplett optional und ausgeschaltet, bis du sie aktivierst.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Wird es eine Android-Version geben?</h4>
+        <p>Derzeit nicht geplant - als Einzelentwickler liegt der Fokus zunächst auf iOS.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr />
+
+<!-- ÜBER DEN ENTWICKLER -->
+<section class="dev-strip">
+  <div class="wrap dev-inner reveal">
+    <img src="images/sniffy_bluepurple.png" alt="" class="dev-snail" />
+    <div>
+      <h3>Über den Entwickler</h3>
+      <p>Sniff It wird von Moritz entwickelt, einem unabhängigen iOS-Entwickler, der Apps zu Themen baut, für die er brennt - jede gedacht, um deinen Tag zu verbessern oder etwas leichter zu machen.</p>
+    </div>
+    <a href="index-de.html" class="btn-beta-ghost">Über mich &amp; meine anderen Apps →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Sniff It · Moritz Engelhardt</p>
+  <div class="footer-links">
+    <a href="sniffit.html">English</a>
+    <a href="index-de.html">Über den Entwickler</a>
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="mailto:support@engelheartware.de">Kontakt</a>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  const hamburger = document.getElementById('hamburger');
+  const drawer = document.getElementById('mobileDrawer');
+  function toggleMenu(open) {
+    hamburger.classList.toggle('open', open);
+    drawer.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  hamburger.addEventListener('click', () => toggleMenu(!drawer.classList.contains('open')));
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleMenu(false); });
+</script>
+
+</body>
+</html>

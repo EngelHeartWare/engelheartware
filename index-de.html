@@ -3,42 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EngelHeartWare — Mobile & Web Apps</title>
-  <meta name="description" content="Portfolio von EngelHeartware – minimalistische und nützliche Apps." />
+  <title>EngelHeartWare - iOS Apps für Gesundheit, Produktivität & Neugier</title>
+  <meta name="description" content="Portfolio von EngelHeartware - minimalistische und nützliche Apps." />
   <style>
     @font-face {
       font-family: "Nunito";
-      src: url("fonts/nunito-v26-latin-regular.woff2") format("woff2");
+      src: url("fonts/nunito-v32-latin-regular.woff2") format("woff2");
       font-weight: 400; font-style: normal; font-display: swap;
     }
     @font-face {
       font-family: "Nunito";
-      src: url("fonts/nunito-v26-latin-600.woff2") format("woff2");
+      src: url("fonts/nunito-v32-latin-600.woff2") format("woff2");
       font-weight: 600; font-style: normal; font-display: swap;
     }
     @font-face {
       font-family: "Nunito";
-      src: url("fonts/nunito-v26-latin-700.woff2") format("woff2");
+      src: url("fonts/nunito-v32-latin-700.woff2") format("woff2");
       font-weight: 700; font-style: normal; font-display: swap;
     }
     @font-face {
       font-family: "Nunito";
-      src: url("fonts/nunito-v26-latin-700italic.woff2") format("woff2");
+      src: url("fonts/nunito-v32-latin-700italic.woff2") format("woff2");
       font-weight: 700; font-style: italic; font-display: swap;
     }
     @font-face {
       font-family: "Nunito";
-      src: url("fonts/nunito-v26-latin-800.woff2") format("woff2");
+      src: url("fonts/nunito-v32-latin-800.woff2") format("woff2");
       font-weight: 800; font-style: normal; font-display: swap;
     }
     @font-face {
       font-family: "DM Mono";
-      src: url("fonts/dm-mono-v14-latin-regular.woff2") format("woff2");
+      src: url("fonts/dm-mono-v16-latin-regular.woff2") format("woff2");
       font-weight: 400; font-style: normal; font-display: swap;
     }
     @font-face {
       font-family: "DM Mono";
-      src: url("fonts/dm-mono-v14-latin-500.woff2") format("woff2");
+      src: url("fonts/dm-mono-v16-latin-500.woff2") format("woff2");
       font-weight: 500; font-style: normal; font-display: swap;
     }
   </style>
@@ -68,7 +68,7 @@
       overflow-x: hidden;
     }
 
-    /* ── NAV ── */
+    /* NAV */
     nav {
       position: sticky;
       top: 0;
@@ -125,7 +125,7 @@
     }
     .lang-toggle:hover { color: var(--ink); border-color: #bbb; }
 
-    /* ── HERO ── */
+    /* HERO */
     .hero {
       padding: 52px 48px 48px;
       max-width: 1000px;
@@ -133,22 +133,27 @@
     }
 
     .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      display: inline-block;
       font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
+      font-size: 0.62rem;
       font-weight: 500;
       color: var(--mint);
-      letter-spacing: 0.08em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
       background: var(--mint-lt);
       border: 1px solid var(--mint-mid);
-      padding: 5px 12px;
+      padding: 5px 11px;
       border-radius: 100px;
       margin-bottom: 18px;
       opacity: 0;
       animation: fadeUp 0.5s ease forwards 0.05s;
+      white-space: nowrap;
+    }
+    @media (max-width: 480px) {
+      .hero-eyebrow { font-size: 0.55rem; letter-spacing: 0.03em; padding: 4px 10px; }
+    }
+    @media (max-width: 380px) {
+      .hero-eyebrow { font-size: 0.5rem; letter-spacing: 0.02em; padding: 4px 9px; }
     }
 
     .hero h1 {
@@ -157,7 +162,7 @@
       line-height: 1.15;
       letter-spacing: -0.03em;
       color: var(--ink);
-      max-width: 600px;
+      max-width: 1400px;
       opacity: 0;
       animation: fadeUp 0.55s ease forwards 0.15s;
     }
@@ -218,13 +223,12 @@
       transform: translateY(-1px);
     }
 
-    /* ── DIVIDER ── */
     hr {
       border: none;
       border-top: 1px solid var(--border);
     }
 
-    /* ── ABOUT ── */
+    /* ABOUT */
     #about {
       padding: 80px 48px;
       max-width: 1000px;
@@ -260,40 +264,71 @@
     }
     .about-text p strong { color: var(--ink); font-weight: 700; }
 
-    .about-links {
+    .focus-grid {
       display: flex;
+      flex-direction: column;
       gap: 10px;
-      margin-top: 24px;
-      flex-wrap: wrap;
     }
 
-    .stat-grid {
+    .focus-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      transition: border-color 0.18s;
+    }
+    .focus-card:hover { border-color: var(--mint-mid); }
+
+    .focus-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+    .focus-card h4 { font-size: 0.88rem; font-weight: 700; margin-bottom: 2px; }
+    .focus-card p { font-size: 0.8rem; color: var(--muted); margin: 0; line-height: 1.5; }
+
+    /* WEB PROJECTS */
+    .web-projects {
+      margin-top: 32px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+    .web-projects-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 14px;
+    }
+    .web-project-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
     }
-
-    .stat-card {
-      background: var(--white);
-      border: 1.5px solid var(--border);
+    .web-project-card {
+      background: var(--bg);
+      border: 1.5px dashed var(--border);
       border-radius: var(--radius);
-      padding: 22px;
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
     }
-    .stat-card .num {
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: var(--mint);
-      line-height: 1;
-      letter-spacing: -0.03em;
-    }
-    .stat-card .desc {
-      margin-top: 5px;
-      font-size: 0.78rem;
+    .web-project-card h4 { font-size: 0.88rem; font-weight: 700; color: var(--muted); }
+    .web-project-card p { font-size: 0.78rem; color: var(--muted); opacity: 0.7; line-height: 1.5; }
+    .placeholder-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
       color: var(--muted);
-      font-weight: 600;
+      background: var(--border);
+      padding: 2px 8px;
+      border-radius: 4px;
+      width: fit-content;
+      margin-top: 4px;
     }
 
-    /* ── PROJECTS ── */
+    /* PROJECTS */
     #projects {
       padding: 80px 48px;
       max-width: 1000px;
@@ -312,9 +347,32 @@
       margin-bottom: 40px;
     }
 
+    .project-card.in-dev {
+      opacity: 0.82;
+      border-style: dashed;
+      position: relative;
+    }
+    .project-card.in-dev:hover { opacity: 1; }
+
+    .dev-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 500;
+      color: #b45309;
+      background: #fff8e6;
+      border: 1px solid #fcd98a;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
     .project-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 20px;
     }
 
@@ -331,6 +389,11 @@
       border-color: var(--mint-mid);
       transform: translateY(-3px);
       box-shadow: 0 12px 32px rgba(0,199,190,0.1);
+    }
+
+    .project-card.in-dev {
+      max-width: 360px;
+      justify-self: start;
     }
 
     .app-logo {
@@ -350,10 +413,9 @@
       margin-bottom: 8px;
     }
 
-    .project-card p {
+    .project-card > p {
       color: var(--muted);
       font-size: 0.88rem;
-      flex: 1;
       line-height: 1.65;
     }
 
@@ -371,7 +433,114 @@
       font-weight: 500;
     }
     .tag-default { background: var(--bg); color: var(--muted); border: 1px solid var(--border); }
-    .tag-mint { background: var(--mint-lt); color: var(--mint); border: 1px solid var(--mint-mid); }
+    .tag-mint    { background: var(--mint-lt); color: var(--mint); border: 1px solid var(--mint-mid); }
+
+    /* Launch tag - small dot + text */
+    .tag-launch {
+      background: var(--bg);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .tag-launch::before {
+      content: '';
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--mint);
+      flex-shrink: 0;
+    }
+
+    /* Featured card - side-by-side layout */
+    .project-card.featured {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      align-items: stretch;
+      gap: 40px;
+    }
+    .project-card.featured .card-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .project-card.featured .card-info > p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.65;
+    }
+    .project-card.featured .screenshot-strip {
+      flex-shrink: 0;
+      margin-top: 0;
+      width: 220px;
+      align-content: start;
+    }
+
+    /* Featured card with landscape (web) screenshot - wider, full-image view */
+    .project-card.featured .screenshot-strip.web {
+      width: 440px;
+    }
+
+    /* Screenshot strip - single-image display */
+    .screenshot-strip {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    /* Mobile portrait screenshot */
+    .screenshot-strip img {
+      width: 100%;
+      aspect-ratio: 9 / 19.5;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      display: block;
+    }
+
+    /* Web landscape screenshot - show full image, no cropping */
+    .screenshot-strip.web img {
+      aspect-ratio: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    /* Mobile portrait placeholder (9:19.5 ≈ iPhone aspect) - divs only */
+    div.screenshot-ph {
+      flex: 1;
+      min-width: 0;
+      aspect-ratio: 9 / 19.5;
+      background: var(--bg);
+      border: 1.5px dashed var(--border);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: border-color 0.18s;
+    }
+    div.screenshot-ph:hover { border-color: var(--mint-mid); }
+
+    /* Web landscape placeholder */
+    div.screenshot-ph.web {
+      aspect-ratio: 16 / 10;
+    }
+
+    .screenshot-ph .ph-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--muted);
+      opacity: 0.55;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
 
     .project-link {
       display: inline-flex;
@@ -386,7 +555,7 @@
     }
     .project-link:hover { gap: 8px; }
 
-    /* ── SUPPORT ── */
+    /* SUPPORT */
     #support {
       background: var(--white);
       border-top: 1px solid var(--border);
@@ -432,7 +601,7 @@
     .support-card a { color: var(--mint); text-decoration: none; font-weight: 600; }
     .support-card a:hover { text-decoration: underline; }
 
-    /* ── FOOTER ── */
+    /* FOOTER */
     footer {
       padding: 40px 48px;
       max-width: 1000px;
@@ -453,7 +622,7 @@
     }
     footer .footer-links a:hover { color: var(--ink); }
 
-    /* ── ANIMATIONS ── */
+    /* ANIMATIONS */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(18px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -489,6 +658,7 @@
       transition: all 0.25s ease;
       transform-origin: center;
     }
+    /* open state */
     .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
     .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
@@ -560,6 +730,8 @@
       .section-title { font-size: 1.7rem; }
       .project-grid { grid-template-columns: 1fr; }
       .project-card { padding: 24px; }
+      .project-card.featured { flex-direction: column; gap: 24px; }
+      .project-card.featured .screenshot-strip { margin-top: 0; }
       .web-project-row { grid-template-columns: 1fr; }
 
       #support { padding: 48px 20px; }
@@ -583,7 +755,7 @@
 
 <!-- NAV -->
 <nav>
-  <a href="index.html" class="logo">Engel<span>Heart</span>Ware.</a>
+  <a href="index-de.html" class="logo">Engel<span>Heart</span>Ware.</a>
   <div class="nav-right">
     <ul class="nav-links">
       <li><a href="#about">Über mich</a></li>
@@ -609,13 +781,13 @@
 
 <!-- HERO -->
 <div class="hero">
-  <p class="hero-eyebrow">Indie-Entwickler · Privacy-first</p>
-  <h1>Minimalistische Apps für<br/><span>maximale Produktivität.</span></h1>
-  <p>Hallo, ich bin Moritz. Ich entwickle Software, die den Alltag erleichtert und Neugier weckt.</p>
+  <p class="hero-eyebrow">Unabhängiger iOS-Entwickler · Leipzig</p>
+  <h1>Apps mit Herz</h1>
+  <p>Hallo, ich bin Moritz. Ich entwickle iOS-Apps zu Themen, für die ich mich ehrlich begeistere - etwa deinen Geruchssinn zu entdecken oder deine Arbeit zu strukturieren. Ohne Ballast, ohne Werbung, ohne Tracking.</p>
   <div class="hero-actions">
     <a href="#projects" class="btn btn-primary">Projekte ansehen →</a>
     <a href="https://github.com/EngelHeartWare" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
-    <a href="https://ko-fi.com/engelheartware" target="_blank" rel="noopener" class="btn btn-ghost">☕ Unterstütze mich</a>
+    <a href="https://ko-fi.com/engelheartware" target="_blank" rel="noopener" class="btn btn-ghost">☕ Ko-Fi</a>
   </div>
 </div>
 
@@ -626,29 +798,30 @@
   <div class="about-text reveal">
     <div class="section-label">Über mich</div>
     <h2>Hallo, ich bin Moritz.</h2>
-    <p>Ich entwickle kleine, fokussierte Apps, die <strong>nicht im Weg stehen</strong>. Privacy-first von Anfang an — deine Daten bleiben auf deinem Gerät, nicht auf meinen Servern.</p>
-    <p>Wenn ich keine neuen Features baue, suche ich nach dem nächsten Problem, das es wert ist, gelöst zu werden.</p>
-    <div class="about-links">
-      <a href="https://github.com/EngelHeartWare" target="_blank" rel="noopener" class="btn btn-ghost" style="padding:10px 18px;font-size:0.82rem;">GitHub →</a>
-      <a href="https://ko-fi.com/engelheartware" target="_blank" rel="noopener" class="btn btn-ghost" style="padding:10px 18px;font-size:0.82rem;">☕ Entwicklung unterstützen</a>
-    </div>
+    <p>Ich entwickle kleine iOS-Apps zu Themen, für die ich mich <strong>ehrlich begeistere</strong> - vom Zurückgewinnen deines Geruchssinns bis zur Zeiterfassung. Jede ist gedacht, um dein Leben zu verbessern oder etwas leichter zu machen.</p>
+    <p>Datenschutz steht an erster Stelle: deine Daten bleiben auf deinem Gerät, nicht auf meinen Servern. Keine Werbung, kein Tracking, keine Abos, die du nicht brauchst.</p>
   </div>
-  <div class="stat-grid reveal">
-    <div class="stat-card">
-      <div class="num">2</div>
-      <div class="desc">Apps veröffentlicht</div>
+  <div class="focus-grid reveal">
+    <div class="focus-card">
+      <div class="focus-icon">🫁</div>
+      <div>
+        <h4>Gesundheit & Wohlbefinden</h4>
+        <p>Apps, die Gewohnheiten, Regeneration und Körperwahrnehmung unterstützen - ohne zu stören.</p>
+      </div>
     </div>
-    <div class="stat-card">
-      <div class="num">0</div>
-      <div class="desc">Tracker oder Werbung</div>
+    <div class="focus-card">
+      <div class="focus-icon">⚡</div>
+      <div>
+        <h4>Produktivität</h4>
+        <p>Minimalistische Tools für Zeit, Aufgaben und Fokus. Kein Ballast, keine Abos.</p>
+      </div>
     </div>
-    <div class="stat-card">
-      <div class="num">100%</div>
-      <div class="desc">Lokale Datenspeicherung</div>
-    </div>
-    <div class="stat-card">
-      <div class="num">∞</div>
-      <div class="desc">Ideen auf der Liste</div>
+    <div class="focus-card">
+      <div class="focus-icon">🗂️</div>
+      <div>
+        <h4>Datenexploration</h4>
+        <p>Spannende Datensätze in durchsuchbare, filterbare, persönliche Erlebnisse verwandeln.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -659,34 +832,92 @@
 <section id="projects">
   <div class="reveal">
     <div class="section-label">Portfolio</div>
-    <h2 class="section-title">Meine Apps</h2>
-    <p class="section-sub">Tools, die auf Einfachheit und Datenschutz ausgelegt sind.</p>
+    <h2 class="section-title">Apps</h2>
+    <p class="section-sub">Jede App ist um einen einzigen klaren Zweck herum gebaut.</p>
   </div>
 
   <div class="project-grid">
-    <div class="project-card reveal">
-      <img src="SwipeIn_logo_light_mint.png" alt="Swipe In App Logo" class="app-logo" onerror="this.style.display='none'">
-      <h3>Swipe In</h3>
-      <p>Eine minimalistische App zur Zeit- und Aktivitätserfassung. Nach rechts wischen zum Starten, nach links wischen zum Stoppen. Keine komplizierte Einrichtung erforderlich.</p>
-      <div class="project-tags">
-        <span class="tag tag-mint">App Store</span>
-        <span class="tag tag-default">iOS</span>
-        <span class="tag tag-default">Kostenlos</span>
+
+<!-- SNIFF IT - featured full-width card -->
+    <div class="project-card featured reveal">
+      <div class="card-info">
+        <img src="images/sniffy_bluepurple.png" alt="Sniff It Maskottchen Sniffy" class="app-logo" style="object-fit:contain;background:#FEE6FC;border-color:#FDBAF7;padding:5px;">
+        <h3>Sniff It</h3>
+        <p>Eine App für Geruchstraining und Riechachtsamkeit für Menschen, die nach einem Riechverlust ihren Geruchssinn zurückgewinnen wollen. Mit strukturiertem täglichem Training, einem Geruchstagebuch, dem Smell Index für deinen Fortschritt und Sniffy der Schnecke, die dir hilft, dranzubleiben. Jetzt in der öffentlichen Beta über TestFlight.</p>
+        <div class="project-tags">
+          <span class="tag tag-default">iOS</span>
+          <span class="tag tag-default">Gesundheit</span>
+          <span class="tag tag-launch">Öffentliche Beta · TestFlight</span>
+        </div>
+        <a href="sniffit-de.html" class="project-link">App ansehen →</a>
       </div>
-      <a href="swipein-de.html" class="project-link">Zur App →</a>
+      <div class="screenshot-strip">
+        <div style="position:relative;width:100%;aspect-ratio:9/19.5;border-radius:18px;border:1.5px solid var(--border);background:radial-gradient(120% 85% at 30% 16%, #FEE6FC 0%, #ffffff 62%);display:flex;align-items:center;justify-content:center;overflow:hidden;">
+          <span style="position:absolute;top:13%;left:24%;font-size:1.1rem;">✨</span>
+          <span style="position:absolute;top:19%;right:22%;font-size:1.1rem;">🌸</span>
+          <img src="images/sniffy_bluepurple.png" alt="Sniffy die Schnecke" style="width:74%;height:auto;filter:drop-shadow(0 10px 14px rgba(0,0,0,0.14));">
+          <span style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.85);border:1px solid var(--border);border-radius:100px;padding:5px 12px;font-size:0.66rem;font-weight:700;white-space:nowrap;">Das ist Sniffy</span>
+        </div>
+      </div>
     </div>
 
-    <div class="project-card reveal">
-      <img src="logo_skyline.png" alt="Skyline App Logo" class="app-logo" onerror="this.style.display='none'">
-      <h3>Skyline Explorer</h3>
-      <p>Entdecke die Skylines der Welt und halte die höchsten Gebäude fest, die du besucht hast.</p>
-      <div class="project-tags">
-        <span class="tag tag-default">Web App</span>
-        <span class="tag tag-default">Interaktiv</span>
+    <!-- SWIPE IN - featured full-width card -->
+    <div class="project-card featured reveal">
+      <div class="card-info">
+        <img src="SwipeIn_logo_light_mint.png" alt="Swipe In App Logo" class="app-logo" onerror="this.style.display='none'">
+        <h3>Swipe In</h3>
+        <p>Eine minimalistische App zur Zeit- und Aktivitätserfassung. Nach rechts wischen zum Starten, nach links zum Stoppen. Keine komplizierte Einrichtung.</p>
+        <div class="project-tags">
+          <span class="tag tag-mint">App Store</span>
+          <span class="tag tag-default">iOS</span>
+          <span class="tag tag-default">Produktivität</span>
+          <span class="tag tag-launch">Veröffentlicht April 2026</span>
+        </div>
+        <a href="swipein-de.html" class="project-link">Zur App →</a>
       </div>
-      <a href="https://cheerful-palmier-d8355a.netlify.app" target="_blank" rel="noopener" class="project-link">Zur App →</a>
+      <div class="screenshot-strip">
+        <img src="images/img_swipein_de_1.png" alt="Swipe In Screenshot">
+      </div>
+    </div>
+
+    <!-- SKYLINE EXPLORER - featured full-width card -->
+    <div class="project-card featured reveal">
+      <div class="card-info">
+        <img src="logo_skyline.png" alt="Skyline App Logo" class="app-logo" onerror="this.style.display='none'">
+        <h3>Skyline Explorer</h3>
+        <p>Entdecke die Skylines der Welt und halte die höchsten Gebäude fest, die du besucht hast. Eine Datenbank der Wolkenkratzer - persönlich gemacht.</p>
+        <div class="project-tags">
+          <span class="tag tag-mint">Web App</span>
+          <span class="tag tag-default">Datenexploration</span>
+          <span class="tag tag-launch">Veröffentlicht April 2026</span>
+        </div>
+        <a href="https://cheerful-palmier-d8355a.netlify.app" target="_blank" rel="noopener" class="project-link">Zur App →</a>
+      </div>
+      <div class="screenshot-strip web">
+        <img src="images/img_skyline_eng_1.png" alt="Skyline Explorer Screenshot">
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Web-Projekte (Auftragsarbeiten) - ausgeblendet, bis echte Projekte vorliegen
+  <div class="web-projects reveal">
+    <div class="web-projects-label">Web-Projekte - Auftragsarbeiten</div>
+    <div class="web-project-row">
+      <div class="web-project-card">
+        <h4>Projektname</h4>
+        <p>Kurze Beschreibung des Projekts und was es macht.</p>
+        <span class="placeholder-tag">bald verfügbar</span>
+      </div>
+      <div class="web-project-card">
+        <h4>Projektname</h4>
+        <p>Kurze Beschreibung des Projekts und was es macht.</p>
+        <span class="placeholder-tag">bald verfügbar</span>
+      </div>
     </div>
   </div>
+  -->
+
 </section>
 
 <hr />
@@ -697,7 +928,7 @@
     <div class="reveal">
       <div class="section-label">Kontakt</div>
       <h2>Fragen oder Feedback?</h2>
-      <p>Ob Bug, Idee oder einfach Hallo — ich lese jede Nachricht und antworte in der Regel innerhalb weniger Tage.</p>
+      <p>Ob Bug, Idee oder einfach nur Hallo - ich lese jede Nachricht und antworte in der Regel innerhalb weniger Tage.</p>
       <a href="mailto:support@engelheartware.de" class="btn btn-primary">E-Mail schreiben →</a>
     </div>
     <div class="support-cards reveal">
@@ -719,7 +950,7 @@
         <div class="icon">☕</div>
         <div>
           <h4>Entwicklung unterstützen</h4>
-          <p>Alle Apps sind kostenlos. Wenn sie dir Zeit sparen, freue ich mich über einen Kaffee via <a href="https://ko-fi.com/engelheartware" target="_blank" rel="noopener">Ko-Fi</a> — er fließt direkt in neue Features.</p>
+          <p>Alle Apps sind kostenlos. Wenn sie dir Zeit sparen, freue ich mich über einen Kaffee via <a href="https://ko-fi.com/engelheartware" target="_blank" rel="noopener">Ko-Fi</a> - er fließt direkt in neue Features.</p>
         </div>
       </div>
     </div>

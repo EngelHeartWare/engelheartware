@@ -3,42 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EngelHeartWare — Mobile & Web Apps</title>
+  <title>EngelHeartWare - iOS Apps for Health, Productivity & Curiosity</title>
   <meta name="description" content="Portfolio of EngelHeartware, creating minimalist and useful apps." />
   <style>
     @font-face {
       font-family: "Nunito";
-      src: url("fonts/nunito-v26-latin-regular.woff2") format("woff2");
+      src: url("fonts/nunito-v32-latin-regular.woff2") format("woff2");
       font-weight: 400; font-style: normal; font-display: swap;
     }
     @font-face {
       font-family: "Nunito";
-      src: url("fonts/nunito-v26-latin-600.woff2") format("woff2");
+      src: url("fonts/nunito-v32-latin-600.woff2") format("woff2");
       font-weight: 600; font-style: normal; font-display: swap;
     }
     @font-face {
       font-family: "Nunito";
-      src: url("fonts/nunito-v26-latin-700.woff2") format("woff2");
+      src: url("fonts/nunito-v32-latin-700.woff2") format("woff2");
       font-weight: 700; font-style: normal; font-display: swap;
     }
     @font-face {
       font-family: "Nunito";
-      src: url("fonts/nunito-v26-latin-700italic.woff2") format("woff2");
+      src: url("fonts/nunito-v32-latin-700italic.woff2") format("woff2");
       font-weight: 700; font-style: italic; font-display: swap;
     }
     @font-face {
       font-family: "Nunito";
-      src: url("fonts/nunito-v26-latin-800.woff2") format("woff2");
+      src: url("fonts/nunito-v32-latin-800.woff2") format("woff2");
       font-weight: 800; font-style: normal; font-display: swap;
     }
     @font-face {
       font-family: "DM Mono";
-      src: url("fonts/dm-mono-v14-latin-regular.woff2") format("woff2");
+      src: url("fonts/dm-mono-v16-latin-regular.woff2") format("woff2");
       font-weight: 400; font-style: normal; font-display: swap;
     }
     @font-face {
       font-family: "DM Mono";
-      src: url("fonts/dm-mono-v14-latin-500.woff2") format("woff2");
+      src: url("fonts/dm-mono-v16-latin-500.woff2") format("woff2");
       font-weight: 500; font-style: normal; font-display: swap;
     }
   </style>
@@ -133,22 +133,27 @@
     }
 
     .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      display: inline-block;
       font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
+      font-size: 0.62rem;
       font-weight: 500;
       color: var(--mint);
-      letter-spacing: 0.08em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
       background: var(--mint-lt);
       border: 1px solid var(--mint-mid);
-      padding: 5px 12px;
+      padding: 5px 11px;
       border-radius: 100px;
       margin-bottom: 18px;
       opacity: 0;
       animation: fadeUp 0.5s ease forwards 0.05s;
+      white-space: nowrap;
+    }
+    @media (max-width: 480px) {
+      .hero-eyebrow { font-size: 0.55rem; letter-spacing: 0.03em; padding: 4px 10px; }
+    }
+    @media (max-width: 380px) {
+      .hero-eyebrow { font-size: 0.5rem; letter-spacing: 0.02em; padding: 4px 9px; }
     }
 
     .hero h1 {
@@ -157,10 +162,11 @@
       line-height: 1.15;
       letter-spacing: -0.03em;
       color: var(--ink);
-      max-width: 600px;
+      max-width: 1400px;
       opacity: 0;
       animation: fadeUp 0.55s ease forwards 0.15s;
     }
+    
     .hero h1 span {
       color: var(--mint);
       font-style: italic;
@@ -367,7 +373,7 @@
 
     .project-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 20px;
     }
 
@@ -384,6 +390,11 @@
       border-color: var(--mint-mid);
       transform: translateY(-3px);
       box-shadow: 0 12px 32px rgba(0,199,190,0.1);
+    }
+
+    .project-card.in-dev {
+      max-width: 360px;
+      justify-self: start;
     }
 
     .app-logo {
@@ -425,7 +436,7 @@
     .tag-default { background: var(--bg); color: var(--muted); border: 1px solid var(--border); }
     .tag-mint    { background: var(--mint-lt); color: var(--mint); border: 1px solid var(--mint-mid); }
 
-    /* Launch tag — small dot + text */
+    /* Launch tag - small dot + text */
     .tag-launch {
       background: var(--bg);
       color: var(--muted);
@@ -444,15 +455,65 @@
       flex-shrink: 0;
     }
 
-    /* Screenshot strip */
-    .screenshot-strip {
+    /* Featured card - side-by-side layout */
+    .project-card.featured {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      align-items: stretch;
+      gap: 40px;
+    }
+    .project-card.featured .card-info {
+      flex: 1;
       display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .project-card.featured .card-info > p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.65;
+    }
+    .project-card.featured .screenshot-strip {
+      flex-shrink: 0;
+      margin-top: 0;
+      width: 220px;
+      align-content: start;
+    }
+
+    /* Featured card with landscape (web) screenshot - wider, full-image view */
+    .project-card.featured .screenshot-strip.web {
+      width: 440px;
+    }
+
+    /* Screenshot strip - single-image display */
+    .screenshot-strip {
+      display: grid;
+      grid-template-columns: 1fr;
       gap: 8px;
       margin-top: 20px;
     }
 
-    /* Mobile portrait placeholder (9:19.5 ≈ iPhone aspect) */
-    .screenshot-ph {
+    /* Mobile portrait screenshot */
+    .screenshot-strip img {
+      width: 100%;
+      aspect-ratio: 9 / 19.5;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      display: block;
+    }
+
+    /* Web landscape screenshot - show full image, no cropping */
+    .screenshot-strip.web img {
+      aspect-ratio: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    /* Mobile portrait placeholder (9:19.5 ≈ iPhone aspect) - divs only */
+    div.screenshot-ph {
       flex: 1;
       min-width: 0;
       aspect-ratio: 9 / 19.5;
@@ -466,10 +527,10 @@
       gap: 5px;
       transition: border-color 0.18s;
     }
-    .screenshot-ph:hover { border-color: var(--mint-mid); }
+    div.screenshot-ph:hover { border-color: var(--mint-mid); }
 
     /* Web landscape placeholder */
-    .screenshot-ph.web {
+    div.screenshot-ph.web {
       aspect-ratio: 16 / 10;
     }
 
@@ -670,6 +731,8 @@
       .section-title { font-size: 1.7rem; }
       .project-grid { grid-template-columns: 1fr; }
       .project-card { padding: 24px; }
+      .project-card.featured { flex-direction: column; gap: 24px; }
+      .project-card.featured .screenshot-strip { margin-top: 0; }
       .web-project-row { grid-template-columns: 1fr; }
 
       #support { padding: 48px 20px; }
@@ -719,9 +782,9 @@
 
 <!-- HERO -->
 <div class="hero">
-  <p class="hero-eyebrow">Apps · Health · Productivity · Data</p>
-  <h1>Software built around<br/><span>things worth caring about.</span></h1>
-  <p>Hi, I'm Moritz. I build apps for health, productivity, and curiosity — things I actually use and want to exist.</p>
+  <p class="hero-eyebrow">Independent iOS developer · Leipzig</p>
+  <h1>Apps with Heart</h1>
+  <p>Hi, I'm Moritz. I make iOS apps about topics I'm genuinely enthusiastic about, like discovering your sense of smell or structuring your work. No clutter, no ads, no tracking.</p>
   <div class="hero-actions">
     <a href="#projects" class="btn btn-primary">View Projects →</a>
     <a href="https://github.com/EngelHeartWare" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
@@ -736,15 +799,15 @@
   <div class="about-text reveal">
     <div class="section-label">About me</div>
     <h2>Hi, I'm Moritz.</h2>
-    <p>I make small, focused apps designed to <strong>get out of your way</strong>. Privacy-first by default — your data lives on your device, not on my servers.</p>
-    <p>When I'm not shipping features, I'm looking for the next friction point worth solving.</p>
+    <p>I build small iOS apps around topics I'm <strong>genuinely enthusiastic about</strong> - from recovering your sense of smell to tracking your time. Each one is meant to improve your life or make something a little easier.</p>
+    <p>Privacy comes first: your data stays on your device, not on my servers. No ads, no tracking, no subscriptions you don't need.</p>
   </div>
   <div class="focus-grid reveal">
     <div class="focus-card">
       <div class="focus-icon">🫁</div>
       <div>
         <h4>Health & Wellbeing</h4>
-        <p>Apps that support habits, recovery, and body awareness — designed to stay out of your way.</p>
+        <p>Apps that support habits, recovery, and body awareness - designed to stay out of your way.</p>
       </div>
     </div>
     <div class="focus-card">
@@ -776,70 +839,71 @@
 
   <div class="project-grid">
 
-    <!-- SWIPE IN -->
-    <div class="project-card reveal">
-      <img src="SwipeIn_logo_light_mint.png" alt="Swipe In App Logo" class="app-logo" onerror="this.style.display='none'">
-      <h3>Swipe In</h3>
-      <p>A minimalist time and activity tracker. Swipe right to start, swipe left to stop. No complicated setup required.</p>
-      <div class="project-tags">
-        <span class="tag tag-mint">App Store</span>
-        <span class="tag tag-default">iOS</span>
-        <span class="tag tag-default">Productivity</span>
-        <span class="tag tag-launch">Launched April 2026</span>
+<!-- SNIFF IT - featured full-width card -->
+    <div class="project-card featured reveal">
+      <div class="card-info">
+        <img src="images/sniffy_bluepurple.png" alt="Sniff It mascot Sniffy" class="app-logo" style="object-fit:contain;background:#FEE6FC;border-color:#FDBAF7;padding:5px;">
+        <h3>Sniff It</h3>
+        <p>A smell training and mindfulness app for people working to recover their sense of smell after smell loss. It has structured daily training, a smell diary, the Smell Index to follow your progress, and Sniffy the snail to help the habit stick. Now in public beta on TestFlight.</p>
+        <div class="project-tags">
+          <span class="tag tag-default">iOS</span>
+          <span class="tag tag-default">Health</span>
+          <span class="tag tag-launch">Public beta · TestFlight</span>
+        </div>
+        <a href="sniffit.html" class="project-link">View App →</a>
       </div>
-      <!-- Screenshot strip — replace these divs with <img> tags when ready -->
       <div class="screenshot-strip">
-        <div class="screenshot-ph">
-          <span class="ph-label">Screenshot 1</span>
-        </div>
-        <div class="screenshot-ph">
-          <span class="ph-label">Screenshot 2</span>
-        </div>
-        <div class="screenshot-ph">
-          <span class="ph-label">Screenshot 3</span>
+        <div style="position:relative;width:100%;aspect-ratio:9/19.5;border-radius:18px;border:1.5px solid var(--border);background:radial-gradient(120% 85% at 30% 16%, #FEE6FC 0%, #ffffff 62%);display:flex;align-items:center;justify-content:center;overflow:hidden;">
+          <span style="position:absolute;top:13%;left:24%;font-size:1.1rem;">✨</span>
+          <span style="position:absolute;top:19%;right:22%;font-size:1.1rem;">🌸</span>
+          <img src="images/sniffy_bluepurple.png" alt="Sniffy the snail" style="width:74%;height:auto;filter:drop-shadow(0 10px 14px rgba(0,0,0,0.14));">
+          <span style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.85);border:1px solid var(--border);border-radius:100px;padding:5px 12px;font-size:0.66rem;font-weight:700;white-space:nowrap;">Meet Sniffy</span>
         </div>
       </div>
-      <a href="swipein.html" class="project-link">View App →</a>
     </div>
 
-    <!-- SKYLINE EXPLORER -->
-    <div class="project-card reveal">
-      <img src="logo_skyline.png" alt="Skyline App Logo" class="app-logo" onerror="this.style.display='none'">
-      <h3>Skyline Explorer</h3>
-      <p>Explore the skylines of the world and track the highest buildings you've visited. A database of skyscrapers, made personal.</p>
-      <div class="project-tags">
-        <span class="tag tag-default">Web App</span>
-        <span class="tag tag-default">Data Exploration</span>
-        <span class="tag tag-launch">Launched April 2026</span>
+    <!-- SWIPE IN - featured full-width card -->
+    <div class="project-card featured reveal">
+      <div class="card-info">
+        <img src="SwipeIn_logo_light_mint.png" alt="Swipe In App Logo" class="app-logo" onerror="this.style.display='none'">
+        <h3>Swipe In</h3>
+        <p>A minimalist time and activity tracker. Swipe right to start, swipe left to stop. No complicated setup required.</p>
+        <div class="project-tags">
+          <span class="tag tag-mint">App Store</span>
+          <span class="tag tag-default">iOS</span>
+          <span class="tag tag-default">Productivity</span>
+          <span class="tag tag-launch">Launched April 2026</span>
+        </div>
+        <a href="swipein.html" class="project-link">View App →</a>
       </div>
-      <!-- Screenshot strip — replace these divs with <img> tags when ready -->
       <div class="screenshot-strip">
-        <div class="screenshot-ph web">
-          <span class="ph-label">Screenshot 1</span>
-        </div>
-        <div class="screenshot-ph web">
-          <span class="ph-label">Screenshot 2</span>
-        </div>
+        <img src="images/img_swipein_eng_1.png" alt="Swipe In screenshot">
       </div>
-      <a href="https://cheerful-palmier-d8355a.netlify.app" target="_blank" rel="noopener" class="project-link">Open App →</a>
     </div>
 
-    <!-- SMELL TRAINER -->
-    <div class="project-card in-dev reveal">
-      <div class="app-logo" style="display:flex;align-items:center;justify-content:center;font-size:1.6rem;">🫁</div>
-      <h3>Smell Trainer</h3>
-      <span class="dev-badge">In Development</span>
-      <p>A guided smell training app to support olfactory recovery and awareness. Structured sessions, gentle reminders, personal progress tracking.</p>
-      <div class="project-tags">
-        <span class="tag tag-default">iOS</span>
-        <span class="tag tag-default">Health</span>
+    <!-- SKYLINE EXPLORER - featured full-width card -->
+    <div class="project-card featured reveal">
+      <div class="card-info">
+        <img src="logo_skyline.png" alt="Skyline App Logo" class="app-logo" onerror="this.style.display='none'">
+        <h3>Skyline Explorer</h3>
+        <p>Explore the skylines of the world and track the highest buildings you've visited. A database of skyscrapers, made personal.</p>
+        <div class="project-tags">
+          <span class="tag tag-mint">Web App</span>
+          <span class="tag tag-default">Data Exploration</span>
+          <span class="tag tag-launch">Launched April 2026</span>
+        </div>
+        <a href="https://cheerful-palmier-d8355a.netlify.app" target="_blank" rel="noopener" class="project-link">Open App →</a>
+      </div>
+      <div class="screenshot-strip web">
+        <img src="images/img_skyline_eng_1.png" alt="Skyline Explorer screenshot">
       </div>
     </div>
 
   </div>
 
+  <!-- Web projects (contract work) - hidden until real projects are added
   <div class="web-projects reveal">
-    <div class="web-projects-label">Web Projects — Contract Work</div>
+    <div class="web-projects-label">Web Projects - Contract Work</div>
     <div class="web-project-row">
       <div class="web-project-card">
         <h4>Project Name</h4>
@@ -853,6 +917,8 @@
       </div>
     </div>
   </div>
+  -->
+
 </section>
 
 <hr />
@@ -885,7 +951,7 @@
         <div class="icon">☕</div>
         <div>
           <h4>Support development</h4>
-          <p>All apps are free. If they save you time, consider a coffee via <a href="https://ko-fi.com/engelheartware" target="_blank" rel="noopener">Ko-Fi</a> — it goes directly toward new features.</p>
+          <p>All apps are free. If they save you time, consider a coffee via <a href="https://ko-fi.com/engelheartware" target="_blank" rel="noopener">Ko-Fi</a> - it goes directly toward new features.</p>
         </div>
       </div>
     </div>

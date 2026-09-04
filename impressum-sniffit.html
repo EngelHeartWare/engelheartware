@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Impressum — EngelHeartWare</title>
+  <title>Impressum – Sniff It · EngelHeartWare</title>
   <style>
     @font-face {
       font-family: "Nunito";
@@ -42,7 +42,7 @@
     :root {
       --bg:     #f5f5f5;
       --white:  #ffffff;
-      --mint:   #00C7BE;
+      --pink:   #F835E7;
       --ink:    #1a1a1a;
       --muted:  #666666;
       --border: #e0e0e0;
@@ -81,8 +81,7 @@
       transition: opacity 0.18s;
     }
     .logo:hover { opacity: 0.75; }
-    .logo .arrow { color: var(--mint); }
-    .logo .ehw-mark { font-size: 0.82em; letter-spacing: 0.06em; font-style: normal; margin-left: 2px; }
+    .logo .arrow { color: var(--pink); }
 
     .nav-links {
       list-style: none;
@@ -108,7 +107,17 @@
       font-size: clamp(1.8rem, 4vw, 2.4rem);
       font-weight: 800;
       letter-spacing: -0.02em;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
+    }
+
+    .app-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--pink);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 4px;
     }
 
     .subtitle {
@@ -137,7 +146,7 @@
     .prose strong { color: var(--ink); font-weight: 700; }
 
     .prose a {
-      color: var(--mint);
+      color: var(--pink);
       text-decoration: none;
       font-weight: 600;
     }
@@ -172,14 +181,15 @@
 <body>
 
 <nav>
-  <a href="index.html" class="logo"><span class="arrow">←</span> EngelHeartWare.<span class="ehw-mark">👼❤️💻</span></a>
+  <a href="sniffit.html" class="logo"><span class="arrow">←</span> Sniff It</a>
   <ul class="nav-links">
-    <li><a href="index.html#projects">Projekte</a></li>
-    <li><a href="https://github.com/EngelHeartWare" target="_blank" rel="noopener">GitHub</a></li>
+    <li><a href="sniffit.html">App</a></li>
+    <li><a href="index.html">EngelHeartWare</a></li>
   </ul>
 </nav>
 
 <div class="page-content">
+  <div class="app-label">Sniff It</div>
   <h1>Impressum</h1>
   <p class="subtitle">Angaben gemäß § 5 TMG</p>
 
@@ -219,8 +229,9 @@
 <footer>
   <p>© 2026 Moritz Engelhardt · <span style="letter-spacing:0.06em;">👼❤️💻</span> EngelHeartWare</p>
   <div class="footer-links">
-    <a href="impressum.html">Impressum</a>
-    <a href="datenschutz.html">Datenschutzerklärung</a>
+    <a href="sniffit.html">Sniff It</a>
+    <a href="impressum-sniffit.html">Impressum</a>
+    <a href="datenschutz-sniffit.html">Datenschutzerklärung</a>
   </div>
 </footer>
 

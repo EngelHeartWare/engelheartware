@@ -57,7 +57,7 @@
       --radius:   14px;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: clip; }
 
     body {
       background: var(--bg);
@@ -91,6 +91,7 @@
       letter-spacing: -0.01em;
     }
     .logo span { color: var(--mint); }
+    .logo .ehw-mark { font-size: 0.82em; letter-spacing: 0.06em; font-style: normal; margin-left: 2px; }
 
     .nav-right {
       display: flex;
@@ -127,9 +128,21 @@
 
     /* HERO */
     .hero {
+      position: relative;
       padding: 52px 48px 48px;
       max-width: 1000px;
       margin: 0 auto;
+    }
+    /* Soft mint wash behind the hero so the fold has some depth
+       without adding another box to the page. */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: -40px 0 auto 0;
+      height: 430px;
+      background: radial-gradient(80% 100% at 18% 0%, rgba(0,199,190,0.13) 0%, rgba(0,199,190,0) 68%);
+      pointer-events: none;
+      z-index: -1;
     }
 
     .hero-eyebrow {
@@ -149,11 +162,14 @@
       animation: fadeUp 0.5s ease forwards 0.05s;
       white-space: nowrap;
     }
-    @media (max-width: 480px) {
-      .hero-eyebrow { font-size: 0.55rem; letter-spacing: 0.03em; padding: 4px 10px; }
-    }
-    @media (max-width: 380px) {
-      .hero-eyebrow { font-size: 0.5rem; letter-spacing: 0.02em; padding: 4px 9px; }
+    /* The pill was nowrap and ran ~90px past the right edge of a 390px
+       phone, cutting off "Leipzig". Let it wrap instead of clipping. */
+    @media (max-width: 560px) {
+      .hero-eyebrow {
+        font-size: 0.55rem; letter-spacing: 0.03em;
+        padding: 6px 12px; white-space: normal;
+        line-height: 1.7; max-width: 100%; border-radius: 14px;
+      }
     }
 
     .hero h1 {
@@ -347,84 +363,97 @@
       margin-bottom: 40px;
     }
 
-    .project-card.in-dev {
-      opacity: 0.82;
-      border-style: dashed;
-      position: relative;
-    }
-    .project-card.in-dev:hover { opacity: 1; }
-
-    .dev-badge {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.6rem;
-      font-weight: 500;
-      color: #b45309;
-      background: #fff8e6;
-      border: 1px solid #fcd98a;
-      padding: 3px 8px;
-      border-radius: 4px;
-      letter-spacing: 0.04em;
-      white-space: nowrap;
-    }
-
-    .project-grid {
+    /* ── APP CARD GRID ──
+       One card per app, equal height, each with its own tint so the three
+       read as a family rather than three copies of the same slab. */
+    .app-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(266px, 1fr));
       gap: 20px;
     }
 
-    .project-card {
+    .app-card {
+      --tint: var(--mint-lt);
       background: var(--white);
       border: 1.5px solid var(--border);
-      border-radius: 18px;
-      padding: 32px;
+      border-radius: 20px;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      transition: all 0.2s;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    .project-card:hover {
+    .app-card:hover {
+      transform: translateY(-4px);
       border-color: var(--mint-mid);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 32px rgba(0,199,190,0.1);
+      box-shadow: 0 14px 34px rgba(0,0,0,0.07);
     }
 
-    .project-card.in-dev {
-      max-width: 360px;
-      justify-self: start;
+    .app-preview {
+      height: 152px;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(125% 100% at 50% 6%, var(--tint) 0%, var(--white) 74%);
+      border-bottom: 1.5px solid var(--border);
     }
-
-    .app-logo {
-      width: 56px;
-      height: 56px;
-      border-radius: 12px;
+    .app-preview img {
+      width: 78px;
+      height: 78px;
+      border-radius: 19px;
       object-fit: cover;
-      margin-bottom: 20px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.14);
+    }
+    .app-preview img.contain {
+      object-fit: contain;
+      padding: 9px;
+      background: var(--white);
       border: 1px solid var(--border);
-      background: var(--bg);
     }
 
-    .project-card h3 {
-      font-size: 1.25rem;
-      font-weight: 800;
-      letter-spacing: -0.01em;
-      margin-bottom: 8px;
-    }
-
-    .project-card > p {
-      color: var(--muted);
-      font-size: 0.88rem;
-      line-height: 1.65;
-    }
-
-    .project-tags {
+    .app-body {
+      padding: 22px 22px 20px;
       display: flex;
-      gap: 6px;
-      margin-top: 16px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 11px;
+      flex: 1;
     }
+    .app-body h3 {
+      font-size: 1.18rem;
+      font-weight: 800;
+      letter-spacing: -0.015em;
+    }
+    .app-body > p {
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.62;
+      flex: 1;
+    }
+
+    .app-status {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.63rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+    .app-status::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+    .status-live { color: #0a8f88; background: var(--mint-lt); border: 1px solid var(--mint-mid); }
+    .status-beta { color: #b45309; background: #fff8e6; border: 1px solid #fcd98a; }
+    .status-soon { color: #3f6b91; background: #eaf3fa; border: 1px solid #c3ddef; }
+
+    .app-tags { display: flex; gap: 6px; flex-wrap: wrap; }
     .tag {
       font-family: 'DM Mono', monospace;
       font-size: 0.65rem;
@@ -433,127 +462,18 @@
       font-weight: 500;
     }
     .tag-default { background: var(--bg); color: var(--muted); border: 1px solid var(--border); }
-    .tag-mint    { background: var(--mint-lt); color: var(--mint); border: 1px solid var(--mint-mid); }
 
-    /* Launch tag - small dot + text */
-    .tag-launch {
-      background: var(--bg);
-      color: var(--muted);
-      border: 1px solid var(--border);
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .tag-launch::before {
-      content: '';
-      display: inline-block;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--mint);
-      flex-shrink: 0;
-    }
-
-    /* Featured card - side-by-side layout */
-    .project-card.featured {
-      grid-column: 1 / -1;
-      flex-direction: row;
-      align-items: stretch;
-      gap: 40px;
-    }
-    .project-card.featured .card-info {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-    }
-    .project-card.featured .card-info > p {
-      color: var(--muted);
-      font-size: 0.88rem;
-      line-height: 1.65;
-    }
-    .project-card.featured .screenshot-strip {
-      flex-shrink: 0;
-      margin-top: 0;
-      width: 220px;
-      align-content: start;
-    }
-
-    /* Featured card with landscape (web) screenshot - wider, full-image view */
-    .project-card.featured .screenshot-strip.web {
-      width: 440px;
-    }
-
-    /* Screenshot strip - single-image display */
-    .screenshot-strip {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 8px;
-      margin-top: 20px;
-    }
-
-    /* Mobile portrait screenshot */
-    .screenshot-strip img {
-      width: 100%;
-      aspect-ratio: 9 / 19.5;
-      object-fit: cover;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      display: block;
-    }
-
-    /* Web landscape screenshot - show full image, no cropping */
-    .screenshot-strip.web img {
-      aspect-ratio: auto;
-      height: auto;
-      object-fit: contain;
-      border-radius: 10px;
-    }
-
-    /* Mobile portrait placeholder (9:19.5 ≈ iPhone aspect) - divs only */
-    div.screenshot-ph {
-      flex: 1;
-      min-width: 0;
-      aspect-ratio: 9 / 19.5;
-      background: var(--bg);
-      border: 1.5px dashed var(--border);
-      border-radius: 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      transition: border-color 0.18s;
-    }
-    div.screenshot-ph:hover { border-color: var(--mint-mid); }
-
-    /* Web landscape placeholder */
-    div.screenshot-ph.web {
-      aspect-ratio: 16 / 10;
-    }
-
-    .screenshot-ph .ph-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.55rem;
-      color: var(--muted);
-      opacity: 0.55;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .project-link {
+    .app-go {
+      margin-top: 2px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--mint);
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      margin-top: 22px;
-      font-size: 0.875rem;
-      font-weight: 700;
-      color: var(--mint);
-      text-decoration: none;
-      transition: gap 0.18s;
+      transition: gap 0.18s ease;
     }
-    .project-link:hover { gap: 8px; }
+    .app-card:hover .app-go { gap: 9px; }
 
     /* SUPPORT */
     #support {
@@ -621,6 +541,27 @@
       transition: color 0.18s;
     }
     footer .footer-links a:hover { color: var(--ink); }
+
+    /* Visible keyboard focus — the cards and buttons had none. */
+    a:focus-visible, button:focus-visible {
+      outline: 2.5px solid var(--mint);
+      outline-offset: 3px;
+      border-radius: 6px;
+    }
+    .app-card:focus-visible { outline-offset: 4px; border-radius: 20px; }
+
+    /* Respect a reduced-motion preference: keep the content, drop the motion. */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      .hero-eyebrow, .hero h1, .hero p, .hero-actions { opacity: 1 !important; }
+      .reveal { opacity: 1 !important; transform: none !important; }
+      .app-card:hover { transform: none; }
+    }
 
     /* ANIMATIONS */
     @keyframes fadeUp {
@@ -728,10 +669,8 @@
 
       #projects { padding: 48px 20px; }
       .section-title { font-size: 1.7rem; }
-      .project-grid { grid-template-columns: 1fr; }
-      .project-card { padding: 24px; }
-      .project-card.featured { flex-direction: column; gap: 24px; }
-      .project-card.featured .screenshot-strip { margin-top: 0; }
+      .app-grid { grid-template-columns: 1fr; gap: 16px; }
+      .app-preview { height: 132px; }
       .web-project-row { grid-template-columns: 1fr; }
 
       #support { padding: 48px 20px; }
@@ -746,8 +685,7 @@
       .hero-actions { flex-direction: column; align-items: flex-start; }
       .hero-actions .btn { width: 100%; justify-content: center; }
       .focus-card { padding: 14px 16px; }
-      .screenshot-strip { gap: 6px; }
-      .project-card { padding: 20px; }
+      .app-body { padding: 20px; }
     }
   </style>
 </head>
@@ -755,7 +693,7 @@
 
 <!-- NAV -->
 <nav>
-  <a href="index-de.html" class="logo">Engel<span>Heart</span>Ware.</a>
+  <a href="index-de.html" class="logo">Engel<span>Heart</span>Ware.<span class="ehw-mark">👼❤️💻</span></a>
   <div class="nav-right">
     <ul class="nav-links">
       <li><a href="#about">Über mich</a></li>
@@ -781,7 +719,7 @@
 
 <!-- HERO -->
 <div class="hero">
-  <p class="hero-eyebrow">Unabhängiger iOS-Entwickler · Leipzig</p>
+  <p class="hero-eyebrow">👼❤️💻 · Unabhängiger iOS-Entwickler · Leipzig</p>
   <h1>Apps mit Herz</h1>
   <p>Hallo, ich bin Moritz. Ich entwickle iOS-Apps zu Themen, für die ich mich ehrlich begeistere - etwa deinen Geruchssinn zu entdecken oder deine Arbeit zu strukturieren. Ohne Ballast, ohne Werbung, ohne Tracking.</p>
   <div class="hero-actions">
@@ -833,70 +771,58 @@
   <div class="reveal">
     <div class="section-label">Portfolio</div>
     <h2 class="section-title">Apps</h2>
-    <p class="section-sub">Jede App ist um einen einzigen klaren Zweck herum gebaut.</p>
+    <p class="section-sub">Drei Apps, jede um einen einzigen klaren Zweck herum gebaut.</p>
   </div>
 
-  <div class="project-grid">
+  <div class="app-grid">
 
-<!-- SNIFF IT - featured full-width card -->
-    <div class="project-card featured reveal">
-      <div class="card-info">
-        <img src="images/sniffy_bluepurple.png" alt="Sniff It Maskottchen Sniffy" class="app-logo" style="object-fit:contain;background:#FEE6FC;border-color:#FDBAF7;padding:5px;">
+    <a href="sniffit-de.html" class="app-card reveal" style="--tint:#FEE6FC;">
+      <div class="app-preview">
+        <img src="images/sniffy_bluepurple.png" alt="Sniff It Maskottchen Sniffy" class="contain">
+      </div>
+      <div class="app-body">
         <h3>Sniff It</h3>
-        <p>Eine App für Geruchstraining und Riechachtsamkeit für Menschen, die nach einem Riechverlust ihren Geruchssinn zurückgewinnen wollen. Mit strukturiertem täglichem Training, einem Geruchstagebuch, dem Smell Index für deinen Fortschritt und Sniffy der Schnecke, die dir hilft, dranzubleiben. Jetzt in der öffentlichen Beta über TestFlight.</p>
-        <div class="project-tags">
+        <p>Geruchstraining und Geruchstagebuch für Menschen, die ihren Geruchssinn zurückgewinnen wollen — mit strukturierten täglichen Übungen, dem Smell Index für deinen Fortschritt und Sniffy der Schnecke, damit du dranbleibst.</p>
+        <span class="app-status status-beta">Öffentliche Beta · TestFlight</span>
+        <div class="app-tags">
           <span class="tag tag-default">iOS</span>
           <span class="tag tag-default">Gesundheit</span>
-          <span class="tag tag-launch">Öffentliche Beta · TestFlight</span>
         </div>
-        <a href="sniffit-de.html" class="project-link">App ansehen →</a>
+        <span class="app-go">App ansehen →</span>
       </div>
-      <div class="screenshot-strip">
-        <div style="position:relative;width:100%;aspect-ratio:9/19.5;border-radius:18px;border:1.5px solid var(--border);background:radial-gradient(120% 85% at 30% 16%, #FEE6FC 0%, #ffffff 62%);display:flex;align-items:center;justify-content:center;overflow:hidden;">
-          <span style="position:absolute;top:13%;left:24%;font-size:1.1rem;">✨</span>
-          <span style="position:absolute;top:19%;right:22%;font-size:1.1rem;">🌸</span>
-          <img src="images/sniffy_bluepurple.png" alt="Sniffy die Schnecke" style="width:74%;height:auto;filter:drop-shadow(0 10px 14px rgba(0,0,0,0.14));">
-          <span style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,0.85);border:1px solid var(--border);border-radius:100px;padding:5px 12px;font-size:0.66rem;font-weight:700;white-space:nowrap;">Das ist Sniffy</span>
-        </div>
-      </div>
-    </div>
+    </a>
 
-    <!-- SWIPE IN - featured full-width card -->
-    <div class="project-card featured reveal">
-      <div class="card-info">
-        <img src="SwipeIn_logo_light_mint.png" alt="Swipe In App Logo" class="app-logo" onerror="this.style.display='none'">
+    <a href="swipein-de.html" class="app-card reveal" style="--tint:#e0faf8;">
+      <div class="app-preview">
+        <img src="SwipeIn_logo_light_mint.png" alt="Swipe In App-Icon">
+      </div>
+      <div class="app-body">
         <h3>Swipe In</h3>
-        <p>Eine minimalistische App zur Zeit- und Aktivitätserfassung. Nach rechts wischen zum Starten, nach links zum Stoppen. Keine komplizierte Einrichtung.</p>
-        <div class="project-tags">
-          <span class="tag tag-mint">App Store</span>
+        <p>Eine minimalistische App für Zeit- und Aktivitätserfassung. Nach rechts wischen zum Einstempeln, nach links zum Ausstempeln — und danach genau sehen, wohin deine Stunden gegangen sind. Keine Einrichtung, kein Konto.</p>
+        <span class="app-status status-live">Im App Store</span>
+        <div class="app-tags">
           <span class="tag tag-default">iOS</span>
           <span class="tag tag-default">Produktivität</span>
-          <span class="tag tag-launch">Veröffentlicht April 2026</span>
         </div>
-        <a href="swipein-de.html" class="project-link">Zur App →</a>
+        <span class="app-go">App ansehen →</span>
       </div>
-      <div class="screenshot-strip">
-        <img src="images/img_swipein_de_1.png" alt="Swipe In Screenshot">
-      </div>
-    </div>
+    </a>
 
-    <!-- SKYLINE EXPLORER - featured full-width card -->
-    <div class="project-card featured reveal">
-      <div class="card-info">
-        <img src="logo_skyline.png" alt="Skyline App Logo" class="app-logo" onerror="this.style.display='none'">
+    <a href="skyline-de.html" class="app-card reveal" style="--tint:#dcf0fd;">
+      <div class="app-preview">
+        <img src="logo_skylineexplorer.png" alt="Skyline Explorer App-Icon">
+      </div>
+      <div class="app-body">
         <h3>Skyline Explorer</h3>
-        <p>Entdecke die Skylines der Welt und halte die höchsten Gebäude fest, die du besucht hast. Eine Datenbank der Wolkenkratzer - persönlich gemacht.</p>
-        <div class="project-tags">
-          <span class="tag tag-mint">Web App</span>
-          <span class="tag tag-default">Datenexploration</span>
-          <span class="tag tag-launch">Veröffentlicht April 2026</span>
+        <p>800+ Wolkenkratzer in deiner Tasche. Stemple die ab, vor denen du wirklich gestanden hast — und sieh zu, wie sie als 3D-Stadt wieder aufsteigen, gebaut allein aus deinen Reisen.</p>
+        <span class="app-status status-soon">Bald im App Store</span>
+        <div class="app-tags">
+          <span class="tag tag-default">iOS</span>
+          <span class="tag tag-default">Reisen</span>
         </div>
-        <a href="https://cheerful-palmier-d8355a.netlify.app" target="_blank" rel="noopener" class="project-link">Zur App →</a>
+        <span class="app-go">App ansehen →</span>
       </div>
-      <div class="screenshot-strip web">
-        <img src="images/img_skyline_eng_1.png" alt="Skyline Explorer Screenshot">
-      </div>
-    </div>
+    </a>
 
   </div>
 
@@ -950,7 +876,7 @@
         <div class="icon">☕</div>
         <div>
           <h4>Entwicklung unterstützen</h4>
-          <p>Alle Apps sind kostenlos. Wenn sie dir Zeit sparen, freue ich mich über einen Kaffee via <a href="https://ko-fi.com/engelheartware" target="_blank" rel="noopener">Ko-Fi</a> - er fließt direkt in neue Features.</p>
+          <p>Keine Werbung, kein Tracking, keine Abos. Wenn eine App sich ihren Platz auf deinem Home-Bildschirm verdient, fließt ein Kaffee via <a href="https://ko-fi.com/engelheartware" target="_blank" rel="noopener">Ko-Fi</a> direkt in das nächste Feature.</p>
         </div>
       </div>
     </div>
@@ -959,7 +885,7 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2026 Moritz Engelhardt (EngelHeartWare)</p>
+  <p>© 2026 Moritz Engelhardt · <span style="letter-spacing:0.06em;">👼❤️💻</span> EngelHeartWare</p>
   <div class="footer-links">
     <a href="index.html">English</a>
     <a href="impressum.html">Impressum</a>

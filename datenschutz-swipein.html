@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Datenschutzerklärung – Swipe In · EngelHeartWare</title>
+  <style>
+    @font-face {
+      font-family: "Nunito";
+      src: url("fonts/nunito-v32-latin-regular.woff2") format("woff2");
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Nunito";
+      src: url("fonts/nunito-v32-latin-600.woff2") format("woff2");
+      font-weight: 600; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Nunito";
+      src: url("fonts/nunito-v32-latin-700.woff2") format("woff2");
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Nunito";
+      src: url("fonts/nunito-v32-latin-800.woff2") format("woff2");
+      font-weight: 800; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "DM Mono";
+      src: url("fonts/dm-mono-v16-latin-regular.woff2") format("woff2");
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "DM Mono";
+      src: url("fonts/dm-mono-v16-latin-500.woff2") format("woff2");
+      font-weight: 500; font-style: normal; font-display: swap;
+    }
+  </style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:     #f5f5f5;
+      --white:  #ffffff;
+      --mint:   #00C7BE;
+      --ink:    #1a1a1a;
+      --muted:  #666666;
+      --border: #e0e0e0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(245,245,245,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--ink);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.18s;
+    }
+    .logo:hover { opacity: 0.75; }
+    .logo .arrow { color: var(--mint); }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 24px;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: color 0.18s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    .page-content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 64px 24px 80px;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+
+    .app-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--mint);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: #bbb;
+      margin-bottom: 48px;
+    }
+
+    .prose h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-top: 40px;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .prose p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+      line-height: 1.75;
+    }
+
+    .prose ul {
+      color: var(--muted);
+      font-size: 0.9rem;
+      padding-left: 20px;
+      margin-bottom: 12px;
+    }
+    .prose ul li { margin-bottom: 5px; }
+
+    .prose em { font-style: italic; color: var(--ink); font-weight: 600; }
+    .prose strong { color: var(--ink); font-weight: 700; }
+
+    .prose a {
+      color: var(--mint);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .prose a:hover { text-decoration: underline; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    footer p { font-size: 0.82rem; color: var(--muted); }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.18s;
+    }
+    .footer-links a:hover { color: var(--ink); }
+
+    @media (max-width: 600px) {
+      nav { padding: 14px 20px; }
+      .page-content { padding: 40px 20px 60px; }
+      footer { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="swipein.html" class="logo"><span class="arrow">←</span> Swipe In</a>
+  <ul class="nav-links">
+    <li><a href="swipein.html">App</a></li>
+    <li><a href="index.html">EngelHeartWare</a></li>
+  </ul>
+</nav>
+
+<div class="page-content">
+  <div class="app-label">Swipe In</div>
+  <h1>Datenschutzerklärung</h1>
+  <p class="subtitle">Stand: April 2026</p>
+
+  <div class="prose">
+
+    <h2>1. Verantwortlicher</h2>
+    <p>Verantwortlicher im Sinne der Datenschutz-Grundverordnung (DSGVO) und anderer datenschutzrechtlicher Bestimmungen ist:</p>
+    <p>
+      Moritz Engelhardt<br>
+      Schachtstrasse 10<br>
+      04155 Leipzig<br>
+      Deutschland<br>
+      E-Mail: mail@engelheartware.de<br>
+      Telefon: 015678 305322
+    </p>
+
+    <h2>2. Datenschutz auf einen Blick</h2>
+    <p>Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website oder die App Swipe In nutzen. Personenbezogene Daten sind alle Daten, mit denen Sie persönlich identifiziert werden können.</p>
+
+    <h2>3. Hosting der Projektseite</h2>
+    <p><strong>Externes Hosting (Netlify)</strong><br>
+    Diese Projektseite wird extern bei Netlify (Netlify, Inc., 44 Montgomery Street, Suite 300, San Francisco, California 94104, USA) gehostet. Die personenbezogenen Daten, die beim Besuch dieser Seite erfasst werden, werden auf den Servern des Hosters gespeichert. Hierbei kann es sich v.&nbsp;a. um IP-Adressen, Meta- und Kommunikationsdaten, Webseitenzugriffe und sonstige Daten handeln.</p>
+    <p>Die Nutzung von Netlify erfolgt zum Zwecke einer sicheren, schnellen und effizienten Bereitstellung unseres Online-Angebots (Art. 6 Abs. 1 lit. f DSGVO).</p>
+    <p><strong>Drittlandübermittlung</strong><br>
+    Netlify verarbeitet Daten auch in den USA. Netlify ist unter dem EU-US Data Privacy Framework (DPF) zertifiziert (siehe <a href="https://www.dataprivacyframework.gov/s" target="_blank" rel="noopener noreferrer">dataprivacyframework.gov</a>). Weitere Informationen: <a href="https://www.netlify.com/gdpr-ccpa/" target="_blank" rel="noopener noreferrer">https://www.netlify.com/gdpr-ccpa/</a>.</p>
+    <p><strong>Auftragsverarbeitung</strong><br>
+    Netlify verarbeitet Daten in unserem Auftrag auf Grundlage eines Data Processing Agreements (DPA), das die Einhaltung der DSGVO sicherstellt.</p>
+
+    <h2>4. SSL- bzw. TLS-Verschlüsselung</h2>
+    <p>Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte eine SSL- bzw. TLS-Verschlüsselung.</p>
+
+    <h2>5. Datenerfassung auf dieser Website</h2>
+    <p><strong>Server-Log-Dateien</strong><br>
+    Der Provider der Seiten erhebt und speichert automatisch Informationen in so genannten Server-Log-Dateien, die Ihr Browser automatisch übermittelt. Dies sind: Browsertyp und Browserversion, verwendetes Betriebssystem, Referrer URL, Hostname des zugreifenden Rechners, Uhrzeit der Serveranfrage, IP-Adresse. Laut Netlify-DPA werden Server-Log-Dateien bis zu 90 Tage online und bis zu 1 Jahr offline aufbewahrt.</p>
+    <p><strong>Cookies und lokale Speicherung</strong><br>
+    Diese Website verwendet keine Cookies zu Tracking- oder Werbezwecken. Es werden keine Analyse-Tools eingesetzt.</p>
+
+    <h2>6. Externe Dienste und Links</h2>
+    <p><strong>Schriftarten</strong><br>
+    Diese Website verwendet ausschließlich lokal eingebundene Schriftarten. Es werden keine externen Schriftarten von Drittanbieter-Servern geladen.</p>
+    <p><strong>GitHub</strong><br>
+    Diese Website enthält Links zu GitHub (GitHub, Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA). Beim Anklicken dieser Links werden Sie auf die Website von GitHub weitergeleitet. Datenschutzhinweise von GitHub: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub Privacy Statement</a>.</p>
+    <p><strong>Apple App Store</strong><br>
+    Diese Website enthält Links zum Apple App Store (Apple Inc., One Apple Park Way, Cupertino, CA 95014, USA). Beim Anklicken werden Sie auf die Website von Apple weitergeleitet. Datenschutzhinweise von Apple: <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener noreferrer">Apple Privacy Policy</a>.</p>
+    <p><strong>Ko-fi</strong><br>
+    Diese Website enthält einen Link zu Ko-fi (Ko-fi Labs Limited, UK). Beim Anklicken des Links werden Sie auf die Website von Ko-fi weitergeleitet. Datenschutzhinweise von Ko-fi: <a href="https://more.ko-fi.com/privacy" target="_blank" rel="noopener noreferrer">Ko-fi Privacy Policy</a>.</p>
+
+    <h2>7. Swipe In – App-spezifischer Datenschutz</h2>
+    <p>Die App „Swipe In" speichert alle eingegebenen Daten (wie z.&nbsp;B. erfasste Zeiten, Aktivitäten, Orte und Einstellungen) ausschließlich lokal auf Ihrem Gerät mittels Core Data und UserDefaults. Wir (der Entwickler) haben zu keinem Zeitpunkt Zugriff auf diese Daten, lesen diese nicht aus und übertragen sie nicht an externe Server. Die App enthält keine Werbe-SDKs, Analyse-Frameworks oder Tracking-Bibliotheken Dritter.</p>
+    <p>Wenn Sie die CSV-Export-Funktion nutzen, wird die Datei auf Ihrem Gerät erzeugt und über das iOS-Share-Sheet geteilt. Die Entscheidung, wohin Sie die Datei senden oder speichern, liegt ausschließlich bei Ihnen.</p>
+    <p>Rechtsgrundlage für die lokale Datenverarbeitung ist Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung).</p>
+
+    <h2>8. Ihre Rechte als betroffene Person</h2>
+    <p>Im Rahmen der geltenden gesetzlichen Bestimmungen haben Sie folgende Rechte hinsichtlich Ihrer personenbezogenen Daten:</p>
+    <ul>
+      <li><strong>Recht auf Auskunft</strong> (Art. 15 DSGVO)</li>
+      <li><strong>Recht auf Berichtigung</strong> (Art. 16 DSGVO)</li>
+      <li><strong>Recht auf Löschung</strong> (Art. 17 DSGVO)</li>
+      <li><strong>Recht auf Einschränkung der Verarbeitung</strong> (Art. 18 DSGVO)</li>
+      <li><strong>Recht auf Datenübertragbarkeit</strong> (Art. 20 DSGVO)</li>
+      <li><strong>Recht auf Widerspruch</strong> (Art. 21 DSGVO)</li>
+    </ul>
+    <p>Zur Ausübung Ihrer Rechte wenden Sie sich bitte an die im Abschnitt 1 genannte Kontaktadresse.</p>
+
+    <h2>9. Beschwerderecht bei einer Aufsichtsbehörde</h2>
+    <p>Unbeschadet eines anderweitigen Rechtsbehelfs steht Ihnen das Recht auf Beschwerde bei einer Aufsichtsbehörde zu, wenn Sie der Ansicht sind, dass die Verarbeitung Ihrer personenbezogenen Daten gegen die DSGVO verstößt (Art. 77 DSGVO).</p>
+    <p>Die für uns zuständige Aufsichtsbehörde ist:</p>
+    <p>
+      Sächsischer Datenschutz- und Transparenzbeauftragter<br>
+      Devrientstraße 5<br>
+      01067 Dresden<br>
+      Telefon: +49 351 85471-101<br>
+      E-Mail: post@sdtb.sachsen.de<br>
+      Website: <a href="https://www.sdtb.sachsen.de" target="_blank" rel="noopener noreferrer">https://www.sdtb.sachsen.de</a>
+    </p>
+
+    <h2>10. Aktualität dieser Datenschutzerklärung</h2>
+    <p>Diese Datenschutzerklärung ist aktuell gültig und hat den Stand April 2026. Durch die Weiterentwicklung der App oder aufgrund geänderter gesetzlicher bzw. behördlicher Vorgaben kann es notwendig werden, diese Datenschutzerklärung anzupassen.</p>
+
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Moritz Engelhardt · <span style="letter-spacing:0.06em;">👼❤️💻</span> EngelHeartWare</p>
+  <div class="footer-links">
+    <a href="swipein.html">Swipe In</a>
+    <a href="impressum-swipein.html">Impressum</a>
+    <a href="datenschutz-swipein.html">Datenschutzerklärung</a>
+  </div>
+</footer>
+
+</body>
+</html>

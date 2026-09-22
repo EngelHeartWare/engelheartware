@@ -457,10 +457,6 @@ a {
   line-height: 1.18;
 }
 
-.patient-statement span {
-  color: var(--brand);
-}
-
 .journey-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

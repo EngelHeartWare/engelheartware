@@ -341,6 +341,28 @@ a {
   min-height: 550px;
 }
 
+.mascot-badge {
+  position: absolute;
+  z-index: 5;
+  top: -4px;
+  left: 4px;
+  width: 156px;
+  height: 112px;
+  pointer-events: none;
+  animation: mascot-arrive 560ms cubic-bezier(0.22, 1, 0.36, 1) 850ms both;
+}
+
+.mascot-badge img {
+  position: absolute;
+  top: -22px;
+  left: 0;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 13px rgba(55, 30, 60, 0.19));
+}
+
 .phone {
   position: absolute;
   overflow: hidden;
@@ -362,6 +384,7 @@ a {
   bottom: 0;
   width: 248px;
   transform: rotate(1.5deg);
+  animation: fan-center 760ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
 }
 
 .phone-left {
@@ -371,6 +394,7 @@ a {
   width: 194px;
   transform: rotate(-8deg);
   opacity: 0.92;
+  animation: fan-left 880ms cubic-bezier(0.22, 1, 0.36, 1) 150ms both;
 }
 
 .phone-right {
@@ -380,6 +404,51 @@ a {
   width: 192px;
   transform: rotate(8deg);
   opacity: 0.94;
+  animation: fan-right 880ms cubic-bezier(0.22, 1, 0.36, 1) 220ms both;
+}
+
+@keyframes fan-center {
+  from {
+    opacity: 0;
+    transform: translateY(26px) rotate(0deg) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(1.5deg) scale(1);
+  }
+}
+
+@keyframes fan-left {
+  from {
+    opacity: 0;
+    transform: translate(116px, 24px) rotate(0deg) scale(0.92);
+  }
+  to {
+    opacity: 0.92;
+    transform: translate(0, 0) rotate(-8deg) scale(1);
+  }
+}
+
+@keyframes fan-right {
+  from {
+    opacity: 0;
+    transform: translate(-116px, 24px) rotate(0deg) scale(0.92);
+  }
+  to {
+    opacity: 0.94;
+    transform: translate(0, 0) rotate(8deg) scale(1);
+  }
+}
+
+@keyframes mascot-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .trust-strip {
@@ -396,11 +465,12 @@ a {
 }
 
 .trust-item {
-  min-height: 108px;
-  padding: 22px 28px;
+  min-height: 88px;
+  padding: 18px 22px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  text-align: center;
   border-right: 1px solid var(--line);
 }
 
@@ -726,6 +796,81 @@ a {
   color: var(--orange);
 }
 
+.science-section {
+  padding-bottom: 20px;
+}
+
+.science-panel {
+  padding: 58px;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+  align-items: start;
+  gap: 72px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface-soft);
+}
+
+.science-copy h2 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.35rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+
+.science-copy > p:not(.eyebrow) {
+  margin: 20px 0 0;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.science-copy .science-note {
+  padding-top: 18px;
+  border-top: 1px solid rgba(103, 95, 107, 0.18);
+  font-size: 0.86rem;
+}
+
+.science-sources {
+  display: grid;
+  gap: 10px;
+}
+
+.science-source {
+  padding: 18px 20px;
+  display: grid;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.82);
+  text-decoration: none;
+  transition: border-color 160ms ease, transform 160ms ease;
+}
+
+.science-source:hover {
+  border-color: rgba(164, 19, 157, 0.36);
+  transform: translateY(-2px);
+}
+
+.science-source span {
+  color: var(--brand);
+  font-family: "DM Mono", monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.science-source strong {
+  margin-top: 4px;
+  font-size: 0.98rem;
+}
+
+.science-source small {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
 .privacy-panel {
   padding: 52px;
   display: grid;
@@ -1016,6 +1161,10 @@ video:focus-visible {
     margin: 0 auto;
   }
 
+  .mascot-badge {
+    left: 5%;
+  }
+
   .phone-main {
     right: calc(50% - 124px);
   }
@@ -1041,7 +1190,8 @@ video:focus-visible {
   }
 
   .patient-intro,
-  .privacy-panel {
+  .privacy-panel,
+  .science-panel {
     grid-template-columns: 1fr;
     gap: 38px;
   }
@@ -1088,6 +1238,17 @@ video:focus-visible {
 
   .hero-visual {
     min-height: 430px;
+  }
+
+  .mascot-badge {
+    top: 0;
+    left: 2%;
+    width: 124px;
+    height: 90px;
+  }
+
+  .mascot-badge img {
+    top: -17px;
   }
 
   .phone-main {
@@ -1139,6 +1300,7 @@ video:focus-visible {
 
   .tour-grid {
     grid-template-columns: 1fr;
+    gap: 30px;
   }
 
   .tour-copy {
@@ -1147,6 +1309,10 @@ video:focus-visible {
 
   .video-feature {
     order: 2;
+  }
+
+  .workflow-list {
+    display: none;
   }
 
   .workflow-item {
@@ -1168,6 +1334,7 @@ video:focus-visible {
   }
 
   .privacy-panel,
+  .science-panel,
   .research-panel {
     padding: 34px 25px;
     border-radius: 28px;
@@ -1215,6 +1382,17 @@ video:focus-visible {
     min-height: 385px;
   }
 
+  .mascot-badge {
+    top: 0;
+    left: 0;
+    width: 108px;
+    height: 78px;
+  }
+
+  .mascot-badge img {
+    top: -15px;
+  }
+
   .phone-main {
     right: calc(50% - 88px);
     width: 176px;
@@ -1226,19 +1404,29 @@ video:focus-visible {
   }
 
   .trust-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 
   .trust-item,
   .trust-item:nth-child(3) {
-    min-height: 90px;
+    min-height: 78px;
+    padding: 12px 10px;
     border-right: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .trust-item:nth-child(odd) {
     border-left: 1px solid var(--line);
   }
 
-  .trust-item:last-child {
+  .trust-item:nth-child(n + 3) {
     border-bottom: 0;
+  }
+
+  .trust-item strong {
+    font-size: 0.82rem;
+    line-height: 1.35;
   }
 
   .workflow-item {
@@ -1257,5 +1445,10 @@ video:focus-visible {
 
   .button {
     transition: none;
+  }
+
+  .phone,
+  .mascot-badge {
+    animation: none;
   }
 }

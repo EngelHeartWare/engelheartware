@@ -3,366 +3,287 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sniff It — Deine persönliche Zentrale rund ums Riechen</title>
-  <meta name="description" content="Sniff It ist deine persönliche Zentrale rund ums Riechen: Geruchstraining, eigene Duftbibliothek, Geruchsmomente aus dem Alltag und persönliche Verlaufsbeobachtungen an einem Ort." />
-  <meta name="theme-color" content="#f5f4f0" />
+  <title>Sniff It — Riechtraining &amp; Dufttagebuch für dein iPhone</title>
+  <meta name="description" content="Ein privater iPhone-Begleiter für Menschen mit Riechverlust oder verändertem Riechen: mit vertrauten Düften trainieren, Scent Moments festhalten und die eigene Riechgeschichte aufbauen." />
+  <meta name="theme-color" content="#f8f6f3" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Sniff It — Deine persönliche Zentrale rund ums Riechen" />
-  <meta property="og:description" content="Eine persönliche Zentrale für Geruchstraining, My Scents, Alltagsbeobachtungen, Verlaufsdaten und begrenzte KI-gestützte Dufterfassung." />
-  <meta property="og:locale" content="de" />
-  <meta property="og:locale:alternate" content="en" />
-  <style>
-
-    @font-face { font-family: "Nunito"; src: url("fonts/nunito-v32-latin-regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
-    @font-face { font-family: "Nunito"; src: url("fonts/nunito-v32-latin-600.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
-    @font-face { font-family: "Nunito"; src: url("fonts/nunito-v32-latin-700.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
-    @font-face { font-family: "Nunito"; src: url("fonts/nunito-v32-latin-800.woff2") format("woff2"); font-weight: 800; font-style: normal; font-display: swap; }
-    @font-face { font-family: "DM Mono"; src: url("fonts/dm-mono-v16-latin-regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
-    @font-face { font-family: "DM Mono"; src: url("fonts/dm-mono-v16-latin-500.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg: #f5f4f0; --white: #ffffff; --pink: #F835E7; --pink-lt: #FEE6FC;
-      --pink-mid: #FDBAF7; --purple: #7c3aed; --ink: #1a1a1a; --muted: #6b7280;
-      --border: #e4e2dc; --radius: 14px;
-    }
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--ink); font-family: 'Nunito', sans-serif; font-weight: 400; line-height: 1.7; overflow-x: hidden; }
-    nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 18px 48px; background: rgba(245,244,240,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
-    .logo { font-weight: 800; font-size: 1.1rem; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 8px; }
-    .logo-img { width: 26px; height: 26px; object-fit: contain; }
-    .nav-right { display: flex; align-items: center; gap: 28px; }
-    .nav-links { list-style: none; display: flex; gap: 24px; }
-    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 600; }
-    .nav-links a:hover { color: var(--ink); }
-    .lang-toggle { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--muted); text-decoration: none; border: 1.5px solid var(--border); padding: 3px 9px; border-radius: 6px; font-weight: 500; }
-
-    .hero { padding: 60px 48px 52px; max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; }
-    .hero h1 { font-size: clamp(2.2rem, 4.5vw, 3.3rem); font-weight: 800; line-height: 1.12; letter-spacing: -0.03em; max-width: 600px; }
-    .hero .lede { margin-top: 18px; font-size: 1.05rem; color: var(--muted); max-width: 540px; }
-    .hero-cta { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-    .btn-primary, .btn-secondary { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; padding: 13px 22px; border-radius: 100px; font-weight: 700; font-size: 0.95rem; transition: all 0.18s; }
-    .btn-primary { background: var(--pink); color: #fff; }
-    .btn-primary:hover { background: #9D0691; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(248,53,231,0.28); }
-    .btn-secondary { background: var(--white); color: var(--ink); border: 1.5px solid var(--border); }
-    .btn-secondary:hover { border-color: var(--ink); }
-    .privacy-tag { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--muted); margin-top: 14px; display: flex; flex-direction: column; gap: 4px; }
-
-    .validation-notice { margin-top: 18px; display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 0.78rem; color: var(--muted); }
-    .validation-notice strong { color: var(--ink); }
-
-    .hero-visual { position: relative; display: flex; align-items: center; justify-content: center; }
-    .snail-stage { width: 100%; max-width: 320px; aspect-ratio: 1 / 1; border-radius: 28px; border: 1.5px solid var(--border); background: radial-gradient(120% 120% at 30% 20%, var(--pink-lt) 0%, var(--white) 55%); box-shadow: 0 18px 50px rgba(248,53,231,0.12); display: flex; align-items: center; justify-content: center; overflow: hidden; }
-    .snail-stage .snail { width: 66%; filter: drop-shadow(0 12px 18px rgba(0,0,0,0.14)); }
-
-    .section-label { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--pink); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; margin-bottom: 10px; display: inline-block; }
-    .section-title { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; }
-    .section-lede { color: var(--muted); font-size: 1.03rem; max-width: 760px; }
-    .wrap { max-width: 1000px; margin: 0 auto; }
-
-    #research { padding: 72px 48px; background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .research-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 34px; align-items: start; margin-top: 28px; }
-    .research-card { border: 1.5px solid var(--border); border-radius: 20px; padding: 24px; background: var(--bg); }
-    .research-card h3 { font-size: 1.08rem; margin-bottom: 8px; }
-    .research-card p { color: var(--muted); font-size: 0.92rem; }
-    .research-links { display: grid; gap: 10px; margin-top: 18px; }
-    .research-links a, .research-links span { display: block; padding: 11px 13px; border-radius: 10px; border: 1px solid var(--border); background: var(--white); text-decoration: none; color: var(--ink); font-weight: 700; font-size: 0.9rem; }
-    .research-links small { display: block; color: var(--muted); font-weight: 400; margin-top: 2px; }
-    .status-chip, .beta-chip { display: inline-flex; align-items: center; border-radius: 999px; font-family: 'DM Mono', monospace; font-size: 0.66rem; line-height: 1; padding: 5px 8px; vertical-align: middle; }
-    .status-chip { background: #f1efff; color: var(--purple); }
-    .beta-chip { background: var(--pink-lt); color: #9D0691; margin-left: 6px; }
-
-    #idea { padding: 86px 48px; text-align: center; }
-    #idea h2 { font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 22px; }
-    #idea p.manifesto { color: var(--muted); font-size: 1.15rem; line-height: 1.6; max-width: 780px; margin: 0 auto 18px; }
-    #idea p.manifesto b { color: var(--ink); font-weight: 800; }
-    #idea .clinical-note { font-size: 0.88rem; color: var(--muted); margin: 28px auto 0; max-width: 720px; }
-
-    #flow { padding: 92px 48px; background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 34px; }
-    .feature-card { background: var(--bg); border: 1.5px solid var(--border); border-radius: 18px; padding: 24px; }
-    .feature-card h3 { font-size: 1.08rem; margin-bottom: 8px; }
-    .feature-card p { color: var(--muted); font-size: 0.93rem; }
-
-    #privacy { padding: 80px 48px; }
-    .privacy-box { max-width: 760px; margin: 0 auto; text-align: center; }
-    .privacy-box p { color: var(--muted); font-size: 1.03rem; line-height: 1.65; }
-
-    .beta-band { padding: 58px 48px; background: linear-gradient(90deg, var(--pink-lt), #fff6fd); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); text-align: center; }
-    .beta-band h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; }
-    .beta-band p { color: var(--muted); max-width: 680px; margin: 0 auto 22px; }
-
-    #faq { padding: 80px 48px; }
-    .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; }
-    .faq-item { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 26px; }
-    .faq-item h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; }
-    .faq-item p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
-
-    #developer { padding: 60px 48px; background: var(--white); border-top: 1px solid var(--border); text-align: center; }
-    #developer p { font-size: 0.95rem; color: var(--muted); max-width: 700px; margin: 8px auto 0; }
-    footer { padding: 40px 48px; max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-    footer p, footer a { font-size: 0.82rem; color: var(--muted); text-decoration: none; }
-    footer a:hover { color: var(--ink); }
-
-
-    /* Conference media */
-    #media { padding: 88px 48px; }
-    .media-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; margin-top: 30px; }
-    .media-card { flex: 0 1 210px; width: 210px; background: var(--white); border: 1.5px solid var(--border); border-radius: 18px; padding: 10px; overflow: hidden; }
-    .media-card img { width: 100%; display: block; border-radius: 12px; aspect-ratio: 9 / 19.5; object-fit: cover; background: var(--bg); }
-    .media-card figcaption { padding: 10px 4px 2px; color: var(--muted); font-size: 0.82rem; line-height: 1.4; }
-    .video-shell { max-width: 560px; margin: 34px auto 0; background: var(--white); border: 1.5px solid var(--border); border-radius: 22px; padding: 14px; }
-    .video-shell video { width: 100%; display: block; border-radius: 14px; background: #111; max-height: 680px; }
-    .video-caption { color: var(--muted); font-size: 0.88rem; margin-top: 10px; }
-
-    @media (max-width: 768px) {
-      .hero, .research-grid, .faq-grid, .feature-grid { grid-template-columns: 1fr; }
-      .media-grid { gap: 12px; }
-      .media-card { flex-basis: calc(50% - 6px); width: calc(50% - 6px); max-width: 210px; }
-      nav { padding: 14px 20px; }
-      .nav-links { display: none; }
-      .hero { padding: 40px 20px; }
-      #research, #idea, #flow, #media, #privacy, .beta-band, #faq, #developer { padding: 58px 20px; }
-    }
-
-  </style>
+  <meta property="og:title" content="Sniff It — Trainieren. Wahrnehmen. Festhalten. Verstehen." />
+  <meta property="og:description" content="Riechtraining, Dufttagebuch und deine persönliche Geschichte — in einer privaten iPhone-App." />
+  <meta property="og:image" content="https://engelheartware.de/images/sniffit-home.png" />
+  <meta property="og:locale" content="de_DE" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <link rel="canonical" href="https://engelheartware.de/sniffit-de.html" />
+  <link rel="alternate" hreflang="de" href="https://engelheartware.de/sniffit-de.html" />
+  <link rel="alternate" hreflang="en" href="https://engelheartware.de/sniffit.html" />
+  <link rel="stylesheet" href="sniffit.css" />
 </head>
 <body>
-<nav>
-  <a href="sniffit-de.html" class="logo"><img class="logo-img" src="images/sniffy_bluepurple.png" alt="" /> Sniff It</a>
-  <div class="nav-right">
-    <ul class="nav-links">
-      <li><a href="#research">Forschung</a></li>
-      <li><a href="#flow">Funktionen</a></li>
-      <li><a href="#privacy">Datenschutz</a></li>
-      <li><a href="#faq">FAQ</a></li>
-    </ul>
-    <a href="sniffit.html" class="lang-toggle" aria-label="View in English">EN</a>
-  </div>
-</nav>
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
 
-<header class="hero">
-  <div>
-    <div class="section-label">Sniff It · Persönliche Riech-Zentrale · Version 1</div>
-    <h1>Deine persönliche Zentrale rund ums Riechen.</h1>
-    <p class="lede">Sniff It bringt die verschiedenen Seiten deines Geruchssinns an einem privaten Ort auf dem iPhone zusammen: strukturiertes Geruchstraining, My Scents, Scent Moments aus dem Alltag und deine eigene Verlaufsgeschichte. <strong>Trainieren. Wahrnehmen. Festhalten. Verstehen.</strong></p>
-    <div class="hero-cta">
-      <a href="#research" class="btn-primary">Forschung & Preprint →</a>
-      <a href="https://testflight.apple.com/join/vYuxSqDr" class="btn-secondary" target="_blank" rel="noopener noreferrer">Beta ausprobieren</a>
-    </div>
-    <div class="privacy-tag">
-      <strong>iOS · Deutsch & Englisch · lokal gespeichert</strong>
-      <span>Kein Konto. Keine Werbung. Keine automatische Übertragung von Forschungsdaten.</span>
-    </div>
-
-    <div class="validation-notice">
-      <span class="status-chip">Beta</span>
-      <span><strong>Validierung läuft.</strong> Version 1 ist nicht klinisch validiert; Usability, Adhärenzunterstützung und KI-gestützte Funktionen werden weiter evaluiert.</span>
-    </div>
-  </div>
-  <div class="hero-visual">
-    <div class="snail-stage">
-      <img class="snail" src="images/sniffy_bluepurple.png" alt="Sniffy, das Maskottchen von Sniff It" />
-    </div>
-  </div>
-</header>
-
-<section id="research">
-  <div class="wrap">
-    <div class="section-label">Für Forschende</div>
-    <h2 class="section-title">Forschung & Zitation</h2>
-    <p class="section-lede">Sniff It Version 1 erprobt die Idee einer <strong>persönlichen Zentrale rund ums Riechen</strong>: Geruchstraining, persönliche Duftorganisation, Geruchstagebuch und longitudinale Selbstbeobachtung sind in einem nutzerkontrollierten System miteinander verbunden. Die App wird nicht als klinisch validierte Intervention dargestellt.</p>
-
-    <div class="research-grid">
-  <div class="research-card">
-    <h3>Forschungsstatus <span class="status-chip">V1 Beta · Validierung läuft</span></h3>
-
-    <p>
-      Sniff It Version 1 ist in einem veröffentlichten System-Design-Preprint dokumentiert. Eine prospektive Machbarkeits- und Usability-Studie wird vorbereitet, um die initiale Benutzerfreundlichkeit, die beabsichtigte Nutzung und eine vierwöchige selbstbestimmte Nutzung im Alltag zu untersuchen. Sniff It wird nicht als klinisch validierte Intervention dargestellt; app-basierte Bewertungen und Aufgaben zu Hause sind persönliche Aufzeichnungen und kein Ersatz für standardisierte psychophysische Riechtests.
-    </p>
-
-    <div class="research-links">
-      <a href="https://doi.org/10.5281/zenodo.22877566"
-         target="_blank"
-         rel="noopener noreferrer">
-        Preprint / Zenodo
-        <small><em>Sniff It: A Mobile Companion for Olfactory Training and Everyday Smell Journaling</em></small>
+  <nav class="site-nav" aria-label="Hauptnavigation">
+    <div class="nav-shell">
+      <a class="brand" href="sniffit-de.html" aria-label="Sniff It Startseite">
+        <img src="images/sniffy_bluepurple.png" alt="" />
+        <span>Sniff It</span>
       </a>
-
-      <a href="https://doi.org/10.5281/zenodo.22825622"
-         target="_blank"
-         rel="noopener noreferrer">
-        Version-1-Demo-Materialien / Zenodo
-        <small>Screenshots und Demonstrationsvideos zum Version-1-System.</small>
-      </a>
-
-      <a href="mailto:neurosense@fau.de?subject=Sniff%20It%20Research%20Collaboration">
-        Forschungskooperation
-        <small>Fragen, Methodendiskussion oder Interesse an Zusammenarbeit.</small>
-      </a>
-
-      <a href="https://testflight.apple.com/join/vYuxSqDr"
-         target="_blank"
-         rel="noopener noreferrer">
-        TestFlight-Beta
-        <small>Aktuelle Sniff It Version 1 direkt in TestFlight öffnen.</small>
-      </a>
-    </div>
-
-    <div style="margin-top:18px; padding:14px 16px; border:1px solid var(--border); border-radius:12px; background:var(--white);">
-      <strong style="font-size:0.9rem;">Empfohlene Zitation</strong>
-      <p style="margin-top:6px; color:var(--muted); font-size:0.86rem;">
-        Engelhardt M, Freiherr J. <em>Sniff It: A Mobile Companion for Olfactory Training and Everyday Smell Journaling.</em> Preprint. Zenodo. 2026.
-        <a href="https://doi.org/10.5281/zenodo.22877566" target="_blank" rel="noopener noreferrer">doi:10.5281/zenodo.22877566</a>
-      </p>
-    </div>
-  </div>
-
-      <div class="research-card">
-        <h3>Designgrenzen</h3>
-        <p>Sniff It trennt subjektive Erfahrung von klinischer Interpretation. KI kann bei Erfassung, Sprache und Organisation unterstützen; Sicherheitsregeln und longitudinale Berechnungen bleiben deterministisch und nachvollziehbar.</p>
-        <p style="margin-top:12px;"><strong>Smart Scent Capture <span class="beta-chip">Beta</span></strong><br/>Erkennt sichtbare Objekte oder Beschriftungen und schlägt, sofern verfügbar, einen Katalogtreffer vor; andernfalls kann der erkannte Name bestätigt oder bearbeitet und als eigener Duft hinzugefügt werden. Die Funktion kann kein Foto „riechen“; die Nutzerin oder der Nutzer bestätigt das Ergebnis.</p>
-        <p style="margin-top:12px;"><strong>KI-Vorschläge für Scent Moments <span class="beta-chip">Beta</span></strong><br/>Optionale Vorschläge für Titel, erwähnte Gerüche und Tags, nachdem bereits ein eigener Text eingegeben wurde.</p>
+      <div class="nav-cluster">
+        <ul class="nav-links">
+          <li><a href="#how-it-helps">So hilft es</a></li>
+          <li><a href="#app-preview">App ansehen</a></li>
+          <li><a href="#privacy">Datenschutz</a></li>
+          <li><a href="#research">Forschung</a></li>
+        </ul>
+        <a class="language-link" href="sniffit.html" lang="en" aria-label="View in English">EN</a>
+        <a class="nav-cta" href="https://testflight.apple.com/join/vYuxSqDr" target="_blank" rel="noopener noreferrer">Beta ausprobieren</a>
       </div>
     </div>
-  </div>
-</section>
+  </nav>
 
-<section id="idea">
-  <div class="wrap">
-    <div class="section-label">Die Idee</div>
-    <h2>Ein Ort für deinen Geruchssinn.</h2>
-    <p class="manifesto"><b>Essen. Erinnerungen. Orte. Emotionen. Sicherheit.</b></p>
-    <p class="manifesto">Geruchstraining ist nur ein Teil davon, wie wir Riechen erleben. Sniff It verbindet bewusstes Training mit den Düften, die du sammelst, den Momenten, die dir auffallen, und den Beobachtungen, die sich über die Zeit ergeben.</p>
-    <p class="manifesto">So entsteht eine <b>persönliche Riech-Zentrale</b>: ein Ort zum Trainieren, Organisieren, Wahrnehmen, Festhalten, Lernen und Wiederentdecken der eigenen Geschichte—ohne subjektive Erfahrung in einen klinischen Score umzuwandeln.</p>
-    <p class="clinical-note">Strukturiertes Geruchstraining wurde bei verschiedenen Formen von Riechstörungen untersucht. Für Sniff It Version 1 selbst ist bislang nicht gezeigt, dass die App Adhärenz oder klinische Ergebnisse verbessert.</p>
-  </div>
-</section>
-
-<section id="flow">
-  <div class="wrap">
-    <div class="section-label">Version 1</div>
-    <h2 class="section-title">Eine Zentrale, verbunden um dich herum</h2>
-    <p class="section-lede">Sniff It behandelt Training nicht als isolierten Timer, sondern verbindet Training, My Scents, Scent Moments, Statistiken, Lernen und Export zu einer persönlichen Geruchsgeschichte.</p>
-
-    <div class="feature-grid">
-      <div class="feature-card">
-        <h3>Strukturiertes Geruchstraining</h3>
-        <p>Wähle genau vier Düfte aus „Meine Düfte“ und nutze denselben geführten Trainingsablauf für die erste und spätere Einheiten. Getaktete Exposition, persönliche Bewertungen, Erinnerungen, Streaks und Erfolge unterstützen regelmäßiges Üben.</p>
+  <header class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Für Menschen mit Riechverlust oder verändertem Riechen</p>
+      <h1>Riechtraining und Dufttagebuch – privat an einem Ort.</h1>
+      <p class="hero-lede">Ob dein Geruchssinn schwächer geworden ist, fehlt oder sich einfach verändert hat: Sniff It hilft dir, <strong>mit vertrauten Düften zu trainieren, Wahrnehmungen festzuhalten und deine eigene Geschichte</strong> über die Zeit aufzubauen.</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="https://testflight.apple.com/join/vYuxSqDr" target="_blank" rel="noopener noreferrer">iOS-Beta ausprobieren <span aria-hidden="true">→</span></a>
+        <a class="button button-secondary" href="#app-preview">So funktioniert es</a>
       </div>
-      <div class="feature-card">
-        <h3>Persönliche Duftbibliothek</h3>
-        <p>Füge vertraute Düfte manuell, aus dem kuratierten Katalog oder mit Smart Scent Capture hinzu. Bei einem neuen Duft wird zuerst der eigene Eindruck gespeichert; Referenzbegriffe werden erst danach gezeigt, um Priming zu reduzieren.</p>
+      <div class="hero-meta" aria-label="Wichtige Fakten zur App">
+        <span class="meta-chip">iPhone</span>
+        <span class="meta-chip">Deutsch + Englisch</span>
+        <span class="meta-chip">Kein Konto</span>
+        <span class="meta-chip">Kernfunktionen bleiben kostenlos</span>
       </div>
-      <div class="feature-card">
-        <h3>Scent Moments</h3>
-        <p>Halte spontane Geruchserlebnisse mit Titel, Freitext, Tags sowie optional Foto oder Standort fest. Diese Einträge sind kontextuelle Tagebuchnotizen und keine diagnostischen Symptomfragebögen.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Longitudinale Statistiken</h3>
-        <p>Sieh Trainingsaktivität, persönliche Bewertungen, Deskriptorverläufe und duftspezifische Beobachtungen. Veränderungen werden als aufgezeichnete Muster gezeigt, nicht als Erholung oder Verschlechterung interpretiert.</p>
-      </div>
-      <div class="feature-card">
-        <h3>„Diesen Duft kennenlernen“</h3>
-        <p>Optionale Lernübungen vergleichen die eigenen Begriffe erst nach einer unabhängigen Beobachtung mit Referenzvokabular. Es gibt keinen Richtig/Falsch-Score.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Export & optionale Integrationen</h3>
-        <p>Nutzergesteuerter CSV- und PDF-Export ist verfügbar. Optionales HealthKit-Schreiben, Fotos, Standort, Benachrichtigungen und Widgets bleiben unter Kontrolle der Nutzerin oder des Nutzers.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<section id="media">
-  <div class="wrap">
-    <div class="section-label">App-Vorschau</div>
-    <h2 class="section-title">Sniff It in Anwendung</h2>
-    <p class="section-lede">Screenshots der Version-1-Oberfläche. Showcase-Aufnahmen verwenden ausschließlich fiktive Demonstrationsdaten.</p>
-
-    <div class="media-grid">
-      <figure class="media-card"><img src="images/sniffit-home.png" alt="Sniff It Startseite" loading="lazy" /><figcaption>Home — Training, Erinnerungen und Sniffy</figcaption></figure>
-      <figure class="media-card"><img src="images/sniffit-training-setup.png" alt="Trainingsvorbereitung mit vier ausgewählten Düften" loading="lazy" /><figcaption>Trainingsvorbereitung — vier ausgewählte Düfte</figcaption></figure>
-      <figure class="media-card"><img src="images/sniffit-training-active.png" alt="Aktive Geruchstrainings-Einheit" loading="lazy" /><figcaption>Geführtes Geruchstraining</figcaption></figure>
-      <figure class="media-card"><img src="images/sniffit-training-complete.png" alt="Abschluss eines Geruchstrainings" loading="lazy" /><figcaption>Trainingsabschluss</figcaption></figure>
-      <figure class="media-card"><img src="images/sniffit-scent-moment.png" alt="Scent Moment Tagebucheintrag" loading="lazy" /><figcaption>Scent Moment — Geruchstagebuch im Alltag</figcaption></figure>
-      <figure class="media-card"><img src="images/sniffit-my-scents.png" alt="Persönliche Duftbibliothek My Scents" loading="lazy" /><figcaption>My Scents — persönliche Duftbibliothek</figcaption></figure>
-      <figure class="media-card"><img src="images/sniffit-statistics.png" alt="Statistiken und longitudinale Beobachtungen" loading="lazy" /><figcaption>Statistiken — persönliche Verlaufsdaten</figcaption></figure>
+      <p class="hero-note"><strong>Version-1-Beta.</strong> Sniff It unterstützt persönliches Üben und Selbstbeobachtung. Die App ist kein Medizinprodukt, stellt keine Diagnose und misst keine Erholung.</p>
     </div>
 
-    <div class="video-shell">
-      <video controls playsinline preload="metadata" poster="images/sniffit-showcase-video-poster.png">
-        <source src="videos/sniffit-showcase-v1.mp4" type="video/mp4" />
-        Dein Browser unterstützt eingebettete Videos nicht.
-      </video>
-      <p class="video-caption">Version-1-Showcase — eine kurze Demonstration von Geruchstraining und Scent Moments.</p>
-    </div>
-  </div>
-</section>
-
-<section id="privacy">
-  <div class="wrap privacy-box">
-    <div class="section-label">Datenschutz</div>
-    <h2 class="section-title">Lokal by design.</h2>
-    <p>Sniff It erfordert kein Konto und überträgt persönliche Geruchsaufzeichnungen nicht automatisch an ein Forschungs-Backend. App-Daten werden lokal auf dem Gerät gespeichert. Eine Weitergabe erfolgt nur, wenn Daten ausdrücklich exportiert oder geteilt werden. Optionale Systemfunktionen wie HealthKit, Fotos, Standort, Benachrichtigungen und Widgets verwenden die jeweiligen Apple-Berechtigungen.</p>
-  </div>
-</section>
-
-<section class="beta-band">
-  <div class="wrap">
-    <h2>Interesse an der aktuellen iOS-Beta?</h2>
-    <p>Die aktuelle Sniff It Version 1 Beta ist über TestFlight für interessierte Forschende und Tester verfügbar. Der Beta-Zugang ist von einer Teilnahme an einer Forschungsstudie getrennt.</p>
-    <a href="https://testflight.apple.com/join/vYuxSqDr" class="btn-primary" target="_blank" rel="noopener noreferrer">In TestFlight öffnen →</a>
-  </div>
-</section>
-
-<section id="faq">
-  <div class="wrap">
-    <h3 style="font-size: 1.6rem; font-weight: 800; text-align: center;">Häufige Fragen</h3>
-    <div class="faq-grid">
-      <div class="faq-item">
-        <h4>Ist Sniff It ein Medizinprodukt oder diagnostischer Test?</h4>
-        <p>Nein. Sniff It dokumentiert Trainingsaktivität und subjektive Beobachtungen. Die App diagnostiziert keine Riechstörungen und ersetzt keine standardisierten klinischen Riechtests.</p>
+    <div class="hero-visual" aria-label="Sniff It App-Ansichten mit Startseite, geführtem Riechtraining und einem Scent Moment">
+      <div class="phone phone-left" aria-hidden="true">
+        <img src="images/sniffit-training-active.png" alt="" />
       </div>
-      <div class="faq-item">
-        <h4>Kann die Kamera einen Gegenstand „riechen“?</h4>
-        <p>Nein. Smart Scent Capture Beta nutzt sichtbare Bild- und Textinformationen, um ein Objekt oder eine Beschriftung zu erkennen und, sofern verfügbar, einen Katalogtreffer vorzuschlagen. Gibt es keinen exakten Katalogtreffer, kann der erkannte Name bestätigt oder bearbeitet und als eigener Duft hinzugefügt werden. Die Nutzerin oder der Nutzer bestätigt das Ergebnis; Sicherheitsentscheidungen bleiben regelbasiert.</p>
+      <div class="phone phone-main">
+        <img src="images/sniffit-home.png" alt="Sniff It Startseite mit Training, Scent Moments und persönlicher Aktivität" />
       </div>
-      <div class="faq-item">
-        <h4>Brauche ich ein kommerzielles Riechtrainings-Set?</h4>
-        <p>Nein. Nutzer können sichere, vertraute Duftquellen organisieren, die bereits vorhanden sind, und vier davon fürs Training auswählen. Produkt- und Materialsicherheitshinweise gelten weiterhin.</p>
-      </div>
-      <div class="faq-item">
-        <h4>Wo werden meine Daten gespeichert?</h4>
-        <p>Lokal auf dem Gerät. Sniff It hat keinen automatischen Forschungs-Upload. CSV- oder PDF-Dateien werden nur ausdrücklich durch die Nutzerin oder den Nutzer exportiert.</p>
-      </div>
-      <div class="faq-item">
-        <h4>Gibt es ein Abonnement?</h4>
-        <p>Für Version 1 ist kein Abonnement vorgesehen. Optionale Pro- und Supporter-Upgrades sind Einmalkäufe; die Kernfunktionen des Trainings bleiben ohne Abonnement nutzbar.</p>
-      </div>
-      <div class="faq-item">
-        <h4>Was wird als Nächstes untersucht?</h4>
-        <p>Eine prospektive Machbarkeits- und Usability-Studie wird vorbereitet, um initiale Benutzerfreundlichkeit, beabsichtigte Nutzung und eine vierwöchige selbstbestimmte Nutzung zu untersuchen, einschließlich der natürlichen Trainingsadhärenz bei Personen mit Trainingsabsicht. Spätere Studien können standardisierte olfaktorische Outcomes einbeziehen.</p>
+      <div class="phone phone-right" aria-hidden="true">
+        <img src="images/sniffit-scent-moment.png" alt="" />
       </div>
     </div>
-  </div>
-</section>
+  </header>
 
-<section id="developer">
-  <div class="wrap">
-    <h3 style="font-size: 1.1rem; font-weight: 800;">Projektkontakt</h3>
-    <p>Sniff It wird von Moritz Engelhardt als persönliche Riech-Zentrale für iOS entwickelt und verbindet Geruchstraining, Geruchstagebuch, persönliche Duftorganisation und forschungsfreundliche Selbstbeobachtung. Für Forschungsfragen, Kooperation, Beta-Zugang oder Methodendiskussion: <a href="mailto:neurosense@fau.de">neurosense@fau.de</a>.</p>
-  </div>
-</section>
+  <aside class="trust-strip" aria-label="Was Sniff It wichtig ist">
+    <div class="trust-grid">
+      <div class="trust-item"><strong>Privat by design</strong><span>Deine Einträge bleiben lokal auf deinem Gerät.</span></div>
+      <div class="trust-item"><strong>Kein Konto, keine Werbung</strong><span>Öffne die App und konzentriere dich auf dein Training.</span></div>
+      <div class="trust-item"><strong>Deine Worte zuerst</strong><span>Eigene Wahrnehmung vor Referenzbegriffen.</span></div>
+      <div class="trust-item"><strong>Keine falschen Versprechen</strong><span>Muster werden gezeigt, ohne Erholung zu behaupten.</span></div>
+    </div>
+  </aside>
 
-<footer>
-  <p>© 2026 Sniff It · Moritz Engelhardt</p>
-  <div style="display: flex; gap: 20px;">
-    <a href="sniffit.html">English</a>
-    <a href="mailto:neurosense@fau.de">Forschungskontakt</a>
-    <a href="mailto:support@engelheartware.de">Support</a>
-  </div>
-</footer>
+  <main id="main">
+    <section class="section" id="how-it-helps" aria-labelledby="patient-title">
+      <div class="shell patient-intro">
+        <div>
+          <p class="eyebrow">Ein Begleiter für Wochen und Monate</p>
+          <h2 class="patient-statement" id="patient-title">Mit dem eigenen Geruchssinn zu arbeiten braucht Zeit. <span>Sniff It gibt dieser Zeit Struktur.</span></h2>
+        </div>
+        <div class="journey-grid">
+          <article class="journey-card">
+            <span class="journey-number">01</span>
+            <h3>Mit vertrauten Düften trainieren</h3>
+            <p>Bereite vier sichere Duftquellen vor und folge einem ruhigen, zeitlich geführten Training in deinem Tempo.</p>
+          </article>
+          <article class="journey-card">
+            <span class="journey-number">02</span>
+            <h3>Alltägliche Momente wahrnehmen</h3>
+            <p>Kaffee, Regen, Shampoo, Essen – halte Düfte und Situationen fest, die dir im Alltag auffallen.</p>
+          </article>
+          <article class="journey-card">
+            <span class="journey-number">03</span>
+            <h3>Deine eigene Geschichte aufbauen</h3>
+            <p>Blicke auf deine Einträge zurück, ohne dass eine App deine Erfahrung klinisch bewertet.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="preview-section" id="app-preview" aria-labelledby="preview-title">
+      <div class="shell tour-grid">
+        <div class="tour-copy">
+          <p class="eyebrow">Die App statt nur einer Funktionsliste</p>
+          <h2 id="preview-title">Erlebe die ganze App in etwa einer Minute.</h2>
+          <p class="tour-lede">Sniff It verbindet bewusstes Training und Alltag in einem einfachen Kreislauf.</p>
+          <ol class="workflow-list">
+            <li class="workflow-item"><span class="workflow-index">01</span><strong>Trainieren</strong><span>Nutze vier vertraute Düfte in einer geführten, zeitlich strukturierten Einheit.</span></li>
+            <li class="workflow-item"><span class="workflow-index">02</span><strong>Wahrnehmen</strong><span>Halte einen Scent Moment fest, wenn dir etwas auffällt.</span></li>
+            <li class="workflow-item"><span class="workflow-index">03</span><strong>Festhalten</strong><span>Bewertungen, Notizen, Fotos und deine Duftbibliothek bleiben zusammen.</span></li>
+            <li class="workflow-item"><span class="workflow-index">04</span><strong>Verstehen</strong><span>Sieh deine persönliche Geschichte als aufgezeichnete Muster – nicht als klinischen Score.</span></li>
+          </ol>
+        </div>
+        <div class="video-feature">
+          <p class="video-label">70-Sekunden-App-Tour</p>
+          <div class="video-device">
+            <video controls playsinline preload="metadata" poster="images/sniffit-showcase-video-poster.png" aria-label="Video-Tour durch Sniff It Version 1">
+              <source src="videos/sniffit-showcase-v1.mp4" type="video/mp4" />
+              Dein Browser unterstützt eingebettete Videos nicht.
+            </video>
+          </div>
+          <p class="video-note">Die Vorschau nutzt ausschließlich fiktive Demonstrationsdaten.</p>
+        </div>
+      </div>
+
+      <div class="shell storyboard-head">
+        <div>
+          <p class="eyebrow">Ein klarer Weg durch die App</p>
+          <h3>Vom heutigen Training zu deiner längeren Geschichte.</h3>
+        </div>
+        <span class="swipe-hint">Zum Erkunden scrollen →</span>
+      </div>
+
+      <div class="screen-rail" aria-label="Geordneter Rundgang durch Sniff It">
+        <figure class="screen-card">
+          <img src="images/sniffit-home.png" alt="Sniff It Startseite" loading="lazy" />
+          <figcaption><span class="screen-step">01 · Beginnen</span><strong>Alles startet auf Home</strong><p>Training, Scent Moments und was heute wichtig ist.</p></figcaption>
+        </figure>
+        <figure class="screen-card">
+          <img src="images/sniffit-my-scents.png" alt="Persönliche Duftbibliothek My Scents" loading="lazy" />
+          <figcaption><span class="screen-step">02 · Auswählen</span><strong>Mach vertraute Düfte zu deinen</strong><p>Organisiere Duftquellen, die du bereits besitzt und nutzt.</p></figcaption>
+        </figure>
+        <figure class="screen-card">
+          <img src="images/sniffit-training-setup.png" alt="Trainingsvorbereitung mit vier ausgewählten Düften" loading="lazy" />
+          <figcaption><span class="screen-step">03 · Vorbereiten</span><strong>Lege vier Düfte bereit</strong><p>Eine klare Vorbereitung, bevor das geführte Training beginnt.</p></figcaption>
+        </figure>
+        <figure class="screen-card">
+          <img src="images/sniffit-training-active.png" alt="Aktives geführtes Riechtraining mit Zitrone" loading="lazy" />
+          <figcaption><span class="screen-step">04 · Trainieren</span><strong>Konzentriere dich auf einen Duft</strong><p>Zeitliche Führung hält gewöhnliche Einheiten leicht.</p></figcaption>
+        </figure>
+        <figure class="screen-card">
+          <img src="images/sniffit-training-complete.png" alt="Abgeschlossenes Riechtraining" loading="lazy" />
+          <figcaption><span class="screen-step">05 · Festhalten</span><strong>Speichere deine eigene Erfahrung</strong><p>Deine Bewertungen bleiben subjektive persönliche Einträge.</p></figcaption>
+        </figure>
+        <figure class="screen-card">
+          <img src="images/sniffit-scent-moment.png" alt="Scent-Moment-Tagebucheintrag zu frischem Brot" loading="lazy" />
+          <figcaption><span class="screen-step">06 · Wahrnehmen</span><strong>Erinnere alltägliche Duftmomente</strong><p>Mit Notiz, Tags und – wenn du möchtest – Foto oder Ort.</p></figcaption>
+        </figure>
+        <figure class="screen-card">
+          <img src="images/sniffit-statistics.png" alt="Persönliche Trainingsstatistik und aufgezeichnete Bewertungen" loading="lazy" />
+          <figcaption><span class="screen-step">07 · Verstehen</span><strong>Blicke auf deine Einträge zurück</strong><p>Sieh Aktivität und Muster ohne diagnostische Interpretation.</p></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section features-section" id="features" aria-labelledby="features-title">
+      <div class="shell">
+        <div class="section-heading">
+          <p class="eyebrow">Mehr als ein Timer</p>
+          <h2 class="section-title" id="features-title">Für eine echte, persönliche Riechpraxis gestaltet.</h2>
+          <p class="section-lede">Die nützlichen Bausteine bleiben verbunden. So steht das Training nicht isoliert neben Alltagsbeobachtungen und deiner längeren Geschichte.</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card"><span class="feature-tag">My Scents</span><h3>Deine persönliche Duftbibliothek</h3><p>Organisiere sichere, vertraute Duftquellen und wähle vier fürs Training. Dein eigener Eindruck kommt vor pädagogischen Referenzbegriffen.</p></article>
+          <article class="feature-card"><span class="feature-tag">Scent Moments</span><h3>Ein Tagebuch für den Alltag</h3><p>Eine Riecherfahrung kann ein ganzer Moment sein – nicht nur ein einzelner Geruch. Speichere Notizen und beschreibende Tags, optional mit Foto oder Ort.</p></article>
+          <article class="feature-card"><span class="feature-tag">Dein Verlauf</span><h3>Muster ohne Urteil</h3><p>Sieh Trainingsaktivität, persönliche Bewertungen und duftspezifische Beobachtungen. Sniff It macht daraus keinen klinischen Score.</p></article>
+          <article class="feature-card"><span class="feature-tag">Deine Daten</span><h3>Auch außerhalb der App nützlich</h3><p>Erstelle selbstbestimmte PDF- oder CSV-Exporte, wenn du eine Kopie deiner Einträge sichern, ansehen oder teilen möchtest.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="privacy" aria-labelledby="privacy-title">
+      <div class="shell privacy-panel">
+        <div>
+          <p class="eyebrow">Datenschutz</p>
+          <h2 id="privacy-title">Deine Riechgeschichte gehört dir.</h2>
+        </div>
+        <div class="privacy-copy">
+          <p>Sniff It erfordert kein Konto und sendet persönliche Riecheinträge nicht automatisch an ein Forschungs-Backend. App-Daten werden lokal auf deinem iPhone gespeichert; geteilt wird nur, wenn du dich ausdrücklich für einen Export oder das Teilen entscheidest.</p>
+          <ul class="privacy-list">
+            <li>Kein Konto erforderlich</li>
+            <li>Keine Werbung</li>
+            <li>Kein automatischer Forschungs-Upload</li>
+            <li>Export nur durch dich</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section research-section" id="research" aria-labelledby="research-title">
+      <div class="shell research-panel">
+        <div class="research-top">
+          <div>
+            <p class="eyebrow">Für Forschende, Behandelnde und Patientenorganisationen</p>
+            <h2 id="research-title">Eine sorgfältige Grundlage für Forschungskooperationen.</h2>
+          </div>
+          <a class="button button-primary" href="mailto:neurosense@fau.de?subject=Sniff%20It%20Forschungskooperation">Kooperation besprechen <span aria-hidden="true">→</span></a>
+        </div>
+
+        <div class="research-grid">
+          <article class="research-card">
+            <h3>Warum Sniff It interessant sein kann</h3>
+            <p>Version 1 verbindet mehrere Teile der Erfahrung von Teilnehmenden in einer zweisprachigen iOS-App:</p>
+            <ul>
+              <li>strukturiertes Riechtraining und selbst berichteter Trainingsverlauf;</li>
+              <li>alltägliches Dufttagebuch neben bewusstem Training;</li>
+              <li>persönliche Duftbibliothek und duftspezifische Beobachtungen;</li>
+              <li>selbstbestimmte PDF- und CSV-Exporte;</li>
+              <li>klare Trennung subjektiver Einträge von klinischer Messung.</li>
+            </ul>
+          </article>
+          <article class="research-card">
+            <span class="status-chip">V1 Beta · Validierung läuft</span>
+            <h3>Forschungsstatus und Zugang</h3>
+            <p>Ein System-Design-Preprint ist verfügbar. Eine prospektive Machbarkeits- und Usability-Studie wird vorbereitet, um initiale Benutzerfreundlichkeit, beabsichtigte Nutzung und vier Wochen selbstbestimmte Alltagsnutzung zu untersuchen.</p>
+            <div class="resource-links">
+              <a class="resource-link" href="https://doi.org/10.5281/zenodo.22877566" target="_blank" rel="noopener noreferrer"><span>Preprint lesen</span><span aria-hidden="true">↗</span></a>
+              <a class="resource-link" href="https://doi.org/10.5281/zenodo.22825622" target="_blank" rel="noopener noreferrer"><span>Version-1-Demomaterial ansehen</span><span aria-hidden="true">↗</span></a>
+              <a class="resource-link" href="mailto:neurosense@fau.de?subject=Sniff%20It%20Forschungskooperation"><span>Moritz Engelhardt kontaktieren</span><span aria-hidden="true">→</span></a>
+            </div>
+            <details class="citation">
+              <summary>Empfohlene Zitation</summary>
+              <p>Engelhardt M, Freiherr J. <em>Sniff It: A Mobile Companion for Olfactory Training and Everyday Smell Journaling.</em> Preprint. Zenodo. 2026. <a href="https://doi.org/10.5281/zenodo.22877566" target="_blank" rel="noopener noreferrer">doi:10.5281/zenodo.22877566</a></p>
+            </details>
+          </article>
+        </div>
+        <p class="research-disclaimer">Sniff It wird nicht als klinisch validierte Intervention dargestellt. App-Bewertungen und Aufgaben zu Hause sind persönliche Aufzeichnungen und kein Ersatz für standardisierte psychophysische Riechtests. Forschungseinsätze benötigen ein geeignetes Studienprotokoll sowie separate Einwilligungs- und Datenerhebungsverfahren.</p>
+      </div>
+    </section>
+
+    <section class="beta-band" aria-labelledby="beta-title">
+      <div class="shell beta-inner">
+        <div>
+          <h2 id="beta-title">Bereit, Sniff It zu entdecken?</h2>
+          <p>Die aktuelle Version-1-Beta ist über TestFlight verfügbar. Der Beta-Zugang ist von einer Teilnahme an Forschungsstudien getrennt.</p>
+        </div>
+        <a class="button button-on-dark" href="https://testflight.apple.com/join/vYuxSqDr" target="_blank" rel="noopener noreferrer">In TestFlight öffnen <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <section class="section" id="faq" aria-labelledby="faq-title">
+      <div class="shell">
+        <div class="section-heading">
+          <p class="eyebrow">Gut zu wissen</p>
+          <h2 class="section-title" id="faq-title">Häufige Fragen</h2>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item"><summary>Ist Sniff It ein Medizinprodukt oder diagnostischer Test?</summary><p>Nein. Sniff It unterstützt persönliches Riechtraining und zeichnet subjektive Beobachtungen auf. Die App diagnostiziert keine Riechstörungen, misst keine Riechfunktion und ersetzt weder standardisierte klinische Tests noch professionelle medizinische Versorgung.</p></details>
+          <details class="faq-item"><summary>Brauche ich ein kommerzielles Riechtrainings-Set?</summary><p>Nein. Du kannst sichere, vertraute Duftquellen organisieren, die du bereits besitzt, und vier davon fürs Training auswählen. Beachte immer die Sicherheitsangaben des Produkts oder Materials; rieche nicht bewusst an unbekannten Stoffen, Rauch, Lösungsmitteln oder starken Reizstoffen.</p></details>
+          <details class="faq-item"><summary>Wo werden meine Daten gespeichert?</summary><p>Lokal auf deinem Gerät. Sniff It hat keinen automatischen Forschungs-Upload. Du kannst ausdrücklich einen PDF- oder CSV-Export erstellen und teilen, wenn du das möchtest.</p></details>
+          <details class="faq-item"><summary>Gibt es ein Abonnement?</summary><p>Für Version 1 ist kein Abonnement vorgesehen. Training, Tagebuch, Statistiken und Export bleiben ohne Abo nutzbar. Optionale Supporter-Käufe sind – falls angeboten – auf kosmetische Extras beschränkt.</p></details>
+          <details class="faq-item"><summary>Wie kann ich ein Forschungsprojekt besprechen oder professionelles Feedback geben?</summary><p>Schreibe an <a href="mailto:neurosense@fau.de?subject=Sniff%20It%20Forschungskooperation">neurosense@fau.de</a>. Fragen zu Methoden, Usability, Kooperationen oder dazu, ob Sniff It für die von dir unterstützten Menschen nützlich sein könnte, sind willkommen.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-shell">
+      <p>© 2026 Sniff It · Entwickelt von Moritz Engelhardt</p>
+      <div class="footer-links">
+        <a href="sniffit.html" lang="en">English</a>
+        <a href="mailto:neurosense@fau.de">Forschungskontakt</a>
+        <a href="mailto:support@engelheartware.de">Support</a>
+        <a href="datenschutz-sniffit.html">Datenschutz</a>
+        <a href="impressum-sniffit.html">Impressum</a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
